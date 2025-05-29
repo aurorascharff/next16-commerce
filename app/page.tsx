@@ -1,7 +1,7 @@
+import React, { Suspense } from 'react';
 import ProductList from '@/components/ProductList';
 import Search from '@/components/Search';
 import Skeleton from '@/components/ui/Skeleton';
-import React, { Suspense } from 'react';
 
 type Props = {
   searchParams: Promise<{

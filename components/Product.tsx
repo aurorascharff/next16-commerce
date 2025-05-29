@@ -1,5 +1,5 @@
-import { getProduct } from '@/data/services/product';
 import React from 'react';
+import { getProduct } from '@/data/services/product';
 
 type Props = {
   productId: number;

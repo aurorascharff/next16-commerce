@@ -1,5 +1,5 @@
 {
-  "name": "next15-usecache",
+  "name": "next15-commerce",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -13,6 +13,7 @@
     "prisma.push": "npx prisma db push"
   },
   "dependencies": {
+    "@prisma/client": "^6.5.0",
     "@tailwindcss/postcss": "^4.1.8",
     "@types/node": "22.15.24",
     "@types/react": "19.1.6",
@@ -20,24 +21,23 @@
     "babel-plugin-react-compiler": "^19.1.0-rc.2",
     "clsx": "^2.1.1",
     "eslint": "9.27.0",
-    "next": "^15.3.3",
+    "next": "^15.4.0-canary.56",
     "postcss": "^8.5.4",
     "react": "^19.1.0",
-    "tsx": "^4.19.3",
     "react-dom": "^19.1.0",
     "server-only": "^0.0.1",
     "tailwind-merge": "^3.3.0",
     "tailwindcss": "^4.1.8",
-    "@prisma/client": "^6.5.0",
+    "tsx": "^4.19.3",
     "typescript": "5.8.3"
   },
   "devDependencies": {
     "@eslint/compat": "^1.2.9",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.27.0",
+    "@prisma/client": "^6.5.0",
     "@tailwindcss/typography": "^0.5.16",
     "@types/eslint": "^9.6.1",
-    "@prisma/client": "^6.5.0",
     "@typescript-eslint/eslint-plugin": "^8.33.0",
     "eslint-config-next": "15.3.3",
     "eslint-config-prettier": "^10.1.5",

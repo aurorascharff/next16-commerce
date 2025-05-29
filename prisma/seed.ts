@@ -4,45 +4,49 @@ const prisma = new PrismaClient();
 
 const PRODUCTS = [
   {
+    description: 'High-quality noise cancelling headphones with 20 hours battery life',
     id: 1,
     name: 'Wireless Headphones',
-    description: 'High-quality noise cancelling headphones with 20 hours battery life',
     price: 199.99,
   },
   {
+    description: 'Fitness tracker with heart rate monitor and sleep tracking',
     id: 2,
     name: 'Smart Watch',
-    description: 'Fitness tracker with heart rate monitor and sleep tracking',
     price: 149.95,
   },
   {
+    description: 'Waterproof Bluetooth speaker with 360-degree sound',
     id: 3,
     name: 'Portable Speaker',
-    description: 'Waterproof Bluetooth speaker with 360-degree sound',
     price: 79.99,
   },
 ];
 
 const REVIEWS = [
   {
-    productId: 1, // Wireless Headphones
-    rating: 5,
     comment: 'Best headphones I have ever owned. The noise cancellation is amazing!',
-  },
-  {
-    productId: 1, // Wireless Headphones
-    rating: 4,
-    comment: 'Great sound quality but a bit uncomfortable after long use.',
-  },
-  {
-    productId: 2, // Smart Watch
+    productId: 1,
+    // Wireless Headphones
     rating: 5,
-    comment: 'Perfect fitness companion, battery lasts for days!',
   },
   {
-    productId: 3, // Portable Speaker
-    rating: 3,
+    comment: 'Great sound quality but a bit uncomfortable after long use.',
+    productId: 1,
+    // Wireless Headphones
+    rating: 4,
+  },
+  {
+    comment: 'Perfect fitness companion, battery lasts for days!',
+    productId: 2,
+    // Smart Watch
+    rating: 5,
+  },
+  {
     comment: 'Good sound but not as loud as I expected.',
+    productId: 3,
+    // Portable Speaker
+    rating: 3,
   },
 ];
 
@@ -51,9 +55,9 @@ async function seed() {
     PRODUCTS.map(product => {
       return prisma.product.create({
         data: {
+          description: product.description,
           id: product.id,
           name: product.name,
-          description: product.description,
           price: product.price,
         },
       });
@@ -70,9 +74,9 @@ async function seed() {
     REVIEWS.map(review => {
       return prisma.review.create({
         data: {
+          comment: review.comment,
           productId: review.productId,
           rating: review.rating,
-          comment: review.comment,
         },
       });
     }),
