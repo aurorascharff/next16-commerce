@@ -37,7 +37,7 @@ export async function getProducts(searchQuery?: string) {
     where: {
       name: {
         contains: searchQuery,
-        // mode: 'insensitive', // Add for postgres
+        mode: 'insensitive', // Remove with sqlite
       },
     },
   });
