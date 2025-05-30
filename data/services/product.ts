@@ -3,15 +3,13 @@ import 'server-only';
 import { cacheLife } from 'next/dist/server/use-cache/cache-life';
 import { notFound } from 'next/navigation';
 import { prisma } from '@/db';
+import { slow } from '@/utils/slow';
 
 export async function getProduct(productId: number) {
   'use cache';
   cacheLife('hours');
 
-  await new Promise(resolve => {
-    return setTimeout(resolve, 1000);
-  });
-  console.log('Fetching product from database:', productId);
+  await slow();
 
   const product = await prisma.product.findUnique({
     where: { id: productId },
@@ -26,9 +24,7 @@ export async function getProducts(searchQuery?: string) {
   'use cache';
   cacheLife('hours');
 
-  await new Promise(resolve => {
-    return setTimeout(resolve, 1000);
-  });
+  await slow();
 
   return prisma.product.findMany({
     orderBy: {

@@ -14,7 +14,7 @@ export default function Search() {
     <>
       <Form className="relative" action="">
         <input
-          className="border-gray focus:outline-primary relative w-full rounded border px-4 py-2 pl-9 outline-offset-2 focus:outline-2"
+          className="border-divider placeholder:text-gray focus:border-primary focus:outline-primary dark:border-divider-dark dark:bg-card-dark w-full rounded-md border bg-white px-4 py-2 pl-9 text-sm outline-offset-2 focus:outline-2"
           name="q"
           onChange={e => {
             if (e.target.value === '') {
@@ -25,7 +25,7 @@ export default function Search() {
           type="search"
           placeholder={'Search products...'}
         />
-        <div className="absolute top-3 left-3">
+        <div className="text-gray absolute top-1/2 left-3 -translate-y-1/2">
           <SearchStatus />
         </div>
       </Form>

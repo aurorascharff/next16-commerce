@@ -3,8 +3,12 @@ import React from 'react';
 
 export default function Header() {
   return (
-    <h1>
-      <Link href="/">Commerce</Link>
-    </h1>
+    <header className="border-divider dark:border-divider-dark border-b bg-white py-4 dark:bg-black">
+      <h1 className="text-3xl font-bold">
+        <Link href="/" className="text-primary hover:text-primary-dark">
+          Commerce
+        </Link>
+      </h1>
+    </header>
   );
 }
