@@ -1,3 +1,4 @@
+import { cacheLife } from 'next/dist/server/use-cache/cache-life';
 import Link from 'next/link';
 import React from 'react';
 import { getProducts } from '@/data/services/product';
@@ -9,6 +10,9 @@ type Props = {
 };
 
 export default async function ProductList({ searchQuery }: Props) {
+  'use cache';
+  cacheLife('hours');
+
   const products = await getProducts(searchQuery);
   const hasProducts = products.length > 0;
 

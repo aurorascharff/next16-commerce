@@ -1,3 +1,4 @@
+import { cacheLife } from 'next/dist/server/use-cache/cache-life';
 import React from 'react';
 import { getProduct } from '@/data/services/product';
 import { cn } from '@/utils/cn';
@@ -11,6 +12,9 @@ type Props = {
 };
 
 export default async function Product({ productId, details, imageClassName }: Props) {
+  'use cache';
+  cacheLife('hours');
+
   const product = await getProduct(productId);
 
   return (

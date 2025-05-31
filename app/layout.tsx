@@ -15,7 +15,7 @@ export default function RootLayout({ children, modal }: { children: React.ReactN
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="flex h-svh flex-col gap-10 p-4 sm:p-10">
+        <div className="mb-8 flex flex-col gap-10 p-4 sm:p-10">
           <header className="border-divider dark:border-divider-dark border-b bg-white py-4 dark:bg-black">
             <h1 className="text-3xl font-bold">
               <Link href="/" className="text-primary hover:text-primary-dark">

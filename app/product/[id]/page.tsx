@@ -26,7 +26,7 @@ export default async function ProductPage({ params }: Props) {
             <Product
               productId={productId}
               details={
-                <Suspense fallback={<ProductDetailsSkeleton />}>
+                <Suspense key={productId} fallback={<ProductDetailsSkeleton />}>
                   <ProductDetails productId={productId} />
                 </Suspense>
               }
