@@ -1,3 +1,4 @@
+import { cacheLife } from 'next/dist/server/use-cache/cache-life';
 import React from 'react';
 import Skeleton from '@/components/ui/Skeleton';
 import { getProductDetails } from '../product-queries';
@@ -7,8 +8,8 @@ type Props = {
 };
 
 export default async function ProductDetails({ productId }: Props) {
-  // 'use cache';
-  // cacheLife('hours');
+  'use cache';
+  cacheLife('hours');
 
   const productDetails = await getProductDetails(productId);
 
