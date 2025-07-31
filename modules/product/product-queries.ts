@@ -4,7 +4,6 @@ import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { prisma } from '@/db';
 import { slow } from '@/utils/slow';
-import type { Review } from '@prisma/client';
 
 export const getProduct = cache(async (productId: number) => {
   await slow();
@@ -46,7 +45,7 @@ export const getProducts = cache(async (searchQuery?: string, sort?: 'asc' | 'de
   });
 });
 
-export const getReviews = cache(async (productId: number): Promise<Review[]> => {
+export const getReviews = cache(async (productId: number) => {
   await slow();
 
   return prisma.review.findMany({
