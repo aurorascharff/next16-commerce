@@ -26,6 +26,7 @@ model Account {
   birthDate DateTime?
 
   accountDetail AccountDetail?
+  savedProducts SavedProduct[]
 }
 
 model AccountDetail {
@@ -52,6 +53,7 @@ model Product {
   updatedAt     DateTime       @updatedAt
   Review        Review[]
   productDetail ProductDetail?
+  savedByUsers  SavedProduct[]
 }
 
 model ProductDetail {
@@ -80,4 +82,16 @@ model Review {
   updatedAt DateTime @updatedAt
 
   product Product @relation(fields: [productId], references: [id])
+}
+
+model SavedProduct {
+  id        Int      @id @default(autoincrement())
+  accountId String
+  productId Int
+  createdAt DateTime @default(now())
+
+  account Account @relation(fields: [accountId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  @@unique([accountId, productId])
 }

@@ -7,13 +7,20 @@ import { prisma } from '@/db';
 import { slow } from '@/utils/slow';
 
 export const getIsAuthenticated = cache(async () => {
-  await slow();
-
   const selectedAccountId = (await cookies()).get('selectedAccountId')?.value;
   if (!selectedAccountId) {
     return false;
   }
   return true;
+});
+
+export const verifyAuth = cache(async () => {
+  const user = await getCurrentAccount();
+  if (!user) {
+    unauthorized();
+  }
+
+  return user.id;
 });
 
 export const getAccount = cache(async (accountId: string) => {

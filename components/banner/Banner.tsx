@@ -10,7 +10,7 @@ export async function PersonalBanner() {
   return (
     <>
       <h3 className="text-primary mb-2 text-lg font-semibold">Your Exclusive Discounts</h3>
-      <p className="text-gray dark:text-gray mb-3 text-sm">
+      <p className="mb-3 text-sm text-gray-700 dark:text-gray-300">
         Check out your personalized offers and exclusive member discounts.
       </p>
       <div className="mt-3">
@@ -29,12 +29,9 @@ export default function GeneralBanner() {
   return (
     <>
       <h3 className="text-primary mb-2 text-lg font-semibold">Join Us for Amazing Discounts</h3>
-      <p className="text-gray dark:text-gray mb-3 text-sm">
+      <p className="mb-3 text-sm text-gray-700 dark:text-gray-300">
         Sign up today and unlock exclusive discounts on your favorite products!
       </p>
-      <div className="mt-3">
-        <span className="inline-block h-4 w-24" />
-      </div>
     </>
   );
 }

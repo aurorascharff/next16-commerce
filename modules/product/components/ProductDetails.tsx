@@ -1,6 +1,10 @@
-import React from 'react';
+import { Bookmark } from 'lucide-react';
+import React, { Suspense } from 'react';
 import Skeleton from '@/components/ui/Skeleton';
-import { getProductDetails } from '../product-queries';
+import { getIsAuthenticated } from '@/modules/auth/auth-queries';
+import LoginButton from '@/modules/auth/components/LoginButton';
+import { getProductDetails, isSavedProduct } from '../product-queries';
+import SaveProductButton from './SaveProductButton';
 
 type Props = {
   productId: number;
@@ -12,6 +16,7 @@ export function prefetchProductDetails(productId: number) {
 
 export default async function ProductDetails({ productId }: Props) {
   const productDetails = await getProductDetails(productId);
+  const isAuthenticated = await getIsAuthenticated();
 
   return (
     <div className="w-full rounded-lg p-4">
@@ -33,8 +38,26 @@ export default async function ProductDetails({ productId }: Props) {
           <span className="font-medium">Warranty:</span> {productDetails?.warrantyInfo || 'No warranty information'}
         </p>
       </div>
+
+      <div className="border-divider dark:border-divider-dark mt-6 border-t pt-4">
+        {isAuthenticated ? (
+          <Suspense fallback={<Bookmark className="text-primary size-5" />}>
+            <SavedProduct productId={productId} />
+          </Suspense>
+        ) : (
+          <div className="flex items-center gap-3">
+            <LoginButton />
+            <span className="text-sm text-gray-600 dark:text-gray-400">to save products</span>
+          </div>
+        )}
+      </div>
     </div>
   );
+}
+
+async function SavedProduct({ productId }: { productId: number }) {
+  const productIsSaved = await isSavedProduct(productId);
+  return <SaveProductButton productId={productId} initialSaved={productIsSaved} />;
 }
 
 export function ProductDetailsSkeleton() {

@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { prisma } from '@/db';
 import { slow } from '@/utils/slow';
+import { verifyAuth } from '../auth/auth-queries';
 
 export const getProduct = cache(async (productId: number) => {
   'use cache';
@@ -109,4 +110,37 @@ export const getCategories = cache(async () => {
       return item.category;
     })
     .filter(Boolean) as string[];
+});
+
+export const isSavedProduct = cache(async (productId: number) => {
+  const accountId = await verifyAuth();
+
+  const savedProduct = await prisma.savedProduct.findUnique({
+    where: {
+      accountId_productId: {
+        accountId,
+        productId,
+      },
+    },
+  });
+
+  return !!savedProduct;
+});
+
+export const getSavedProducts = cache(async () => {
+  await slow();
+
+  const accountId = await verifyAuth();
+
+  const savedProducts = await prisma.savedProduct.findMany({
+    include: {
+      product: true,
+    },
+    orderBy: { createdAt: 'desc' },
+    where: { accountId },
+  });
+
+  return savedProducts.map(saved => {
+    return saved.product;
+  });
 });

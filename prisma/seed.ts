@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -319,6 +320,25 @@ const PRODUCT_DETAILS = [
   },
 ];
 
+const SAVED_PRODUCTS = [
+  {
+    accountId: 'a833bc10-64dd-4069-8573-4bbb4b0065ed',
+    productId: 1,
+  },
+  {
+    accountId: 'a833bc10-64dd-4069-8573-4bbb4b0065ed',
+    productId: 3,
+  },
+  {
+    accountId: 'a833bc10-64dd-4069-8573-4bbb4b0065ed',
+    productId: 5,
+  },
+  {
+    accountId: 'a833bc10-64dd-4069-8573-4bbb4b0065ed',
+    productId: 8,
+  },
+];
+
 async function seed() {
   await Promise.all(
     ACCOUNTS.map(account => {
@@ -466,6 +486,30 @@ async function seed() {
     })
     .catch(e => {
       console.error('[SEED] Failed to create product details records', e);
+    });
+
+  await Promise.all(
+    SAVED_PRODUCTS.map(savedProduct => {
+      return prisma.savedProduct.upsert({
+        create: {
+          accountId: savedProduct.accountId,
+          productId: savedProduct.productId,
+        },
+        update: {},
+        where: {
+          accountId_productId: {
+            accountId: savedProduct.accountId,
+            productId: savedProduct.productId,
+          },
+        },
+      });
+    }),
+  )
+    .then(() => {
+      console.info('[SEED] Successfully created saved products records');
+    })
+    .catch(e => {
+      console.error('[SEED] Failed to create saved products records', e);
     });
 }
 

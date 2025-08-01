@@ -13,40 +13,37 @@ export default async function Reviews({ productId }: Props) {
   return (
     <div className="space-y-4">
       {reviews.length === 0 ? (
-        <p className="text-gray italic">No reviews yet for this product.</p>
+        <p className="py-8 text-center text-gray-600 dark:text-gray-400">No reviews yet for this product.</p>
       ) : (
-        <ul className="space-y-4">
+        <div className="space-y-4">
           {reviews.map(review => {
             return (
-              <li
-                key={review.id}
-                className="border-divider bg-card dark:border-divider-dark dark:bg-section rounded-lg border p-4 shadow-sm"
-              >
-                <div className="mb-2 flex items-center">
-                  <div className="flex">
+              <div key={review.id} className="border-divider dark:border-divider-dark rounded-lg border p-4">
+                <div className="mb-3 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
                     {[...Array(5)].map((_, i) => {
                       return (
                         <Star
                           key={i}
-                          className={`h-4 w-4 ${i < review.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray'}`}
+                          className={`h-4 w-4 ${i < review.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300 dark:text-gray-600'}`}
                           aria-hidden="true"
                         />
                       );
                     })}
+                    <span className="ml-1 text-sm font-medium">{review.rating}/5</span>
                   </div>
-                  <span className="sr-only">{review.rating} out of 5 stars</span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400">{new Date().toLocaleDateString()}</span>
                 </div>
-                {review.comment && <p className="mb-2">{review.comment}</p>}
-                <p className="text-gray text-xs">Reviewed on {new Date().toLocaleDateString()}</p>
-              </li>
+                {review.comment && <p className="leading-relaxed text-gray-700 dark:text-gray-300">{review.comment}</p>}
+              </div>
             );
           })}
-        </ul>
+        </div>
       )}
     </div>
   );
 }
 
 export function ReviewsSkeleton() {
-  return <Skeleton />;
+  return <Skeleton className="pt-4" />;
 }

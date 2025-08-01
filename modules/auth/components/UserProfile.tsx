@@ -15,9 +15,12 @@ export default async function UserProfile() {
           <LoginButton />
         </Suspense>
       </div>
-      <Link href="/user">
+      <Link href="/profile">
         <span className="sr-only">Go to Profile</span>
-        <User className="text-primary hover:text-primary-dark size-8 cursor-pointer rounded-full p-1 transition-all hover:bg-gray-100 dark:hover:bg-gray-800" />
+        <User
+          aria-hidden
+          className="text-primary hover:text-primary-dark size-8 cursor-pointer rounded-full p-1 transition-all hover:bg-gray-100 dark:hover:bg-gray-800"
+        />
       </Link>
     </div>
   );
