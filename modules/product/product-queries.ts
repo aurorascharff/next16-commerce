@@ -82,7 +82,7 @@ export const getReviews = cache(async (productId: number) => {
 });
 
 export const getCategories = cache(async () => {
-  await slow();
+  // await slow();
 
   const categories = await prisma.product.findMany({
     distinct: ['category'],
