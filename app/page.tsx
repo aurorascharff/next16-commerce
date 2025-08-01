@@ -23,7 +23,7 @@ export default async function RootPage({ searchParams }: Props) {
       <DiscountBanner />
       <Search />
       <div className="flex h-full grow flex-col gap-4">
-        <SortButton sort={sort} page={currentPage} />
+        <SortButton sort={sort} searchQuery={q} />
         <Suspense fallback={<ProductListSkeleton />}>
           <ProductList searchQuery={q} sort={sort} page={currentPage} />
         </Suspense>
@@ -32,11 +32,17 @@ export default async function RootPage({ searchParams }: Props) {
   );
 }
 
-function SortButton({ sort, page }: { sort?: 'asc' | 'desc'; page?: number }) {
+function SortButton({ sort, searchQuery }: { sort?: 'asc' | 'desc'; searchQuery?: string; page?: string }) {
   const nextSort = sort === 'asc' ? 'desc' : 'asc';
+
+  const queryParams = {
+    ...(searchQuery && { q: searchQuery }),
+    sort: nextSort,
+  };
+
   return (
     <Link
-      href={{ pathname: '/', query: { q: '', sort: nextSort, ...(page && page > 1 && { page: page.toString() }) } }}
+      href={{ pathname: '/', query: queryParams }}
       className="text-primary hover:text-primary-dark inline-flex items-center text-sm font-medium"
     >
       <LinkStatus>

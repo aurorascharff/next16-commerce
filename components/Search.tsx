@@ -18,8 +18,12 @@ export default function Search() {
           className="border-divider placeholder:text-gray focus:border-primary focus:outline-primary dark:border-divider-dark dark:bg-card-dark w-full rounded-md border bg-white px-4 py-2 pl-9 text-sm outline-offset-2 focus:outline-2"
           name="q"
           onChange={e => {
+            const newSearchParams = new URLSearchParams(searchParams.toString());
+            newSearchParams.set('q', e.target.value);
             startTransition(() => {
-              router.push(`?q=${e.target.value}`);
+              router.push(`?${newSearchParams.toString()}`, {
+                scroll: false,
+              });
             });
           }}
           defaultValue={q}
