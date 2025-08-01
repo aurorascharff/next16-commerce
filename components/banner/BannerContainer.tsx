@@ -9,7 +9,7 @@ export function BannerContainer({ children }: { children: ReactNode }) {
   if (dismissed) return null;
 
   return (
-    <div className="rounded-lg border border-divider bg-primary/5 p-4 dark:border-divider-dark dark:bg-primary/10">
+    <div className="border-divider bg-primary/5 dark:border-divider-dark dark:bg-primary/10 rounded-lg border p-4">
       <div className="flex items-start justify-between">
         <div className="flex-1">{children}</div>
         <button
