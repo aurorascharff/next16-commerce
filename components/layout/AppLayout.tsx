@@ -22,7 +22,7 @@ export default function AppLayout({ headerContent, children }: Props) {
             className="text-primary hover:text-primary-dark inline-flex items-center gap-2 text-sm font-medium"
           >
             <ArrowLeft aria-hidden className="size-4" />
-            Back Home
+            {'<- Back to Home'}
           </Link>
         )}
       </header>
