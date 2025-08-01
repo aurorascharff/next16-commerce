@@ -5,7 +5,6 @@ const nextConfig: NextConfig = {
     authInterrupts: true,
     cacheComponents: true,
     inlineCss: true,
-    // ppr: true,
     reactCompiler: true,
   },
 };
