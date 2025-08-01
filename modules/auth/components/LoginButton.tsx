@@ -18,7 +18,7 @@ export default function LoginButton() {
           if (isAuth) {
             await logOut();
           } else {
-            await logIn('jane.smith@work.com');
+            await logIn('jane.smith@gmail.com');
           }
         });
       }}

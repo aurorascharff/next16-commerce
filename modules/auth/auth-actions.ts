@@ -1,19 +1,11 @@
 'use server';
 
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { prisma } from '@/db';
 import { slow } from '@/utils/slow';
-import { getAccount } from './auth-queries';
 
 export async function switchAccount(accountId: string) {
-  const account = await getAccount(accountId);
-
-  if (account?.inactive) {
-    return {
-      error: 'The selected account is currently inactive.',
-    };
-  }
-
   (await cookies()).set('selectedAccountId', accountId);
 }
 
@@ -21,6 +13,8 @@ export async function logOut() {
   await slow();
 
   (await cookies()).delete('selectedAccountId');
+
+  redirect('/');
 }
 
 export async function logIn(email: string) {

@@ -12,11 +12,34 @@ datasource db {
 }
 
 model Account {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
   name      String
   email     String
-  inactive  Boolean  @default(false)
+  firstName String?
+  lastName  String?
+  phone     String?
+  address   String?
+  city      String?
+  country   String?
+  zipCode   String?
+  birthDate DateTime?
+
+  accountDetail AccountDetail?
+}
+
+model AccountDetail {
+  id            Int      @id @default(autoincrement())
+  accountId     String   @unique
+  theme         String?  @default("light")
+  language      String?  @default("en")
+  timezone      String?
+  newsletter    Boolean  @default(true)
+  notifications Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  account Account @relation(fields: [accountId], references: [id])
 }
 
 model Product {

@@ -4,20 +4,28 @@ const prisma = new PrismaClient();
 
 const ACCOUNTS = [
   {
+    address: '123 Tech Street',
+    birthDate: new Date('1990-03-15'),
+    city: 'San Francisco',
+    country: 'United States',
     email: 'jane.smith@gmail.com',
+    firstName: 'Jane',
     id: 'a833bc10-64dd-4069-8573-4bbb4b0065ed',
+    lastName: 'Smith',
     name: 'Jane Smith',
+    phone: '+1-555-0123',
+    zipCode: '94105',
   },
+];
+
+const ACCOUNT_DETAILS = [
   {
-    email: 'jane.smith@work.com',
-    id: '9e525f6f-b60e-4258-8c30-c289619525d6',
-    name: 'Jane Doe Smith',
-  },
-  {
-    email: 'janesmith85@hotmail.com',
-    id: 'd71ab200-18ed-4384-a4a7-a907bf169c9f',
-    inactive: true,
-    name: 'Jane S.',
+    accountId: 'a833bc10-64dd-4069-8573-4bbb4b0065ed',
+    language: 'en',
+    newsletter: true,
+    notifications: true,
+    theme: 'dark',
+    timezone: 'America/Los_Angeles',
   },
 ];
 
@@ -316,15 +324,29 @@ async function seed() {
     ACCOUNTS.map(account => {
       return prisma.account.upsert({
         create: {
+          address: account.address,
+          birthDate: account.birthDate,
+          city: account.city,
+          country: account.country,
           email: account.email,
+          firstName: account.firstName,
           id: account.id,
-          inactive: account.inactive,
+          lastName: account.lastName,
           name: account.name,
+          phone: account.phone,
+          zipCode: account.zipCode,
         },
         update: {
+          address: account.address,
+          birthDate: account.birthDate,
+          city: account.city,
+          country: account.country,
           email: account.email,
-          inactive: account.inactive,
+          firstName: account.firstName,
+          lastName: account.lastName,
           name: account.name,
+          phone: account.phone,
+          zipCode: account.zipCode,
         },
         where: { id: account.id },
       });
@@ -336,6 +358,36 @@ async function seed() {
     .catch(e => {
       return console.error('[SEED] Failed to create account records', e);
     });
+
+  await Promise.all(
+    ACCOUNT_DETAILS.map(detail => {
+      return prisma.accountDetail.upsert({
+        create: {
+          accountId: detail.accountId,
+          language: detail.language,
+          newsletter: detail.newsletter,
+          notifications: detail.notifications,
+          theme: detail.theme,
+          timezone: detail.timezone,
+        },
+        update: {
+          language: detail.language,
+          newsletter: detail.newsletter,
+          notifications: detail.notifications,
+          theme: detail.theme,
+          timezone: detail.timezone,
+        },
+        where: { accountId: detail.accountId },
+      });
+    }),
+  )
+    .then(() => {
+      return console.info('[SEED] Successfully created account details records');
+    })
+    .catch(e => {
+      return console.error('[SEED] Failed to create account details records', e);
+    });
+
   await Promise.all(
     PRODUCTS.map(product => {
       return prisma.product.upsert({

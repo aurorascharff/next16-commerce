@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { cookies } from 'next/headers';
+import { unauthorized } from 'next/navigation';
 import { cache } from 'react';
 import { prisma } from '@/db';
 import { slow } from '@/utils/slow';
@@ -15,26 +16,25 @@ export const getIsAuthenticated = cache(async () => {
   return true;
 });
 
-export async function getAccounts() {
-  await slow(2000);
-
-  const accounts = await prisma.account.findMany({
-    orderBy: {
-      inactive: 'asc',
-    },
-  });
-
-  if (accounts.length === 0) {
-    throw new Error('No accounts found, run seed script');
-  }
-
-  return accounts;
-}
-
 export const getAccount = cache(async (accountId: string) => {
   await slow(1000);
 
   const account = await prisma.account.findUnique({
+    where: {
+      id: accountId,
+    },
+  });
+
+  return account;
+});
+
+export const getAccountWithDetails = cache(async (accountId: string) => {
+  await slow(1000);
+
+  const account = await prisma.account.findUnique({
+    include: {
+      accountDetail: true,
+    },
     where: {
       id: accountId,
     },
@@ -51,4 +51,13 @@ export const getCurrentAccount = cache(async () => {
   }
 
   return getAccount(selectedAccountId);
+});
+
+export const getCurrentAccountWithDetails = cache(async () => {
+  const selectedAccountId = (await cookies()).get('selectedAccountId')?.value;
+  if (!selectedAccountId) {
+    unauthorized();
+  }
+
+  return getAccountWithDetails(selectedAccountId);
 });
