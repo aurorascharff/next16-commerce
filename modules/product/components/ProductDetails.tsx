@@ -59,7 +59,7 @@ async function SavedProduct({ productId }: { productId: number }) {
 
 export function ProductDetailsSkeleton() {
   return (
-    <div className="dark:bg-card-dark w-full rounded-lg bg-white p-4">
+    <div className="w-full rounded-lg p-4">
       <div className="skeleton-animation mb-3 h-6 w-32 rounded-xs" />
       <Skeleton />
       <div className="skeleton-animation mb-3 h-6 w-32 rounded-xs" />
