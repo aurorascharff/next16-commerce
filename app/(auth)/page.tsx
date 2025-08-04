@@ -47,8 +47,8 @@ function SortButton({ sort, searchQuery }: { sort?: 'asc' | 'desc'; searchQuery?
     >
       <LinkStatus>
         <div className="flex items-center gap-2">
-          {nextSort === 'asc' ? <ArrowUp className="mr-1" /> : <ArrowDown className="mr-1" />}
-          Sort {nextSort.charAt(0).toUpperCase() + nextSort.slice(1)}
+          {nextSort === 'desc' ? <ArrowUp className="mr-1" /> : <ArrowDown className="mr-1" />}
+          Sort {nextSort === 'desc' ? 'A-Z' : 'Z-A'}
         </div>
       </LinkStatus>
     </Link>
