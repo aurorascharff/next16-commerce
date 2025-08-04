@@ -14,15 +14,6 @@ export const getIsAuthenticated = cache(async () => {
   return true;
 });
 
-export const verifyAuth = cache(async () => {
-  const user = await getCurrentAccount();
-  if (!user) {
-    unauthorized();
-  }
-
-  return user.id;
-});
-
 export const getAccount = cache(async (accountId: string) => {
   await slow();
 

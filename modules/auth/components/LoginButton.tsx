@@ -1,13 +1,15 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import React, { use, useTransition } from 'react';
 import { useAuth } from '@/modules/auth/components/AuthProvider';
-import { logOut, logIn } from '../auth-actions';
+import { signOut } from '../auth-actions';
 
-export default function LoginButton({ redirect }: { redirect?: string }) {
+export default function LoginButton() {
   const [isPending, startTransition] = useTransition();
   const { isAuthenticated } = useAuth();
   const isAuth = use(isAuthenticated);
+  const router = useRouter();
 
   return (
     <button
@@ -16,21 +18,14 @@ export default function LoginButton({ redirect }: { redirect?: string }) {
       onClick={() => {
         startTransition(async () => {
           if (isAuth) {
-            await logOut();
+            await signOut();
           } else {
-            await logIn(
-              'jane.smith@gmail.com',
-              redirect
-                ? {
-                    redirect,
-                  }
-                : undefined,
-            );
+            router.push('/sign-in');
           }
         });
       }}
     >
-      {isPending ? (isAuth ? 'Logging out...' : 'Logging in...') : isAuth ? 'Log out' : 'Log in'}
+      {isAuth ? 'Sign out' : 'Sign in'} {isPending && '...'}
     </button>
   );
 }

@@ -30,7 +30,7 @@ export default function GeneralBanner() {
     <>
       <h3 className="text-primary mb-2 text-lg font-semibold">Join Us for Amazing Discounts</h3>
       <p className="mb-3 text-sm text-gray-700 dark:text-gray-300">
-        <Link href="/user/sign-up" className="text-primary hover:text-primary-dark inline-block">
+        <Link href="/sign-in" className="text-primary hover:text-primary-dark inline-block">
           Sign up today
         </Link>{' '}
         and unlock exclusive discounts on your favorite products!

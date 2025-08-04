@@ -1,11 +1,15 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
+
 import { prisma } from '@/db';
-import { verifyAuth } from '@/modules/auth/auth-queries';
+import { slow } from '@/utils/slow';
+import { verifyAuth } from '../auth/auth-actions';
 
 async function saveProduct(productId: number) {
-  const accountId = await verifyAuth();
+  await slow();
+
+  const accountId = await verifyAuth('/product/' + productId);
 
   await prisma.savedProduct.create({
     data: {
@@ -36,8 +40,8 @@ async function unsaveProduct(productId: number) {
 
 export async function toggleSaveProduct(productId: number, saved: boolean) {
   if (saved) {
-    await unsaveProduct(productId);
+    return await unsaveProduct(productId);
   } else {
-    await saveProduct(productId);
+    return await saveProduct(productId);
   }
 }

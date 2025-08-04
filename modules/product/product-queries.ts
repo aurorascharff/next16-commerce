@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { prisma } from '@/db';
 import { slow } from '@/utils/slow';
-import { verifyAuth } from '../auth/auth-queries';
+import { verifyAuth } from '../auth/auth-actions';
 
 export const getProduct = cache(async (productId: number) => {
   'use cache';

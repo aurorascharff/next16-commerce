@@ -3,6 +3,8 @@
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef } from 'react';
 
+import Button from './Button';
+
 type Props = {
   openModal: boolean;
   goBackOnClose?: boolean;
@@ -41,9 +43,9 @@ export default function Modal({ openModal, children, goBackOnClose = false, titl
         )}
         <div className="max-h-[70vh] overflow-y-auto p-5">{children}</div>
         <div className="border-divider dark:border-divider-dark flex justify-end border-t px-5 py-4">
-          <button onClick={handleClose} className="bg-card dark:bg-section rounded-md px-4 py-2 font-medium">
+          <Button onClick={handleClose} variant="secondary" type="button">
             Close
-          </button>
+          </Button>
         </div>
       </div>
     </dialog>

@@ -2,7 +2,7 @@ import { Bookmark } from 'lucide-react';
 import React, { Suspense } from 'react';
 import Skeleton from '@/components/ui/Skeleton';
 import { getIsAuthenticated } from '@/modules/auth/auth-queries';
-import LoginButton from '@/modules/auth/components/LoginButton';
+
 import { getProductDetails, isSavedProduct } from '../product-queries';
 import SaveProductButton from './SaveProductButton';
 
@@ -45,10 +45,7 @@ export default async function ProductDetails({ productId }: Props) {
             <SavedProduct productId={productId} />
           </Suspense>
         ) : (
-          <div className="flex items-center gap-3">
-            <LoginButton />
-            <span className="text-sm text-gray-600 dark:text-gray-400">to save products</span>
-          </div>
+          <SaveProductButton productId={productId} initialSaved={false} />
         )}
       </div>
     </div>

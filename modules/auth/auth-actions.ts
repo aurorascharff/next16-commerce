@@ -1,29 +1,40 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { redirect, unauthorized } from 'next/navigation';
+import { cache } from 'react';
 import { prisma } from '@/db';
 import { slow } from '@/utils/slow';
-import { getIsAuthenticated } from './auth-queries';
+import { getCurrentAccount, getIsAuthenticated } from './auth-queries';
+
+export const verifyAuth = cache(async (redirectUrl?: string) => {
+  const user = await getCurrentAccount();
+  if (!user) {
+    if (redirectUrl) {
+      redirect('/sign-in?redirectUrl=' + redirectUrl);
+    } else {
+      redirect('/sign-in');
+    }
+  }
+
+  return user.id;
+});
 
 export async function switchAccount(accountId: string) {
   (await cookies()).set('selectedAccountId', accountId);
 }
 
-export async function logOut() {
+export async function signOut() {
   await slow();
 
   (await cookies()).delete('selectedAccountId');
 
-  redirect('/');
+  revalidatePath('/');
 }
 
-export async function logIn(
-  email: string,
-  options?: {
-    redirect: string;
-  },
-) {
+export async function signIn(email: string, redirectUrl?: string) {
+  console.log({ redirectUrl });
   await slow();
 
   const account = await prisma.account.findFirst({
@@ -33,29 +44,19 @@ export async function logIn(
   });
 
   if (!account) {
-    return {
-      error: 'No account found with this email address.',
-    };
+    unauthorized();
   }
 
   (await cookies()).set('selectedAccountId', account?.id);
-  if (options?.redirect) {
-    redirect(options.redirect);
-  }
+  redirect(redirectUrl || '/');
 }
 
-export async function signUp() {
-  await logIn('jane.smith@gmail.com', {
-    redirect: '/',
-  });
-}
-
-export async function SignUpORedirect() {
+export async function SignInORedirect() {
   const isAuthenticated = await getIsAuthenticated();
 
   if (isAuthenticated) {
     redirect('/');
   } else {
-    redirect('/user/sign-up');
+    redirect('/sign-in');
   }
 }

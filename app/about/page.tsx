@@ -1,8 +1,8 @@
 import React from 'react';
 import AppLayout from '@/components/AppLayout';
+import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
-import SubmitButton from '@/components/ui/SubmitButton';
-import { SignUpORedirect } from '@/modules/auth/auth-actions';
+import { SignInORedirect } from '@/modules/auth/auth-actions';
 
 export default function AboutPage() {
   return (
@@ -15,8 +15,8 @@ export default function AboutPage() {
           </div>
 
           <div className="text-center">
-            <form action={SignUpORedirect}>
-              <SubmitButton>Start Shopping</SubmitButton>
+            <form action={SignInORedirect}>
+              <Button>Start Shopping</Button>
             </form>
           </div>
 

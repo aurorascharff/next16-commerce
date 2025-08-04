@@ -1,4 +1,5 @@
 import { ArrowLeft } from 'lucide-react';
+
 import Link from 'next/link';
 import React, { Suspense } from 'react';
 import Card from '@/components/ui/Card';
@@ -24,6 +25,7 @@ export default async function ProductPage({ params }: Props) {
     <div className="flex flex-col gap-6">
       <Link href="/" className="text-primary hover:text-primary-dark inline-flex items-center text-sm font-medium">
         <ArrowLeft aria-hidden className="size-4" />
+        Back Home
       </Link>
       <div className="flex w-[700px] flex-col gap-8 self-center">
         <Card>

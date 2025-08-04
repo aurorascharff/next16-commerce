@@ -36,6 +36,18 @@
   h3 {
     @apply text-lg md:text-xl;
   }
+  
+  input {
+    @apply focus:border-primary focus:ring-primary w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-500 focus:ring-1 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400;
+  }
+  
+  label {
+    @apply mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300;
+  }
+  
+  a {
+    @apply text-primary hover:text-primary-dark font-medium transition-colors;
+  }
 }
 
 .skeleton-animation {

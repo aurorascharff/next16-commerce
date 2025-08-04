@@ -17,7 +17,7 @@ export default async function Unauthorized() {
       <h1 className="text-primary text-4xl font-bold">401</h1>
       <p className="mt-4 text-xl font-semibold">Unauthorized Access</p>
       <p className="text-gray dark:text-gray mt-4 max-w-md">
-        You need to sign in to access this page. Please log in with your account to continue.
+        You need to sign in to access this page. Please sign in with your account to continue.
       </p>
       <div className="mt-6">
         <Suspense fallback={<div className="h-10 w-24 rounded bg-gray-200 dark:bg-gray-700" />}>
