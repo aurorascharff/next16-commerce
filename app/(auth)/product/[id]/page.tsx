@@ -27,7 +27,7 @@ export default async function ProductPage({ params }: Props) {
         <ArrowLeft aria-hidden className="size-4" />
         Back Home
       </Link>
-      <div className="flex w-[700px] flex-col gap-8 self-center">
+      <div className="flex min-w-[300px] flex-col gap-8 self-center md:w-[700px]">
         <Card>
           <Suspense
             fallback={
