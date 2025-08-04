@@ -1,9 +1,11 @@
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { getIsAuthenticated } from '@/modules/auth/auth-queries';
+import { slow } from '@/utils/slow';
 import { BannerContainer } from './BannerContainer';
 
 export async function PersonalBanner() {
+  await slow();
   const isAuthenticated = await getIsAuthenticated();
   if (!isAuthenticated) return <GeneralBanner />;
 
