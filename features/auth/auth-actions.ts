@@ -21,10 +21,6 @@ export const verifyAuth = cache(async (redirectUrl?: string) => {
   return user.id;
 });
 
-export async function switchAccount(accountId: string) {
-  (await cookies()).set('selectedAccountId', accountId);
-}
-
 export async function signOut() {
   await slow();
 
@@ -50,7 +46,7 @@ export async function signIn(email: string, redirectUrl?: string) {
   redirect(redirectUrl || '/');
 }
 
-export async function SignInORedirect() {
+export async function signInORedirect() {
   const isAuthenticated = await getIsAuthenticated();
 
   if (isAuthenticated) {

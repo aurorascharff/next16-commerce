@@ -3,12 +3,12 @@ import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import React, { Suspense } from 'react';
 import Card from '@/components/ui/Card';
-import Product, { ProductSkeleton } from '@/modules/product/components/Product';
+import Product, { ProductSkeleton } from '@/features/product/components/Product';
 import ProductDetails, {
   preloadProductDetails,
   ProductDetailsSkeleton,
-} from '@/modules/product/components/ProductDetails';
-import Reviews, { ReviewsSkeleton } from '@/modules/product/components/Reviews';
+} from '@/features/product/components/ProductDetails';
+import Reviews, { ReviewsSkeleton } from '@/features/product/components/Reviews';
 
 type Props = {
   params: Promise<{

@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import Modal from '@/components/ui/Modal';
-import Product, { ProductSkeleton } from '@/modules/product/components/Product';
+import Product, { ProductSkeleton } from '@/features/product/components/Product';
 
 type Props = {
   params: Promise<{

@@ -4,7 +4,7 @@ import React, { Suspense } from 'react';
 import Search from '@/components/Search';
 import { DiscountBanner } from '@/components/banner/Banner';
 import LinkStatus from '@/components/ui/LinkStatus';
-import ProductList, { ProductListSkeleton } from '@/modules/product/components/ProductList';
+import ProductList, { ProductListSkeleton } from '@/features/product/components/ProductList';
 
 type Props = {
   searchParams: Promise<{

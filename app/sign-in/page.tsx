@@ -5,8 +5,8 @@ import React from 'react';
 import AppLayout from '@/components/AppLayout';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
-import { signIn } from '@/modules/auth/auth-actions';
-import { getIsAuthenticated } from '@/modules/auth/auth-queries';
+import { signIn } from '@/features/auth/auth-actions';
+import { getIsAuthenticated } from '@/features/auth/auth-queries';
 
 type Props = {
   searchParams: Promise<{

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Suspense } from 'react';
-import { getCurrentAccount, getIsAuthenticated } from '@/modules/auth/auth-queries';
+import { getCurrentAccount, getIsAuthenticated } from '@/features/auth/auth-queries';
+import { getUserDiscounts } from '@/features/user/user-queries';
 import { slow } from '@/utils/slow';
 import { BannerContainer } from './BannerContainer';
 
@@ -10,21 +11,35 @@ export async function PersonalBanner() {
   if (!isAuthenticated) return <GeneralBanner />;
 
   const account = await getCurrentAccount();
+  const discounts = await getUserDiscounts();
+  const featuredDiscount = discounts[0];
 
   return (
     <>
-      <h3 className="text-primary mb-2 text-lg font-semibold">Your Exclusive Discounts</h3>
+      <h3 className="text-primary mb-2 text-lg font-semibold">Your Exclusive Discount</h3>
       <p className="mb-3 text-sm text-gray-700 dark:text-gray-300">
-        Welcome back, {account?.firstName}! Check out your personalized offers and exclusive member discounts.
+        Welcome back, {account?.firstName}!
+        {featuredDiscount ? (
+          <>
+            {' '}
+            Use code <span className="text-primary font-semibold">{featuredDiscount.code}</span> for{' '}
+            <span className="font-medium">{featuredDiscount.percentage}% off</span> -{' '}
+            {featuredDiscount.description.toLowerCase()}. Expires {featuredDiscount.expiry.toLocaleDateString()}.
+          </>
+        ) : (
+          ' No discounts available at the moment, but check back soon for exclusive offers.'
+        )}
       </p>
-      <div className="mt-3">
-        <Link
-          href="/user"
-          className="text-primary hover:text-primary-dark inline-block text-sm font-medium transition-colors"
-        >
-          View Discounts
-        </Link>
-      </div>
+      {discounts.length > 0 && (
+        <div className="mt-3">
+          <Link
+            href="/user"
+            className="text-primary hover:text-primary-dark inline-block text-sm font-medium transition-colors"
+          >
+            {discounts.length > 1 ? `View All ${discounts.length} Discounts` : 'View Discount Details'} →
+          </Link>
+        </div>
+      )}
     </>
   );
 }

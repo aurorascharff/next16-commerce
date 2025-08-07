@@ -1,9 +1,9 @@
 import { Mail, MapPin, Phone, User } from 'lucide-react';
 import { unauthorized } from 'next/navigation';
 import React, { Suspense } from 'react';
-import { getCurrentAccountWithDetails } from '@/modules/auth/auth-queries';
-import SavedProducts, { SavedProductsSkeleton } from '@/modules/product/components/SavedProducts';
-import Discounts from '@/modules/user/components/Discounts';
+import { getCurrentAccountWithDetails } from '@/features/auth/auth-queries';
+import SavedProducts, { SavedProductsSkeleton } from '@/features/product/components/SavedProducts';
+import Discounts, { DiscountsSkeleton } from '@/features/user/components/Discounts';
 
 function PreferenceItem({ label, value }: { label: string; value: string }) {
   return (
@@ -91,7 +91,9 @@ export default async function UserPage() {
       </div>
       <div>
         <h2 className="mb-4 text-xl font-semibold">Your Discounts</h2>
-        <Discounts />
+        <Suspense fallback={<DiscountsSkeleton />}>
+          <Discounts />
+        </Suspense>
       </div>
       <div>
         <h2 className="mb-4 text-xl font-semibold">Saved Products</h2>

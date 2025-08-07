@@ -339,9 +339,50 @@ const SAVED_PRODUCTS = [
   },
 ];
 
+const DISCOUNTS = [
+  {
+    code: 'WELCOME20',
+    description: '20% off your first order',
+    expiry: new Date('2025-12-31'),
+    id: 1,
+    percentage: 20,
+  },
+  {
+    code: 'LOYAL15',
+    description: '15% off for loyal customers',
+    expiry: new Date('2025-09-30'),
+    id: 2,
+    percentage: 15,
+  },
+  {
+    code: 'TECH10',
+    description: '10% off electronics',
+    expiry: new Date('2025-08-15'),
+    id: 3,
+    percentage: 10,
+  },
+];
+
+const USER_DISCOUNTS = [
+  {
+    accountId: 'a833bc10-64dd-4069-8573-4bbb4b0065ed',
+    discountId: 1,
+  },
+  {
+    accountId: 'a833bc10-64dd-4069-8573-4bbb4b0065ed',
+    discountId: 2,
+  },
+  {
+    accountId: 'a833bc10-64dd-4069-8573-4bbb4b0065ed',
+    discountId: 3,
+  },
+];
+
 async function seed() {
   // Delete all existing data in the correct order (respecting foreign key constraints)
   console.info('[SEED] Deleting existing data...');
+  await prisma.userDiscount.deleteMany({});
+  await prisma.discount.deleteMany({});
   await prisma.savedProduct.deleteMany({});
   await prisma.review.deleteMany({});
   await prisma.productDetail.deleteMany({});
@@ -480,6 +521,45 @@ async function seed() {
     })
     .catch(e => {
       console.error('[SEED] Failed to create saved products records', e);
+    });
+
+  // Create discounts
+  await Promise.all(
+    DISCOUNTS.map(discount => {
+      return prisma.discount.create({
+        data: {
+          code: discount.code,
+          description: discount.description,
+          expiry: discount.expiry,
+          id: discount.id,
+          percentage: discount.percentage,
+        },
+      });
+    }),
+  )
+    .then(() => {
+      console.info('[SEED] Successfully created discount records');
+    })
+    .catch(e => {
+      console.error('[SEED] Failed to create discount records', e);
+    });
+
+  // Create user discounts
+  await Promise.all(
+    USER_DISCOUNTS.map(userDiscount => {
+      return prisma.userDiscount.create({
+        data: {
+          accountId: userDiscount.accountId,
+          discountId: userDiscount.discountId,
+        },
+      });
+    }),
+  )
+    .then(() => {
+      console.info('[SEED] Successfully created user discount records');
+    })
+    .catch(e => {
+      console.error('[SEED] Failed to create user discount records', e);
     });
 }
 

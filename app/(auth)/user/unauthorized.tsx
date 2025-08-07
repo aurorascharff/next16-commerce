@@ -1,8 +1,8 @@
 import { Lock } from 'lucide-react';
 import { redirect } from 'next/navigation';
 import React, { Suspense } from 'react';
-import { getIsAuthenticated } from '@/modules/auth/auth-queries';
-import LoginButton from '@/modules/auth/components/LoginButton';
+import { getIsAuthenticated } from '@/features/auth/auth-queries';
+import LoginButton from '@/features/auth/components/LoginButton';
 
 export default async function Unauthorized() {
   const isAuthenticated = await getIsAuthenticated();

@@ -27,6 +27,7 @@ model Account {
 
   accountDetail AccountDetail?
   savedProducts SavedProduct[]
+  userDiscounts UserDiscount[]
 }
 
 model AccountDetail {
@@ -94,4 +95,32 @@ model SavedProduct {
   product Product @relation(fields: [productId], references: [id])
 
   @@unique([accountId, productId])
+}
+
+model Discount {
+  id          Int      @id @default(autoincrement())
+  code        String   @unique
+  description String
+  percentage  Int
+  expiry      DateTime
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relation to accounts (which discounts are available to which users)
+  userDiscounts UserDiscount[]
+}
+
+model UserDiscount {
+  id         Int       @id @default(autoincrement())
+  accountId  String
+  discountId Int
+  isUsed     Boolean   @default(false)
+  usedAt     DateTime?
+  createdAt  DateTime  @default(now())
+
+  account  Account  @relation(fields: [accountId], references: [id])
+  discount Discount @relation(fields: [discountId], references: [id])
+
+  @@unique([accountId, discountId])
 }

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import React, { Suspense } from 'react';
-import ProductCategories, { ProductCategoriesSkeleton } from '@/modules/product/components/ProductCategories';
+import ProductCategories, { ProductCategoriesSkeleton } from '@/features/product/components/ProductCategories';
 
 export default async function Footer() {
   return (

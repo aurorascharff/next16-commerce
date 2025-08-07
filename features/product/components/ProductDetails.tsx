@@ -1,7 +1,7 @@
 import { Bookmark } from 'lucide-react';
 import React, { Suspense } from 'react';
 import Skeleton from '@/components/ui/Skeleton';
-import { getIsAuthenticated } from '@/modules/auth/auth-queries';
+import { getIsAuthenticated } from '@/features/auth/auth-queries';
 
 import { getProductDetails, isSavedProduct } from '../product-queries';
 import SaveProductButton from './SaveProductButton';

@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import React, { use, useTransition } from 'react';
-import { useAuth } from '@/modules/auth/components/AuthProvider';
+import { useAuth } from '@/features/auth/components/AuthProvider';
 import { signOut } from '../auth-actions';
 
 export default function LoginButton() {

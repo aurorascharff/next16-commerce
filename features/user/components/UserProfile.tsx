@@ -1,8 +1,8 @@
 import { User } from 'lucide-react';
 import Link from 'next/link';
 import React, { Suspense } from 'react';
-import { getCurrentAccount } from '@/modules/auth/auth-queries';
-import LoginButton from '@/modules/auth/components/LoginButton';
+import { getCurrentAccount } from '@/features/auth/auth-queries';
+import LoginButton from '@/features/auth/components/LoginButton';
 
 export default async function UserProfile() {
   const account = await getCurrentAccount();
