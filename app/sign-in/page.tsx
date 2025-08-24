@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import React from 'react';
-import AppLayout from '@/components/AppLayout';
+import AppLayout from '@/components/layout/AppLayout';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 import { signIn } from '@/features/auth/auth-actions';
