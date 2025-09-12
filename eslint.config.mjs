@@ -18,98 +18,95 @@ const compat = new FlatCompat({
   recommendedConfig: js.configs.recommended,
 });
 
-const eslintConfig = [
-  {
-    ignores: ['**/next-env.d.ts'],
-  },
-  ...fixupConfigRules(
-    compat.extends(
-      'eslint:recommended',
-      'eslint-config-prettier',
-      'plugin:react/recommended',
-      'plugin:@typescript-eslint/recommended',
-      'plugin:import/recommended',
-      'plugin:jsx-a11y/recommended',
-      'next',
-      'next/core-web-vitals',
-      'prettier',
-    ),
+const eslintConfig = [{
+  ignores: ["node_modules/**", ".next/**", "out/**", "build/**", "next-env.d.ts"]
+}, {
+  ignores: ['**/next-env.d.ts'],
+}, ...fixupConfigRules(
+  compat.extends(
+    'eslint:recommended',
+    'eslint-config-prettier',
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:import/recommended',
+    'plugin:jsx-a11y/recommended',
+    'next',
+    'next/core-web-vitals',
+    'prettier',
   ),
-  {
-    languageOptions: {
-      ecmaVersion: 12,
-      globals: {
-        ...globals.browser,
+), {
+  languageOptions: {
+    ecmaVersion: 12,
+    globals: {
+      ...globals.browser,
+    },
+    parser: tsParser,
+    parserOptions: {
+      ecmaFeatures: {
+        jsx: true,
       },
-      parser: tsParser,
-      parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
-      },
-      sourceType: 'module',
     },
-    plugins: {
-      autofix,
-      'react-compiler': reactCompiler,
-      'react-hooks': fixupPluginRules(reactHooks),
-      'sort-keys-fix': sortKeysFix,
-    },
-    rules: {
-      'react-compiler/react-compiler': 'error',
-      'sort-keys-fix/sort-keys-fix': 'warn',
-    },
+    sourceType: 'module',
   },
-  {
-    files: ['**/*.ts?(x)'],
-    rules: {
-      '@typescript-eslint/consistent-type-imports': [
-        'warn',
-        {
-          prefer: 'type-imports',
+  plugins: {
+    autofix,
+    'react-compiler': reactCompiler,
+    'react-hooks': fixupPluginRules(reactHooks),
+    'sort-keys-fix': sortKeysFix,
+  },
+  rules: {
+    'react-compiler/react-compiler': 'error',
+    'sort-keys-fix/sort-keys-fix': 'warn',
+  },
+}, {
+  files: ['**/*.ts?(x)'],
+  rules: {
+    '@typescript-eslint/consistent-type-imports': [
+      'warn',
+      {
+        prefer: 'type-imports',
+      },
+    ],
+    'arrow-body-style': ['warn', 'always'],
+    'autofix/no-unused-vars': [
+      'warn',
+      {
+        argsIgnorePattern: '^_',
+        destructuredArrayIgnorePattern: '^_',
+        ignoreRestSiblings: true,
+      },
+    ],
+    'import/order': [
+      'warn',
+      {
+        alphabetize: {
+          order: 'asc',
         },
-      ],
-      'arrow-body-style': ['warn', 'always'],
-      'autofix/no-unused-vars': [
-        'warn',
-        {
-          argsIgnorePattern: '^_',
-          destructuredArrayIgnorePattern: '^_',
-          ignoreRestSiblings: true,
-        },
-      ],
-      'import/order': [
-        'warn',
-        {
-          alphabetize: {
-            order: 'asc',
+        groups: ['builtin', 'external', 'parent', 'sibling', 'index', 'object', 'type'],
+        pathGroups: [
+          {
+            group: 'parent',
+            pattern: '@/**/**',
+            position: 'before',
           },
-          groups: ['builtin', 'external', 'parent', 'sibling', 'index', 'object', 'type'],
-          pathGroups: [
-            {
-              group: 'parent',
-              pattern: '@/**/**',
-              position: 'before',
-            },
-          ],
-        },
-      ],
-      'no-console': 'warn',
-      'no-redeclare': 'warn',
-      quotes: ['warn', 'single'],
-      'react/display-name': 'error',
-      'react/jsx-key': 'warn',
-      'react/react-in-jsx-scope': 'off',
-      'react/self-closing-comp': [
-        'error',
-        {
-          component: true,
-          html: true,
-        },
-      ],
-      'spaced-comment': 'warn',
-    },
+        ],
+      },
+    ],
+    'no-console': 'warn',
+    'no-redeclare': 'warn',
+    quotes: ['warn', 'single'],
+    'react/display-name': 'error',
+    'react/jsx-key': 'warn',
+    'react/react-in-jsx-scope': 'off',
+    'react/self-closing-comp': [
+      'error',
+      {
+        component: true,
+        html: true,
+      },
+    ],
+    'spaced-comment': 'warn',
   },
-];
+}];
 
 export default eslintConfig;
