@@ -12,7 +12,7 @@ export default async function UserProfile() {
       <div className="flex flex-col items-end gap-1">
         {account && <span className="text-sm">{account.name}</span>}
         <Suspense>
-          <LoginButton />
+          <LoginButton isAuth />
         </Suspense>
       </div>
       {account ? (

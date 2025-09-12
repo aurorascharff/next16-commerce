@@ -1,14 +1,11 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React, { use, useTransition } from 'react';
-import { useAuth } from '@/features/auth/components/AuthProvider';
+import React, { useTransition } from 'react';
 import { signOut } from '../auth-actions';
 
-export default function LoginButton() {
+export default function LoginButton({ isAuth }: { isAuth: boolean }) {
   const [isPending, startTransition] = useTransition();
-  const { isAuthenticated } = useAuth();
-  const isAuth = use(isAuthenticated);
   const router = useRouter();
 
   return (
