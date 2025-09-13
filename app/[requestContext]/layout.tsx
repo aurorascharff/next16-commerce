@@ -1,10 +1,15 @@
 import React, { Suspense } from 'react';
 import Header from '@/components/Header';
 import UserProfile, { UserProfileSkeleton } from '@/features/user/components/UserProfile';
-import { getRequestContext } from '@/utils/request-context';
+import { encodeRequestContext, getRequestContext, type RequestContextData } from '@/utils/request-context';
 
 export async function generateStaticParams() {
-  return [];
+  const contexts: RequestContextData[] = [{ loggedIn: false }, { loggedIn: true }];
+  return contexts.map(context => {
+    return {
+      requestContext: encodeRequestContext(context),
+    };
+  });
 }
 
 export default async function RequestContextLayout({ children, modal, params }: LayoutProps<'/[requestContext]'>) {
