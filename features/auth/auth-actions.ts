@@ -5,7 +5,7 @@ import { redirect, unauthorized } from 'next/navigation';
 import { cache } from 'react';
 import { prisma } from '@/db';
 import { slow } from '@/utils/slow';
-import { getCurrentAccount, getIsAuthenticated } from './auth-queries';
+import { getCurrentAccount } from './auth-queries';
 import type { Route } from 'next';
 
 export const verifyAuth = cache(async (redirectUrl?: string) => {
@@ -44,14 +44,4 @@ export async function logIn(email: string, redirectUrl?: Route | URL) {
 
   (await cookies()).set('selectedAccountId', account?.id);
   redirect((redirectUrl || '/') as Route);
-}
-
-export async function signInORedirect() {
-  const loggedIn = await getIsAuthenticated();
-
-  if (loggedIn) {
-    redirect('/' as Route);
-  } else {
-    redirect('/sign-in' as Route);
-  }
 }
