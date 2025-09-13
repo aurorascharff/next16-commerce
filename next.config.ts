@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
     staleTimes: {
       dynamic: 30,
     },
-    // useCache: true,
+    useCache: true,
   },
   typedRoutes: true,
 };
