@@ -7,14 +7,21 @@ function isUserAuthenticated(request: NextRequest): boolean {
 }
 
 function isValidRequestContext(segment: string): boolean {
-  const jsonString = Buffer.from(segment, 'base64url').toString();
-  const data = JSON.parse(jsonString);
-  return typeof data === 'object' && typeof data.loggedIn === 'boolean';
+  try {
+    // Try to decode as base64url
+    const jsonString = Buffer.from(segment, 'base64url').toString();
+    const data = JSON.parse(jsonString);
+    // Check if it has the expected structure
+    return typeof data === 'object' && typeof data.loggedIn === 'boolean';
+  } catch {
+    return false;
+  }
 }
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Skip middleware for static files, API routes, and Next.js internals
   if (
     pathname.startsWith('/_next/') ||
     pathname.startsWith('/api/') ||
