@@ -1,10 +1,14 @@
+import Link from 'next/link';
 import React from 'react';
 import Boundary from '@/components/internal/Boundary';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
-import { signInORedirect } from '@/features/auth/auth-actions';
+import { getRequestContext } from '@/utils/request-context';
+import type { Route } from 'next';
 
-export default async function AboutPage() {
+export default async function AboutPage({ params }: { params: Promise<{ requestContext: string }> }) {
+  const { loggedIn } = getRequestContext(await params);
+
   return (
     <Boundary rendering="static">
       <div className="mx-auto max-w-4xl space-y-12">
@@ -14,9 +18,9 @@ export default async function AboutPage() {
             <p className="mt-4 text-xl text-gray-600 dark:text-gray-400">Welcome to our modern e-commerce experience</p>
           </div>
           <div className="text-center">
-            <form action={signInORedirect}>
+            <Link href={loggedIn ? ('/' as Route) : ('/sign-in' as Route)}>
               <Button>Start Shopping</Button>
-            </form>
+            </Link>
           </div>
           <div className="grid gap-8 md:grid-cols-2">
             <Card>
