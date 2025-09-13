@@ -1,9 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-
 import Link from 'next/link';
 import React, { Suspense } from 'react';
 import ProductCategories, { ProductCategoriesSkeleton } from '@/features/product/components/ProductCategories';
-import type { Route } from 'next';
 
 export default async function Footer() {
   return (
@@ -16,7 +14,7 @@ export default async function Footer() {
         <div className="text-gray dark:text-gray text-center text-sm">
           <p>© 2024 Commerce. All rights reserved.</p>
           <div className="mt-2 flex justify-center gap-4">
-            <Link href={'/about' as Route} className="hover:text-primary transition-colors">
+            <Link href="/about" className="hover:text-primary transition-colors">
               About
             </Link>
             <a href="#" className="hover:text-primary transition-colors">
