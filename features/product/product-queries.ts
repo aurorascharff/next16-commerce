@@ -1,5 +1,6 @@
 import 'server-only';
 
+import { cacheLife } from 'next/dist/server/use-cache/cache-life';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { prisma } from '@/db';
@@ -7,8 +8,8 @@ import { slow } from '@/utils/slow';
 import { verifyAuth } from '../auth/auth-actions';
 
 export const getProduct = cache(async (productId: number) => {
-  // 'use cache';
-  // cacheLife('days');
+  'use cache';
+  cacheLife('days');
 
   await slow();
 
@@ -22,8 +23,8 @@ export const getProduct = cache(async (productId: number) => {
 });
 
 export const getProductDetails = cache(async (productId: number) => {
-  // 'use cache';
-  // cacheLife('days');
+  'use cache';
+  cacheLife('days');
 
   await slow();
 
@@ -84,8 +85,8 @@ export const getReviews = cache(async (productId: number) => {
 });
 
 export const getCategories = cache(async () => {
-  // 'use cache';
-  // cacheLife('days');
+  'use cache';
+  cacheLife('days');
 
   await slow();
 
