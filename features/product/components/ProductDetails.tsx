@@ -39,19 +39,19 @@ export default async function ProductDetails({ productId, loggedIn = false }: Pr
       </div>
 
       <div className="border-divider dark:border-divider-dark mt-6 border-t pt-4">
-        {loggedIn ? (
-          <Suspense fallback={<Bookmark aria-hidden className="text-gray size-5" />}>
-            <SavedProduct productId={productId} />
-          </Suspense>
-        ) : (
-          <SaveProductButton productId={productId} initialSaved={false} />
-        )}
+        <Suspense fallback={<Bookmark aria-hidden className="text-gray size-5" />}>
+          <SavedProduct productId={productId} loggedIn={loggedIn} />
+        </Suspense>
       </div>
     </div>
   );
 }
 
-async function SavedProduct({ productId }: { productId: number }) {
+async function SavedProduct({ productId, loggedIn }: { productId: number; loggedIn: boolean }) {
+  if (!loggedIn) {
+    return <SaveProductButton productId={productId} initialSaved={false} />;
+  }
+
   const productIsSaved = await isSavedProduct(productId);
   return <SaveProductButton productId={productId} initialSaved={productIsSaved} />;
 }
