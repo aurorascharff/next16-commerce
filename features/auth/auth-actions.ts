@@ -47,9 +47,9 @@ export async function logIn(email: string, redirectUrl?: Route | URL) {
 }
 
 export async function signInORedirect() {
-  const isAuthenticated = await getIsAuthenticated();
+  const loggedIn = await getIsAuthenticated();
 
-  if (isAuthenticated) {
+  if (loggedIn) {
     redirect('/' as Route);
   } else {
     redirect('/sign-in' as Route);

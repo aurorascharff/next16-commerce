@@ -57,7 +57,7 @@ export function ProductListSkeleton() {
   return (
     <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
       {Array.from({ length: 9 }).map((_, i) => {
-        return <Skeleton key={i} className="h-37" />;
+        return <Skeleton key={i} className="h-35" />;
       })}
     </div>
   );
