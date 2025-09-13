@@ -4,12 +4,12 @@ const nextConfig: NextConfig = {
   experimental: {
     authInterrupts: true,
     inlineCss: true,
-    ppr: true,
+    // ppr: true,
     reactCompiler: true,
     staleTimes: {
       dynamic: 30,
     },
-    useCache: true,
+    // useCache: true,
   },
   typedRoutes: true,
 };
