@@ -18,9 +18,11 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="text-center">
-              <form action={signInORedirect}>
-                <Button>Start Shopping</Button>
-              </form>
+              <Boundary rendering="static">
+                <form action={signInORedirect}>
+                  <Button>Start Shopping</Button>
+                </form>
+              </Boundary>
             </div>
             <div className="grid gap-8 md:grid-cols-2">
               <Card>
