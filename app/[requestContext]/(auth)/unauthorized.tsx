@@ -13,7 +13,7 @@ export default function Unauthorized() {
       </p>
       <div className="mt-6">
         <Suspense fallback={<div className="h-10 w-24 rounded bg-gray-200 dark:bg-gray-700" />}>
-          <LoginButton loggedIn={false} />
+          <LoginButton />
         </Suspense>
       </div>
     </div>

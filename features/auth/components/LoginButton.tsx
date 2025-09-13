@@ -3,9 +3,11 @@
 import { useRouter } from 'next/navigation';
 import React, { useTransition } from 'react';
 import { logOut } from '../auth-actions';
+import { useAuth } from './AuthProvider';
 
-export default function LoginButton({ loggedIn }: { loggedIn: boolean }) {
+export default function LoginButton() {
   const [isPending, startTransition] = useTransition();
+  const { loggedIn } = useAuth();
   const router = useRouter();
 
   return (
