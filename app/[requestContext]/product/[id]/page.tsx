@@ -1,4 +1,6 @@
 import { ArrowLeft } from 'lucide-react';
+import { cacheLife } from 'next/dist/server/use-cache/cache-life';
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import Link from 'next/link';
 import React, { Suspense } from 'react';
 import Card from '@/components/ui/Card';
@@ -12,7 +14,12 @@ import { getRequestContext } from '@/utils/request-context';
 import type { Route } from 'next';
 
 export default async function ProductPage({ params }: PageProps<'/[requestContext]/product/[id]'>) {
+  'use cache';
+  cacheLife('days');
+
   const { id } = await params;
+  cacheTag('product-' + id);
+
   const productId = Number(id);
   preloadProductDetails(productId);
   const { loggedIn } = getRequestContext(await params);

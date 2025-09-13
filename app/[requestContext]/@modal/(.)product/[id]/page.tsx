@@ -1,9 +1,16 @@
+import { cacheLife } from 'next/dist/server/use-cache/cache-life';
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import React, { Suspense } from 'react';
 import Modal from '@/components/ui/Modal';
 import Product, { ProductSkeleton } from '@/features/product/components/Product';
 
 export default async function ProductModal({ params }: PageProps<'/[requestContext]/product/[id]'>) {
+  'use cache';
+  cacheLife('days');
+
   const { id } = await params;
+  cacheTag('product-' + id);
+
   const productId = Number(id);
 
   return (
