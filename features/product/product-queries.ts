@@ -82,7 +82,7 @@ export const getProducts = cache(async (searchQuery?: string, sort?: 'asc' | 'de
 
 export const getReviews = cache(async (productId: number) => {
   await slow();
-  await connection();
+  // await connection();
 
   return prisma.review.findMany({
     orderBy: { createdAt: 'desc' },
