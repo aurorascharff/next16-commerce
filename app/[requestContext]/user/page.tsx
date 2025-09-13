@@ -1,4 +1,5 @@
 import { Mail, MapPin, Phone, User } from 'lucide-react';
+import { unauthorized } from 'next/navigation';
 import React, { Suspense } from 'react';
 import { getCurrentAccountWithDetails } from '@/features/auth/auth-queries';
 import SavedProducts, { SavedProductsSkeleton } from '@/features/product/components/SavedProducts';
@@ -15,6 +16,10 @@ function PreferenceItem({ label, value }: { label: string; value: string }) {
 
 export default async function UserPage() {
   const account = await getCurrentAccountWithDetails();
+
+  if (!account) {
+    unauthorized();
+  }
 
   return (
     <div className="flex flex-col gap-16 xl:mx-40 2xl:mx-60">
