@@ -1,7 +1,6 @@
 import React from 'react';
 import ImagePlaceholder from '@/components/ui/ImagePlaceholder';
 import Skeleton from '@/components/ui/Skeleton';
-
 import { cn } from '@/utils/cn';
 import { getProduct } from '../product-queries';
 

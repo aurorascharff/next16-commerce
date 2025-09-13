@@ -1,20 +1,9 @@
 import Link from 'next/link';
 import React from 'react';
-
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
-import { encodeRequestContext, getRequestContext, type RequestContextData } from '@/utils/request-context';
+import { getRequestContext } from '@/utils/request-context';
 import type { Route } from 'next';
-
-export async function generateStaticParams() {
-  const contexts: RequestContextData[] = [{ loggedIn: false }, { loggedIn: true }];
-
-  return contexts.map(context => {
-    return {
-      requestContext: encodeRequestContext(context),
-    };
-  });
-}
 
 export default async function AboutPage({ params }: { params: Promise<{ requestContext: string }> }) {
   const { loggedIn } = getRequestContext(await params);
