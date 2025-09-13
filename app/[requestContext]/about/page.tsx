@@ -1,13 +1,9 @@
-import Link from 'next/link';
 import React from 'react';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
-import { getRequestContext } from '@/utils/request-context';
-import type { Route } from 'next';
+import { signInORedirect } from '@/features/auth/auth-actions';
 
-export default async function AboutPage({ params }: { params: Promise<{ requestContext: string }> }) {
-  const { loggedIn } = getRequestContext(await params);
-
+export default async function AboutPage() {
   return (
     <div className="mx-auto max-w-4xl space-y-12">
       <div className="space-y-8">
@@ -16,9 +12,9 @@ export default async function AboutPage({ params }: { params: Promise<{ requestC
           <p className="mt-4 text-xl text-gray-600 dark:text-gray-400">Welcome to our modern e-commerce experience</p>
         </div>
         <div className="text-center">
-          <Link href={loggedIn ? ('/' as Route) : ('/sign-in' as Route)}>
+          <form action={signInORedirect}>
             <Button>Start Shopping</Button>
-          </Link>
+          </form>
         </div>
         <div className="grid gap-8 md:grid-cols-2">
           <Card>
