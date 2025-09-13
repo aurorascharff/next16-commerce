@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
+import Boundary from '@/components/internal/Boundary';
 import ImagePlaceholder from '@/components/ui/ImagePlaceholder';
 import { getSavedProducts } from '../product-queries';
 import SaveProductButton from './SaveProductButton';
@@ -23,25 +24,27 @@ export default async function SavedProducts() {
   }
 
   return (
-    <div className="space-y-4">
-      {savedProducts.map(product => {
-        return (
-          <div
-            key={product.id}
-            className="border-divider dark:border-divider-dark flex items-center gap-4 rounded-lg border p-4 transition-colors hover:bg-gray-50 dark:hover:bg-neutral-800/50"
-          >
-            <ImagePlaceholder className="size-16 flex-shrink-0 rounded" />
-            <div className="min-w-0 flex-1">
-              <Link href={`/product/${product.id}` as Route} className="block">
-                <h3 className="truncate font-medium">{product.name}</h3>
-                <p className="text-primary mt-1 font-medium">${product.price.toFixed(2)}</p>
-              </Link>
+    <Boundary hydration="server" rendering="dynamic">
+      <div className="space-y-4">
+        {savedProducts.map(product => {
+          return (
+            <div
+              key={product.id}
+              className="border-divider dark:border-divider-dark flex items-center gap-4 rounded-lg border p-4 transition-colors hover:bg-gray-50 dark:hover:bg-neutral-800/50"
+            >
+              <ImagePlaceholder className="size-16 flex-shrink-0 rounded" />
+              <div className="min-w-0 flex-1">
+                <Link href={`/product/${product.id}` as Route} className="block">
+                  <h3 className="truncate font-medium">{product.name}</h3>
+                  <p className="text-primary mt-1 font-medium">${product.price.toFixed(2)}</p>
+                </Link>
+              </div>
+              <SaveProductButton productId={product.id} initialSaved={true} />
             </div>
-            <SaveProductButton productId={product.id} initialSaved={true} />
-          </div>
-        );
-      })}
-    </div>
+          );
+        })}
+      </div>
+    </Boundary>
   );
 }
 

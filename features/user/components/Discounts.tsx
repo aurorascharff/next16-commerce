@@ -1,6 +1,6 @@
 import { Percent } from 'lucide-react';
 import React from 'react';
-
+import Boundary from '@/components/internal/Boundary';
 import { getUserDiscounts } from '../user-queries';
 
 export default async function Discounts() {
@@ -15,29 +15,31 @@ export default async function Discounts() {
   }
 
   return (
-    <div className="space-y-4">
-      {discounts.map(discount => {
-        return (
-          <div
-            key={discount.id}
-            className="border-divider dark:border-divider-dark flex items-center justify-between rounded-lg border p-4"
-          >
-            <div className="flex items-center gap-3">
-              <Percent className="text-primary h-5 w-5" />
-              <div>
-                <p className="font-medium">{discount.code}</p>
-                <p className="text-sm text-gray-600 dark:text-gray-400">{discount.description}</p>
+    <Boundary rendering="dynamic" hydration="server">
+      <div className="space-y-4">
+        {discounts.map(discount => {
+          return (
+            <div
+              key={discount.id}
+              className="border-divider dark:border-divider-dark flex items-center justify-between rounded-lg border p-4"
+            >
+              <div className="flex items-center gap-3">
+                <Percent className="text-primary h-5 w-5" />
+                <div>
+                  <p className="font-medium">{discount.code}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{discount.description}</p>
+                </div>
+              </div>
+              <div className="text-right">
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Expires: {discount.expiry.toLocaleDateString()}
+                </p>
               </div>
             </div>
-            <div className="text-right">
-              <p className="text-xs text-gray-500 dark:text-gray-400">
-                Expires: {discount.expiry.toLocaleDateString()}
-              </p>
-            </div>
-          </div>
-        );
-      })}
-    </div>
+          );
+        })}
+      </div>
+    </Boundary>
   );
 }
 

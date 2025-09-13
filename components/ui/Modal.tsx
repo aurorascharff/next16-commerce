@@ -30,12 +30,12 @@ export default function Modal({ openModal, children, goBackOnClose = false, titl
   }, [openModal]);
 
   return (
-    <Boundary hydration="client">
-      <dialog
-        ref={ref}
-        onCancel={handleClose}
-        className="dark:bg-card-dark fixed inset-0 m-auto w-[90%] max-w-lg rounded-lg border-none bg-white p-0 shadow-xl backdrop:bg-black/50 backdrop:backdrop-blur-sm"
-      >
+    <dialog
+      ref={ref}
+      onCancel={handleClose}
+      className="dark:bg-card-dark fixed inset-0 m-auto w-[90%] max-w-lg rounded-lg border-none bg-white p-0 shadow-xl backdrop:bg-black/50 backdrop:backdrop-blur-sm"
+    >
+      <Boundary hydration="client">
         <div className="flex w-full flex-col">
           {title && (
             <h2 className="border-divider dark:border-divider-dark m-0 border-b px-5 py-4 text-lg font-semibold">
@@ -49,7 +49,7 @@ export default function Modal({ openModal, children, goBackOnClose = false, titl
             </Button>
           </div>
         </div>
-      </dialog>
-    </Boundary>
+      </Boundary>
+    </dialog>
   );
 }
