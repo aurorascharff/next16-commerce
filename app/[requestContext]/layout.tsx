@@ -1,6 +1,8 @@
+import { User } from 'lucide-react';
 import Link from 'next/link';
 import React, { Suspense } from 'react';
 import { AuthProvider } from '@/features/auth/components/AuthProvider';
+import LoginButton from '@/features/auth/components/LoginButton';
 import UserProfile, { UserProfileSkeleton } from '@/features/user/components/UserProfile';
 import { getRequestContext } from '@/utils/request-context';
 import type { Route } from 'next';
@@ -16,7 +18,16 @@ export default async function RequestContextLayout({ children, modal, params }: 
             Commerce
           </Link>
         </h1>
-        <Suspense fallback={<UserProfileSkeleton />}>{<UserProfile />}</Suspense>
+        <div className="flex items-center gap-2">
+          {loggedIn ? (
+            <Suspense fallback={<UserProfileSkeleton />}>{<UserProfile />}</Suspense>
+          ) : (
+            <>
+              <LoginButton />
+              <User aria-hidden className="text-gray size-8 rounded-full p-1" />
+            </>
+          )}
+        </div>
       </header>
       <main className="mb-4 flex flex-1 flex-col gap-4 p-4 sm:mb-8 sm:gap-10 sm:p-10 lg:mb-10 2xl:px-60">
         {children}
