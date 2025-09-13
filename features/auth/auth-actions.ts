@@ -1,6 +1,5 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { redirect, unauthorized } from 'next/navigation';
 import { cache } from 'react';
@@ -27,7 +26,7 @@ export async function logOut() {
 
   (await cookies()).delete('selectedAccountId');
 
-  revalidatePath('/');
+  redirect('/' as Route);
 }
 
 export async function logIn(email: string, redirectUrl?: Route | URL) {

@@ -1,11 +1,8 @@
 import { Mail, MapPin, Phone, User } from 'lucide-react';
-import { redirect } from 'next/navigation';
 import React, { Suspense } from 'react';
 import { getCurrentAccountWithDetails } from '@/features/auth/auth-queries';
 import SavedProducts, { SavedProductsSkeleton } from '@/features/product/components/SavedProducts';
 import Discounts, { DiscountsSkeleton } from '@/features/user/components/Discounts';
-import { getRequestContext } from '@/utils/request-context';
-import type { Route } from 'next';
 
 function PreferenceItem({ label, value }: { label: string; value: string }) {
   return (
@@ -16,12 +13,7 @@ function PreferenceItem({ label, value }: { label: string; value: string }) {
   );
 }
 
-export default async function UserPage({ params }: PageProps<'/[requestContext]/user'>) {
-  const { loggedIn } = getRequestContext(await params);
-  if (!loggedIn) {
-    redirect('/' as Route);
-  }
-
+export default async function UserPage() {
   const account = await getCurrentAccountWithDetails();
 
   return (
