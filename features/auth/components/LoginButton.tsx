@@ -15,13 +15,13 @@ export default function LoginButton() {
       aria-disabled={isPending}
       className="text-primary hover:text-primary-dark aria-disabled:text-gray cursor-pointer text-sm transition-colors aria-disabled:cursor-not-allowed aria-disabled:italic"
       onClick={() => {
-        startTransition(async () => {
-          if (loggedIn) {
+        if (loggedIn) {
+          startTransition(async () => {
             await logOut();
-          } else {
-            router.push('/sign-in');
-          }
-        });
+          });
+        } else {
+          router.push('/sign-in');
+        }
       }}
     >
       {loggedIn ? 'Sign out' : 'Sign in'} {isPending && '...'}
