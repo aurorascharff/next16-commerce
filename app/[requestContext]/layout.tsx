@@ -4,8 +4,18 @@ import React, { Suspense } from 'react';
 import { AuthProvider } from '@/features/auth/components/AuthProvider';
 import LoginButton from '@/features/auth/components/LoginButton';
 import UserProfile, { UserProfileSkeleton } from '@/features/user/components/UserProfile';
-import { getRequestContext } from '@/utils/request-context';
+import type { RequestContextData } from '@/utils/request-context';
+import { encodeRequestContext, getRequestContext } from '@/utils/request-context';
 import type { Route } from 'next';
+
+export async function generateStaticParams() {
+  const contexts: RequestContextData[] = [{ loggedIn: false }, { loggedIn: true }];
+  return contexts.map(context => {
+    return {
+      requestContext: encodeRequestContext(context),
+    };
+  });
+}
 
 export default async function RequestContextLayout({ children, modal, params }: LayoutProps<'/[requestContext]'>) {
   const { loggedIn } = getRequestContext(await params);

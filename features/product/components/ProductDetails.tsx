@@ -62,7 +62,7 @@ export function ProductDetailsSkeleton() {
       <div className="skeleton-animation mb-3 h-6 w-32 rounded-xs" />
       <Skeleton />
       <div className="skeleton-animation mb-3 h-6 w-32 rounded-xs" />
-      <div className="border-divider dark:border-divider-dark mt-10 border-t pt-4">
+      <div className="border-divider dark:border-divider-dark mt-9 border-t pt-4">
         <div className="skeleton-animation h-5 w-5 rounded-xs" />
       </div>
     </div>

@@ -5,8 +5,8 @@ import Search from '@/components/Search';
 import { DiscountBanner } from '@/components/banner/Banner';
 import LinkStatus from '@/components/ui/LinkStatus';
 import ProductList, { ProductListSkeleton } from '@/features/product/components/ProductList';
-import type { RequestContextData } from '@/utils/request-context';
-import { encodeRequestContext, getRequestContext } from '@/utils/request-context';
+
+import { getRequestContext } from '@/utils/request-context';
 import type { Route } from 'next';
 
 type SearchParams = {
@@ -14,15 +14,6 @@ type SearchParams = {
   q?: string;
   sort?: 'asc' | 'desc';
 };
-
-export async function generateStaticParams() {
-  const contexts: RequestContextData[] = [{ loggedIn: false }, { loggedIn: true }];
-  return contexts.map(context => {
-    return {
-      requestContext: encodeRequestContext(context),
-    };
-  });
-}
 
 export default async function RootPage({ searchParams, params }: PageProps<'/[requestContext]'>) {
   const { q, sort, page } = (await searchParams) as SearchParams;
