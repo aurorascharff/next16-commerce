@@ -1,25 +1,37 @@
+'use client';
+
 import { User } from 'lucide-react';
 import Link from 'next/link';
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import Boundary from '@/components/internal/Boundary';
-import { getCurrentAccount } from '@/features/auth/auth-queries';
+import { getCurrentAccountAction } from '@/features/auth/auth-actions';
 import LoginButton from '@/features/auth/components/LoginButton';
 
-export default async function UserProfile({ loggedIn }: { loggedIn: boolean }) {
-  if (!loggedIn)
-    return (
-      <div className="flex items-center gap-2">
-        <div className="flex flex-col items-end gap-1">
-          <LoginButton />
-        </div>
-        <User aria-hidden className="text-gray size-8 rounded-full p-1" />
-      </div>
-    );
+export default function UserProfile() {
+  const [account, setAccount] = useState<{ name: string; id: string } | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const account = await getCurrentAccount();
+  useEffect(() => {
+    const fetchAccount = async () => {
+      try {
+        const accountData = await getCurrentAccountAction();
+        setAccount(accountData);
+      } catch {
+        setAccount(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAccount();
+  }, []);
+
+  if (loading) {
+    return <UserProfileSkeleton />;
+  }
 
   return (
-    <Boundary rendering="dynamic" hydration="server">
+    <Boundary rendering="static" hydration="client">
       <div className="flex items-center gap-2">
         <div className="flex flex-col items-end gap-1">
           <span className="text-sm">{account?.name}</span>

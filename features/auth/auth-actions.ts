@@ -55,3 +55,7 @@ export async function signInORedirect() {
     redirect('/sign-in' as Route);
   }
 }
+
+export const getCurrentAccountAction = cache(async () => {
+  return getCurrentAccount();
+});
