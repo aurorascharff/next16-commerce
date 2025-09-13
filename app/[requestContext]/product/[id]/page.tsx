@@ -8,15 +8,21 @@ import ProductDetails, {
   ProductDetailsSkeleton,
 } from '@/features/product/components/ProductDetails';
 import Reviews, { ReviewsSkeleton } from '@/features/product/components/Reviews';
+import { getRequestContext } from '@/utils/request-context';
+import type { Route } from 'next';
 
-export default async function ProductPage({ params }: PageProps<'/product/[id]'>) {
+export default async function ProductPage({ params }: PageProps<'/[requestContext]/product/[id]'>) {
   const { id } = await params;
   const productId = Number(id);
   preloadProductDetails(productId);
+  const { loggedIn } = await getRequestContext(params);
 
   return (
     <div className="flex flex-col gap-6">
-      <Link href="/" className="text-primary hover:text-primary-dark inline-flex items-center text-sm font-medium">
+      <Link
+        href={'/' as Route}
+        className="text-primary hover:text-primary-dark inline-flex items-center text-sm font-medium"
+      >
         <ArrowLeft aria-hidden className="size-4" />
         Back Home
       </Link>
@@ -34,7 +40,7 @@ export default async function ProductPage({ params }: PageProps<'/product/[id]'>
               productId={productId}
               details={
                 <Suspense key={productId} fallback={<ProductDetailsSkeleton />}>
-                  <ProductDetails productId={productId} />
+                  <ProductDetails productId={productId} loggedIn={loggedIn} />
                 </Suspense>
               }
             />

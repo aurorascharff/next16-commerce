@@ -2,6 +2,21 @@ import React from 'react';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 import { signInORedirect } from '@/features/auth/auth-actions';
+import { encodeRequestContext, type RequestContextData } from '@/utils/request-context';
+
+// Generate static params for different auth states
+export async function generateStaticParams() {
+  const contexts: RequestContextData[] = [
+    { loggedIn: false }, // Not authenticated state
+    { loggedIn: true }, // Authenticated state
+  ];
+
+  return contexts.map(context => {
+    return {
+      requestContext: encodeRequestContext(context),
+    };
+  });
+}
 
 export default function AboutPage() {
   return (

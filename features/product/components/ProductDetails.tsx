@@ -1,22 +1,21 @@
 import { Bookmark } from 'lucide-react';
 import React, { Suspense } from 'react';
 import Skeleton from '@/components/ui/Skeleton';
-import { getIsAuthenticated } from '@/features/auth/auth-queries';
 
 import { getProductDetails, isSavedProduct } from '../product-queries';
 import SaveProductButton from './SaveProductButton';
 
 type Props = {
   productId: number;
+  loggedIn?: boolean;
 };
 
 export function preloadProductDetails(productId: number) {
   void getProductDetails(productId);
 }
 
-export default async function ProductDetails({ productId }: Props) {
+export default async function ProductDetails({ productId, loggedIn = false }: Props) {
   const productDetails = await getProductDetails(productId);
-  const isAuthenticated = await getIsAuthenticated();
 
   return (
     <div className="w-full rounded-lg p-4">
@@ -40,7 +39,7 @@ export default async function ProductDetails({ productId }: Props) {
       </div>
 
       <div className="border-divider dark:border-divider-dark mt-6 border-t pt-4">
-        {isAuthenticated ? (
+        {loggedIn ? (
           <Suspense fallback={<Bookmark aria-hidden className="text-gray size-5" />}>
             <SavedProduct productId={productId} />
           </Suspense>

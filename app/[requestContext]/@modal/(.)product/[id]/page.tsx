@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import Modal from '@/components/ui/Modal';
 import Product, { ProductSkeleton } from '@/features/product/components/Product';
 
-export default async function ProductModal({ params }: PageProps<'/product/[id]'>) {
+export default async function ProductModal({ params }: PageProps<'/[requestContext]/product/[id]'>) {
   const { id } = await params;
   const productId = Number(id);
 

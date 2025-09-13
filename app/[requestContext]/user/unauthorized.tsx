@@ -3,12 +3,13 @@ import { redirect } from 'next/navigation';
 import React, { Suspense } from 'react';
 import { getIsAuthenticated } from '@/features/auth/auth-queries';
 import LoginButton from '@/features/auth/components/LoginButton';
+import type { Route } from 'next';
 
 export default async function Unauthorized() {
   const isAuthenticated = await getIsAuthenticated();
 
   if (isAuthenticated) {
-    redirect('/user');
+    redirect('/user' as Route);
   }
 
   return (
@@ -21,7 +22,7 @@ export default async function Unauthorized() {
       </p>
       <div className="mt-6">
         <Suspense fallback={<div className="h-10 w-24 rounded bg-gray-200 dark:bg-gray-700" />}>
-          <LoginButton isAuth={false} />
+          <LoginButton loggedIn={false} />
         </Suspense>
       </div>
     </div>

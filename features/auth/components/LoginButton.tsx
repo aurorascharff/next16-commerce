@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import React, { useTransition } from 'react';
 import { signOut } from '../auth-actions';
 
-export default function LoginButton({ isAuth }: { isAuth: boolean }) {
+export default function LoginButton({ loggedIn }: { loggedIn: boolean }) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
@@ -14,7 +14,7 @@ export default function LoginButton({ isAuth }: { isAuth: boolean }) {
       className="text-primary hover:text-primary-dark aria-disabled:text-gray cursor-pointer text-sm transition-colors aria-disabled:cursor-not-allowed aria-disabled:italic"
       onClick={() => {
         startTransition(async () => {
-          if (isAuth) {
+          if (loggedIn) {
             await signOut();
           } else {
             router.push('/sign-in');
@@ -22,7 +22,7 @@ export default function LoginButton({ isAuth }: { isAuth: boolean }) {
         });
       }}
     >
-      {isAuth ? 'Sign out' : 'Sign in'} {isPending && '...'}
+      {loggedIn ? 'Sign out' : 'Sign in'} {isPending && '...'}
     </button>
   );
 }

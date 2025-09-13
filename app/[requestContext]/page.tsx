@@ -5,6 +5,8 @@ import Search from '@/components/Search';
 import { DiscountBanner } from '@/components/banner/Banner';
 import LinkStatus from '@/components/ui/LinkStatus';
 import ProductList, { ProductListSkeleton } from '@/features/product/components/ProductList';
+import { getRequestContext } from '@/utils/request-context';
+import type { Route } from 'next';
 
 type SearchParams = {
   page?: string;
@@ -12,13 +14,14 @@ type SearchParams = {
   sort?: 'asc' | 'desc';
 };
 
-export default async function RootPage({ searchParams }: PageProps<'/'>) {
+export default async function RootPage({ searchParams, params }: PageProps<'/[requestContext]'>) {
   const { q, sort, page } = (await searchParams) as SearchParams;
   const currentPage = page ? parseInt(page, 10) : 1;
+  const { loggedIn } = await getRequestContext(params);
 
   return (
     <>
-      <DiscountBanner />
+      <DiscountBanner loggedIn={loggedIn} />
       <Search />
       <div className="flex h-full grow flex-col gap-4">
         <SortButton sort={sort} searchQuery={q} />
@@ -42,7 +45,7 @@ function SortButton({ sort, searchQuery }: { sort?: 'asc' | 'desc'; searchQuery?
     <Link
       prefetch
       scroll={false}
-      href={{ pathname: '/', query: queryParams }}
+      href={{ pathname: '/' as Route, query: queryParams }}
       className="text-primary hover:text-primary-dark inline-flex items-center text-sm font-medium"
     >
       <LinkStatus>

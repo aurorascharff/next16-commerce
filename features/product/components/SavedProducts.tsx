@@ -3,6 +3,7 @@ import React from 'react';
 import ImagePlaceholder from '@/components/ui/ImagePlaceholder';
 import { getSavedProducts } from '../product-queries';
 import SaveProductButton from './SaveProductButton';
+import type { Route } from 'next';
 
 export default async function SavedProducts() {
   const savedProducts = await getSavedProducts();
@@ -11,7 +12,10 @@ export default async function SavedProducts() {
     return (
       <div className="py-8 text-center">
         <p className="text-gray-600 dark:text-gray-400">You haven&apos;t saved any products yet.</p>
-        <Link href="/" className="text-primary hover:text-primary-dark mt-2 inline-block text-sm font-medium">
+        <Link
+          href={'/' as Route}
+          className="text-primary hover:text-primary-dark mt-2 inline-block text-sm font-medium"
+        >
           Browse products
         </Link>
       </div>
@@ -28,7 +32,7 @@ export default async function SavedProducts() {
           >
             <ImagePlaceholder className="size-16 flex-shrink-0 rounded" />
             <div className="min-w-0 flex-1">
-              <Link href={`/product/${product.id}`} className="block">
+              <Link href={`/product/${product.id}` as Route} className="block">
                 <h3 className="truncate font-medium">{product.name}</h3>
                 <p className="text-primary mt-1 font-medium">${product.price.toFixed(2)}</p>
               </Link>

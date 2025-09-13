@@ -4,6 +4,7 @@ import Pagination from '@/components/Pagination';
 import ImagePlaceholder from '@/components/ui/ImagePlaceholder';
 import Skeleton from '@/components/ui/Skeleton';
 import { getProducts } from '../product-queries';
+import type { Route } from 'next';
 
 type Props = {
   page?: number;
@@ -26,7 +27,7 @@ export default async function ProductList({ searchQuery, sort, page = 1 }: Props
           const shouldPrefetch = currentPage === 1;
           return (
             <Link
-              href={`/product/${product.id}`}
+              href={`/product/${product.id}` as Route}
               key={product.id}
               prefetch={shouldPrefetch}
               className="border-divider dark:border-divider-dark dark:bg-card-dark flex flex-row rounded-lg border bg-white transition-shadow hover:shadow-md"

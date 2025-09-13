@@ -1,14 +1,14 @@
 import Link from 'next/link';
 import { Suspense } from 'react';
-import { getCurrentAccount, getIsAuthenticated } from '@/features/auth/auth-queries';
+import { getCurrentAccount } from '@/features/auth/auth-queries';
 import { getUserDiscounts } from '@/features/user/user-queries';
 import { slow } from '@/utils/slow';
 import { BannerContainer } from './BannerContainer';
+import type { Route } from 'next';
 
-export async function PersonalBanner() {
+export async function PersonalBanner({ loggedIn }: { loggedIn: boolean }) {
   await slow();
-  const isAuthenticated = await getIsAuthenticated();
-  if (!isAuthenticated) return <GeneralBanner />;
+  if (!loggedIn) return <GeneralBanner />;
 
   const account = await getCurrentAccount();
   const discounts = await getUserDiscounts();
@@ -33,7 +33,7 @@ export async function PersonalBanner() {
       {discounts.length > 0 && (
         <div className="mt-3">
           <Link
-            href="/user"
+            href={'/user' as Route}
             className="text-primary hover:text-primary-dark inline-block text-sm font-medium transition-colors"
           >
             {discounts.length > 1 ? `View All ${discounts.length} Discounts` : 'View Discount Details'} →
@@ -49,7 +49,7 @@ export default function GeneralBanner() {
     <>
       <h3 className="text-primary mb-2 text-lg font-semibold">Join Us for Amazing Discounts</h3>
       <p className="mb-3 pb-6 text-sm text-gray-700 dark:text-gray-300">
-        <Link href="/sign-in" className="text-primary hover:text-primary-dark inline-block">
+        <Link href={'/sign-in' as Route} className="text-primary hover:text-primary-dark inline-block">
           Sign up today
         </Link>{' '}
         and unlock exclusive discounts on your favorite products!
@@ -58,11 +58,11 @@ export default function GeneralBanner() {
   );
 }
 
-export function DiscountBanner() {
+export function DiscountBanner({ loggedIn }: { loggedIn: boolean }) {
   return (
     <BannerContainer>
       <Suspense fallback={<GeneralBanner />}>
-        <PersonalBanner />
+        <PersonalBanner loggedIn={loggedIn} />
       </Suspense>
     </BannerContainer>
   );

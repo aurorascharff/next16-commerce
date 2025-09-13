@@ -13,9 +13,9 @@ export const verifyAuth = cache(async (redirectUrl?: string) => {
   const user = await getCurrentAccount();
   if (!user) {
     if (redirectUrl) {
-      redirect(`/sign-in?redirectUrl=${redirectUrl}`);
+      redirect(`/sign-in?redirectUrl=${redirectUrl}` as Route);
     } else {
-      redirect('/sign-in');
+      redirect('/sign-in' as Route);
     }
   }
 
@@ -51,8 +51,8 @@ export async function signInORedirect() {
   const isAuthenticated = await getIsAuthenticated();
 
   if (isAuthenticated) {
-    redirect('/');
+    redirect('/' as Route);
   } else {
-    redirect('/sign-in');
+    redirect('/sign-in' as Route);
   }
 }

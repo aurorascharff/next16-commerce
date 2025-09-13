@@ -3,6 +3,7 @@ import Link from 'next/link';
 import React, { Suspense } from 'react';
 import { getCurrentAccount } from '@/features/auth/auth-queries';
 import LoginButton from '@/features/auth/components/LoginButton';
+import type { Route } from 'next';
 
 export default async function UserProfile() {
   const account = await getCurrentAccount();
@@ -12,11 +13,11 @@ export default async function UserProfile() {
       <div className="flex flex-col items-end gap-1">
         {account && <span className="text-sm">{account.name}</span>}
         <Suspense>
-          <LoginButton isAuth />
+          <LoginButton loggedIn />
         </Suspense>
       </div>
       {account ? (
-        <Link href="/user" prefetch>
+        <Link href={'/user' as Route} prefetch>
           <span className="sr-only">Go to Profile</span>
           <User
             aria-hidden
