@@ -1,15 +1,12 @@
+import Link from 'next/link';
 import React from 'react';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
-import { signInORedirect } from '@/features/auth/auth-actions';
-import { encodeRequestContext, type RequestContextData } from '@/utils/request-context';
+import { encodeRequestContext, getRequestContext, type RequestContextData } from '@/utils/request-context';
+import type { Route } from 'next';
 
-// Generate static params for different auth states
 export async function generateStaticParams() {
-  const contexts: RequestContextData[] = [
-    { loggedIn: false }, // Not authenticated state
-    { loggedIn: true }, // Authenticated state
-  ];
+  const contexts: RequestContextData[] = [{ loggedIn: false }, { loggedIn: true }];
 
   return contexts.map(context => {
     return {
@@ -18,7 +15,9 @@ export async function generateStaticParams() {
   });
 }
 
-export default function AboutPage() {
+export default async function AboutPage({ params }: { params: Promise<{ requestContext: string }> }) {
+  const { loggedIn } = getRequestContext(await params);
+
   return (
     <div className="mx-auto max-w-4xl space-y-12">
       <div className="space-y-8">
@@ -28,9 +27,9 @@ export default function AboutPage() {
         </div>
 
         <div className="text-center">
-          <form action={signInORedirect}>
+          <Link href={loggedIn ? ('/' as Route) : ('/sign-in' as Route)}>
             <Button>Start Shopping</Button>
-          </form>
+          </Link>
         </div>
 
         <div className="grid gap-8 md:grid-cols-2">

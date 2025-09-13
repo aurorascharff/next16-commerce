@@ -20,7 +20,6 @@ export function decodeRequestContext(encoded: string): RequestContextData {
   }
 }
 
-export async function getRequestContext(params: Promise<{ requestContext: string }>): Promise<RequestContextData> {
-  const { requestContext } = await params;
-  return decodeRequestContext(requestContext);
+export function getRequestContext(params: { requestContext: string }): RequestContextData {
+  return decodeRequestContext(params.requestContext);
 }

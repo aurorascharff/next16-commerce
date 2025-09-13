@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import React, { useTransition } from 'react';
-import { signOut } from '../auth-actions';
+import { logOut } from '../auth-actions';
 
 export default function LoginButton({ loggedIn }: { loggedIn: boolean }) {
   const [isPending, startTransition] = useTransition();
@@ -15,7 +15,7 @@ export default function LoginButton({ loggedIn }: { loggedIn: boolean }) {
       onClick={() => {
         startTransition(async () => {
           if (loggedIn) {
-            await signOut();
+            await logOut();
           } else {
             router.push('/sign-in');
           }

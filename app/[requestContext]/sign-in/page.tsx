@@ -3,12 +3,12 @@ import { redirect } from 'next/navigation';
 import React from 'react';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
-import { signIn } from '@/features/auth/auth-actions';
+import { logIn } from '@/features/auth/auth-actions';
 import { getRequestContext } from '@/utils/request-context';
 import type { Route } from 'next';
 
 export default async function SignInPage({ searchParams, params }: PageProps<'/[requestContext]/sign-in'>) {
-  const { loggedIn } = await getRequestContext(params);
+  const { loggedIn } = getRequestContext(await params);
   const { redirectUrl } = await searchParams;
 
   if (loggedIn) {
@@ -22,7 +22,7 @@ export default async function SignInPage({ searchParams, params }: PageProps<'/[
         <p className="mt-2 text-gray-600 dark:text-gray-400">Sign in to your account to continue shopping</p>
       </div>
       <Card className="min-w-[350px]">
-        <form action={signIn.bind(null, 'jane.smith@gmail.com', redirectUrl as Route)} className="space-y-6">
+        <form action={logIn.bind(null, 'jane.smith@gmail.com', redirectUrl as Route)} className="space-y-6">
           <div>
             <label htmlFor="email">Email Address</label>
             <input id="email" name="email" type="email" disabled defaultValue="jane.smith@gmail.com" required />

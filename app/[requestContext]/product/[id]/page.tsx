@@ -15,7 +15,7 @@ export default async function ProductPage({ params }: PageProps<'/[requestContex
   const { id } = await params;
   const productId = Number(id);
   preloadProductDetails(productId);
-  const { loggedIn } = await getRequestContext(params);
+  const { loggedIn } = getRequestContext(await params);
 
   return (
     <div className="flex flex-col gap-6">

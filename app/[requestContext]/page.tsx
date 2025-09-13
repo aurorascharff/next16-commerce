@@ -17,7 +17,7 @@ type SearchParams = {
 export default async function RootPage({ searchParams, params }: PageProps<'/[requestContext]'>) {
   const { q, sort, page } = (await searchParams) as SearchParams;
   const currentPage = page ? parseInt(page, 10) : 1;
-  const { loggedIn } = await getRequestContext(params);
+  const { loggedIn } = getRequestContext(await params);
 
   return (
     <>
