@@ -4,6 +4,7 @@ import { Loader2 } from 'lucide-react';
 import React from 'react';
 import { useFormStatus } from 'react-dom';
 import { cn } from '@/utils/cn';
+import Boundary from '../internal/Boundary';
 
 type Props = {
   children: React.ReactNode;
@@ -35,20 +36,22 @@ export default function Button({
   };
 
   return (
-    <button
-      disabled={isSubmitting || disabled}
-      type={type}
-      className={cn(baseClasses, variantClasses[variant], className)}
-      {...otherProps}
-    >
-      {isSubmitting ? (
-        <div className="flex items-center justify-center gap-2">
-          {children}
-          <Loader2 className="h-4 w-4 animate-spin" />
-        </div>
-      ) : (
-        children
-      )}
-    </button>
+    <Boundary hydration="client">
+      <button
+        disabled={isSubmitting || disabled}
+        type={type}
+        className={cn(baseClasses, variantClasses[variant], className)}
+        {...otherProps}
+      >
+        {isSubmitting ? (
+          <div className="flex items-center justify-center gap-2">
+            {children}
+            <Loader2 className="h-4 w-4 animate-spin" />
+          </div>
+        ) : (
+          children
+        )}
+      </button>
+    </Boundary>
   );
 }

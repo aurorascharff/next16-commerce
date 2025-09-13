@@ -1,4 +1,5 @@
 import React from 'react';
+import Boundary from '@/components/internal/Boundary';
 import ImagePlaceholder from '@/components/ui/ImagePlaceholder';
 import Skeleton from '@/components/ui/Skeleton';
 import { cn } from '@/utils/cn';
@@ -14,17 +15,19 @@ export default async function Product({ productId, details, imageClassName }: Pr
   const product = await getProduct(productId);
 
   return (
-    <div className="flex flex-col">
-      <ImagePlaceholder className={imageClassName} />
-      <div className="flex flex-1 flex-col p-4">
-        <h2 className="mb-2 text-xl font-bold">{product.name}</h2>
-        {product.description && <p className="text-gray mb-4 flex-1 text-sm">{product.description}</p>}
-        <div className="mt-auto flex items-center justify-between">
-          <p className="text-primary text-lg font-semibold">${product.price.toFixed(2)}</p>
+    <Boundary rendering="hybrid" hydration="server">
+      <div className="flex flex-col">
+        <ImagePlaceholder className={imageClassName} />
+        <div className="flex flex-1 flex-col p-4">
+          <h2 className="mb-2 text-xl font-bold">{product.name}</h2>
+          {product.description && <p className="text-gray mb-4 flex-1 text-sm">{product.description}</p>}
+          <div className="mt-auto flex items-center justify-between">
+            <p className="text-primary text-lg font-semibold">${product.price.toFixed(2)}</p>
+          </div>
         </div>
+        {details}
       </div>
-      {details}
-    </div>
+    </Boundary>
   );
 }
 

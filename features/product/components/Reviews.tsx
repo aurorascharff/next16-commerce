@@ -1,5 +1,6 @@
 import { Star } from 'lucide-react';
 import React from 'react';
+import Boundary from '@/components/internal/Boundary';
 import { getReviews } from '../product-queries';
 
 type Props = {
@@ -10,36 +11,40 @@ export default async function Reviews({ productId }: Props) {
   const reviews = await getReviews(productId);
 
   return (
-    <div className="space-y-4">
-      {reviews.length === 0 ? (
-        <p className="py-8 text-center text-gray-600 dark:text-gray-400">No reviews yet for this product.</p>
-      ) : (
-        <div className="space-y-4">
-          {reviews.map(review => {
-            return (
-              <div key={review.id} className="border-divider dark:border-divider-dark rounded-lg border p-4">
-                <div className="mb-3 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    {[...Array(5)].map((_, i) => {
-                      return (
-                        <Star
-                          key={i}
-                          className={`h-4 w-4 ${i < review.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300 dark:text-gray-600'}`}
-                          aria-hidden="true"
-                        />
-                      );
-                    })}
-                    <span className="ml-1 text-sm font-medium">{review.rating}/5</span>
+    <Boundary rendering="dynamic" hydration="server">
+      <div className="space-y-4">
+        {reviews.length === 0 ? (
+          <p className="py-8 text-center text-gray-600 dark:text-gray-400">No reviews yet for this product.</p>
+        ) : (
+          <div className="space-y-4">
+            {reviews.map(review => {
+              return (
+                <div key={review.id} className="border-divider dark:border-divider-dark rounded-lg border p-4">
+                  <div className="mb-3 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      {[...Array(5)].map((_, i) => {
+                        return (
+                          <Star
+                            key={i}
+                            className={`h-4 w-4 ${i < review.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300 dark:text-gray-600'}`}
+                            aria-hidden="true"
+                          />
+                        );
+                      })}
+                      <span className="ml-1 text-sm font-medium">{review.rating}/5</span>
+                    </div>
+                    <span className="text-xs text-gray-500 dark:text-gray-400">{new Date().toLocaleDateString()}</span>
                   </div>
-                  <span className="text-xs text-gray-500 dark:text-gray-400">{new Date().toLocaleDateString()}</span>
+                  {review.comment && (
+                    <p className="leading-relaxed text-gray-700 dark:text-gray-300">{review.comment}</p>
+                  )}
                 </div>
-                {review.comment && <p className="leading-relaxed text-gray-700 dark:text-gray-300">{review.comment}</p>}
-              </div>
-            );
-          })}
-        </div>
-      )}
-    </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </Boundary>
   );
 }
 

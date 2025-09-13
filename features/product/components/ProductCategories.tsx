@@ -2,6 +2,7 @@ import { cacheLife } from 'next/dist/server/use-cache/cache-life';
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import Link from 'next/link';
 import React from 'react';
+import Boundary from '@/components/internal/Boundary';
 import ShowMore from '@/components/ui/ShowMore';
 import { getCategories } from '../product-queries';
 
@@ -16,13 +17,11 @@ export default async function ProductCategories() {
     <ShowMore initial={5}>
       {categories.map(category => {
         return (
-          <Link
-            key={category}
-            href="#"
-            className="text-gray dark:text-gray hover:text-primary block text-sm transition-colors"
-          >
-            {category}
-          </Link>
+          <Boundary key={category} hydration="server">
+            <Link href="#" className="text-gray dark:text-gray hover:text-primary block text-sm transition-colors">
+              {category}
+            </Link>
+          </Boundary>
         );
       })}
     </ShowMore>

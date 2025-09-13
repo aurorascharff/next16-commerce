@@ -1,10 +1,10 @@
-import Link from 'next/link';
 import React, { Suspense } from 'react';
+import Header from '@/components/Header';
+import Boundary from '@/components/internal/Boundary';
 import { AuthProvider } from '@/features/auth/components/AuthProvider';
 import UserProfile, { UserProfileSkeleton } from '@/features/user/components/UserProfile';
 import type { RequestContextData } from '@/utils/request-context';
 import { encodeRequestContext, getRequestContext } from '@/utils/request-context';
-import type { Route } from 'next';
 
 export async function generateStaticParams() {
   const contexts: RequestContextData[] = [{ loggedIn: false }, { loggedIn: true }];
@@ -20,14 +20,11 @@ export default async function RequestContextLayout({ children, modal, params }: 
 
   return (
     <AuthProvider loggedIn={loggedIn}>
-      <header className="border-divider dark:border-divider-dark flex min-h-20 items-center justify-between border-b bg-white px-4 py-4 sm:px-10 2xl:px-60 dark:bg-black">
-        <h1 className="text-3xl font-bold">
-          <Link prefetch href={'/' as Route} className="text-primary hover:text-primary-dark font-bold">
-            Commerce
-          </Link>
-        </h1>
-        <Suspense fallback={<UserProfileSkeleton />}>{<UserProfile loggedIn={loggedIn} />}</Suspense>
-      </header>
+      <Boundary rendering="static">
+        <Header
+          rightContent={<Suspense fallback={<UserProfileSkeleton />}>{<UserProfile loggedIn={loggedIn} />}</Suspense>}
+        />
+      </Boundary>
       <main className="mb-4 flex flex-1 flex-col gap-4 p-4 sm:mb-8 sm:gap-10 sm:p-10 lg:mb-10 2xl:px-60">
         {children}
         {modal}

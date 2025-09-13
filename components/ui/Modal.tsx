@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef } from 'react';
-
+import Boundary from '../internal/Boundary';
 import Button from './Button';
 
 type Props = {
@@ -30,24 +30,26 @@ export default function Modal({ openModal, children, goBackOnClose = false, titl
   }, [openModal]);
 
   return (
-    <dialog
-      ref={ref}
-      onCancel={handleClose}
-      className="dark:bg-card-dark fixed inset-0 m-auto w-[90%] max-w-lg rounded-lg border-none bg-white p-0 shadow-xl backdrop:bg-black/50 backdrop:backdrop-blur-sm"
-    >
-      <div className="flex w-full flex-col">
-        {title && (
-          <h2 className="border-divider dark:border-divider-dark m-0 border-b px-5 py-4 text-lg font-semibold">
-            {title}
-          </h2>
-        )}
-        <div className="max-h-[70vh] overflow-y-auto p-5">{children}</div>
-        <div className="border-divider dark:border-divider-dark flex justify-end border-t px-5 py-4">
-          <Button onClick={handleClose} variant="secondary" type="button">
-            Close
-          </Button>
+    <Boundary hydration="client">
+      <dialog
+        ref={ref}
+        onCancel={handleClose}
+        className="dark:bg-card-dark fixed inset-0 m-auto w-[90%] max-w-lg rounded-lg border-none bg-white p-0 shadow-xl backdrop:bg-black/50 backdrop:backdrop-blur-sm"
+      >
+        <div className="flex w-full flex-col">
+          {title && (
+            <h2 className="border-divider dark:border-divider-dark m-0 border-b px-5 py-4 text-lg font-semibold">
+              {title}
+            </h2>
+          )}
+          <div className="max-h-[70vh] overflow-y-auto p-5">{children}</div>
+          <div className="border-divider dark:border-divider-dark flex justify-end border-t px-5 py-4">
+            <Button onClick={handleClose} variant="secondary" type="button">
+              Close
+            </Button>
+          </div>
         </div>
-      </div>
-    </dialog>
+      </dialog>
+    </Boundary>
   );
 }

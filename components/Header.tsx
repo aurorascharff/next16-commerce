@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
+import BoundaryToggle from './internal/BoundaryToggle';
 import type { Route } from 'next';
 
 export default function Header({ rightContent }: { rightContent?: React.ReactNode }) {
@@ -10,7 +11,10 @@ export default function Header({ rightContent }: { rightContent?: React.ReactNod
           Commerce
         </Link>
       </h1>
-      {rightContent}
+      <div className="flex items-center gap-4">
+        <BoundaryToggle />
+        {rightContent}
+      </div>
     </header>
   );
 }

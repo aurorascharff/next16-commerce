@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Boundary from './internal/Boundary';
 import LinkStatus from './ui/LinkStatus';
 
 export default function Pagination({
@@ -24,46 +25,48 @@ export default function Pagination({
   };
 
   return (
-    <div className="flex items-center gap-2">
-      {currentPage > 1 && (
-        <Link
-          prefetch
-          scroll={false}
-          href={createPageUrl(currentPage - 1)}
-          className="text-primary hover:text-primary-dark inline-flex items-center px-3 py-2 text-sm font-medium"
-        >
-          <LinkStatus>Previous</LinkStatus>
-        </Link>
-      )}
-      <div className="flex items-center gap-1">
-        {Array.from({ length: totalPages }, (_, i) => {
-          return i + 1;
-        }).map(page => {
-          const shouldPrefetch = page <= 5;
-          return (
-            <Link scroll={false} key={page} href={createPageUrl(page)} prefetch={shouldPrefetch}>
-              <LinkStatus
-                className={`inline-flex items-center px-3 py-2 text-sm font-medium ${
-                  page === currentPage ? 'bg-primary text-white' : 'text-primary hover:text-primary-dark'
-                }`}
-                variant="background"
-              >
-                {page}
-              </LinkStatus>
-            </Link>
-          );
-        })}
+    <Boundary hydration="hybrid">
+      <div className="flex items-center gap-2">
+        {currentPage > 1 && (
+          <Link
+            prefetch
+            scroll={false}
+            href={createPageUrl(currentPage - 1)}
+            className="text-primary hover:text-primary-dark inline-flex items-center px-3 py-2 text-sm font-medium"
+          >
+            <LinkStatus>Previous</LinkStatus>
+          </Link>
+        )}
+        <div className="flex items-center gap-1">
+          {Array.from({ length: totalPages }, (_, i) => {
+            return i + 1;
+          }).map(page => {
+            const shouldPrefetch = page <= 5;
+            return (
+              <Link scroll={false} key={page} href={createPageUrl(page)} prefetch={shouldPrefetch}>
+                <LinkStatus
+                  className={`inline-flex items-center px-3 py-2 text-sm font-medium ${
+                    page === currentPage ? 'bg-primary text-white' : 'text-primary hover:text-primary-dark'
+                  }`}
+                  variant="background"
+                >
+                  {page}
+                </LinkStatus>
+              </Link>
+            );
+          })}
+        </div>
+        {currentPage < totalPages && (
+          <Link
+            prefetch
+            scroll={false}
+            href={createPageUrl(currentPage + 1)}
+            className="text-primary hover:text-primary-dark inline-flex items-center px-3 py-2 text-sm font-medium"
+          >
+            <LinkStatus>Next</LinkStatus>
+          </Link>
+        )}
       </div>
-      {currentPage < totalPages && (
-        <Link
-          prefetch
-          scroll={false}
-          href={createPageUrl(currentPage + 1)}
-          className="text-primary hover:text-primary-dark inline-flex items-center px-3 py-2 text-sm font-medium"
-        >
-          <LinkStatus>Next</LinkStatus>
-        </Link>
-      )}
-    </div>
+    </Boundary>
   );
 }
