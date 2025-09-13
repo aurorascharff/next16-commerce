@@ -44,6 +44,7 @@ export const getProductDetails = cache(async (productId: number) => {
 
 export const getProducts = cache(async (searchQuery?: string, sort?: 'asc' | 'desc', page = 1, limit = 9) => {
   await slow(500);
+  await connection();
 
   const skip = (page - 1) * limit;
 

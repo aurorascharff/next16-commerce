@@ -19,7 +19,7 @@ export default async function UserProfile({ loggedIn }: { loggedIn: boolean }) {
   const account = await getCurrentAccount();
 
   return (
-    <Boundary rendering="dynamic">
+    <Boundary rendering="dynamic" hydration="server">
       <div className="flex items-center gap-2">
         <div className="flex flex-col items-end gap-1">
           <span className="text-sm">{account?.name}</span>
