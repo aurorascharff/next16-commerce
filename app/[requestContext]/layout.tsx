@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React, { Suspense } from 'react';
 import Footer from '@/components/Footer';
 import UserProfile, { UserProfileSkeleton } from '@/features/user/components/UserProfile';
-import { encodeRequestContext, type RequestContextData } from '@/utils/request-context';
+import { encodeRequestContext, getRequestContext, type RequestContextData } from '@/utils/request-context';
 import type { Route } from 'next';
 
 export async function generateStaticParams() {
@@ -14,7 +14,9 @@ export async function generateStaticParams() {
   });
 }
 
-export default async function RequestContextLayout({ children, modal }: LayoutProps<'/[requestContext]'>) {
+export default async function RequestContextLayout({ children, modal, params }: LayoutProps<'/[requestContext]'>) {
+  const { loggedIn } = await getRequestContext(params);
+
   return (
     <>
       <div className="flex min-h-screen flex-col">
@@ -24,7 +26,7 @@ export default async function RequestContextLayout({ children, modal }: LayoutPr
               Commerce
             </Link>
           </h1>
-          <Suspense fallback={<UserProfileSkeleton />}>{<UserProfile />}</Suspense>
+          <Suspense fallback={<UserProfileSkeleton />}>{<UserProfile loggedIn={loggedIn} />}</Suspense>
         </header>
         <main className="mb-4 flex flex-1 flex-col gap-4 p-4 sm:mb-8 sm:gap-10 sm:p-10 lg:mb-10 2xl:px-60">
           {children}

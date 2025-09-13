@@ -5,7 +5,7 @@ import { getCurrentAccount } from '@/features/auth/auth-queries';
 import LoginButton from '@/features/auth/components/LoginButton';
 import type { Route } from 'next';
 
-export default async function UserProfile() {
+export default async function UserProfile({ loggedIn }: { loggedIn: boolean }) {
   const account = await getCurrentAccount();
 
   return (
@@ -13,7 +13,7 @@ export default async function UserProfile() {
       <div className="flex flex-col items-end gap-1">
         {account && <span className="text-sm">{account.name}</span>}
         <Suspense>
-          <LoginButton loggedIn />
+          <LoginButton loggedIn={loggedIn} />
         </Suspense>
       </div>
       {account ? (
