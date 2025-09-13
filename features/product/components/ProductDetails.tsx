@@ -16,7 +16,6 @@ export function preloadProductDetails(productId: number) {
 
 export default async function ProductDetails({ productId }: Props) {
   const productDetails = await getProductDetails(productId);
-  const loggedIn = await getIsAuthenticated();
 
   return (
     <Boundary rendering="hybrid" hydration="server">
@@ -44,7 +43,7 @@ export default async function ProductDetails({ productId }: Props) {
         <div className="border-divider dark:border-divider-dark mt-6 border-t pt-4">
           <Suspense fallback={<Bookmark aria-hidden className="text-gray size-5" />}>
             <Boundary rendering="dynamic">
-              <SavedProduct productId={productId} loggedIn={loggedIn} />
+              <SavedProduct productId={productId} />
             </Boundary>
           </Suspense>
         </div>
@@ -53,7 +52,9 @@ export default async function ProductDetails({ productId }: Props) {
   );
 }
 
-async function SavedProduct({ productId, loggedIn }: { productId: number; loggedIn: boolean }) {
+async function SavedProduct({ productId }: { productId: number }) {
+  const loggedIn = await getIsAuthenticated();
+
   if (!loggedIn) {
     return <SaveProductButton productId={productId} initialSaved={false} />;
   }
