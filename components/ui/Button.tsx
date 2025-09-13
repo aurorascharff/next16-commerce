@@ -43,8 +43,8 @@ export default function Button({
     >
       {isSubmitting ? (
         <div className="flex items-center justify-center gap-2">
-          <Loader2 className="h-4 w-4 animate-spin" />
           {children}
+          <Loader2 className="h-4 w-4 animate-spin" />
         </div>
       ) : (
         children
