@@ -2,7 +2,7 @@ import { Lock } from 'lucide-react';
 import React, { Suspense } from 'react';
 import LoginButton from '@/features/auth/components/LoginButton';
 
-export default function Unauthorized() {
+export default async function Unauthorized() {
   return (
     <div className="flex flex-col items-center justify-center rounded-lg p-8 text-center">
       <Lock className="text-primary mb-4 size-16" />
