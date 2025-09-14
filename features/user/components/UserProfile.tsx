@@ -15,7 +15,6 @@ async function fetchUser() {
 
 export default function UserProfile() {
   const { data: account, isLoading } = useQuery<Account>({
-    enabled: window !== undefined,
     queryFn: fetchUser,
     queryKey: ['currentAccount'],
   });

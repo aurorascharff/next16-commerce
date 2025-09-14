@@ -1,7 +1,5 @@
 import 'server-only';
 
-import { cacheLife } from 'next/dist/server/use-cache/cache-life';
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import { notFound } from 'next/navigation';
 import { connection } from 'next/server';
 import { cache } from 'react';
@@ -10,10 +8,6 @@ import { slow } from '@/utils/slow';
 import { verifyAuth } from '../auth/auth-actions';
 
 export const getProduct = cache(async (productId: number) => {
-  'use cache';
-  cacheLife('days');
-  cacheTag('product-' + productId);
-
   await slow();
 
   const product = await prisma.product.findUnique({
@@ -26,10 +20,6 @@ export const getProduct = cache(async (productId: number) => {
 });
 
 export const getProductDetails = cache(async (productId: number) => {
-  'use cache';
-  cacheLife('days');
-  cacheTag('product-' + productId);
-
   await slow();
 
   const productDetails = await prisma.productDetail.findUnique({

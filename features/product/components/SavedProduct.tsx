@@ -17,7 +17,6 @@ type Props = {
 
 export default function SavedProduct({ productId, loggedIn }: Props) {
   const { data: productIsSaved = false, isLoading } = useQuery<boolean>({
-    enabled: window !== undefined,
     queryFn: () => {
       return fetchSavedProduct(productId);
     },

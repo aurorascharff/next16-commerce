@@ -17,7 +17,6 @@ type Props = {
 
 export default function Reviews({ productId }: Props) {
   const { data: reviews, isLoading } = useQuery<Review[]>({
-    enabled: window !== undefined,
     queryFn: () => {
       return fetchReviews(productId);
     },
