@@ -15,12 +15,12 @@ export default async function RequestContextLayout({ children, modal, params }: 
   return (
     <AuthProvider loggedIn={loggedIn}>
       <Boundary rendering="static">
-        <Header 
+        <Header
           rightContent={
             <Suspense fallback={<UserProfileSkeleton />}>
               <UserProfile />
             </Suspense>
-          } 
+          }
         />
       </Boundary>
       <main className="mb-4 flex flex-1 flex-col gap-4 p-4 sm:mb-8 sm:gap-10 sm:p-10 lg:mb-10 2xl:px-60">
