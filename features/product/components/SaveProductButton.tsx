@@ -18,9 +18,9 @@ export default function SaveProductButton({ productId, initialSaved }: Props) {
   const queryClient = useQueryClient();
 
   const handleToggleSave = () => {
+    queryClient.invalidateQueries({ queryKey: ['savedProduct', productId] });
     startTransition(async () => {
       setOptimisticSaved(!optimisticSaved);
-      queryClient.invalidateQueries({ queryKey: ['savedProduct', productId] });
       await toggleSaveProduct(productId, optimisticSaved);
     });
   };
