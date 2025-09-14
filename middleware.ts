@@ -7,8 +7,6 @@ function isUserAuthenticated(request: NextRequest): boolean {
 }
 
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-
   /**
    * Examples of other data you could include in the encoded context:
    *
@@ -25,11 +23,10 @@ export function middleware(request: NextRequest) {
     loggedIn: isUserAuthenticated(request),
   });
 
-  const internalPath = pathname === '/' ? `/${encodedContext}` : `/${encodedContext}${pathname}`;
-  const url = new URL(internalPath, request.url);
-  url.search = request.nextUrl.search;
+  // Rewrites the request to include the encoded context
+  const nextUrl = new URL(`/${encodedContext}${request.nextUrl.pathname}${request.nextUrl.search}`, request.url);
 
-  return NextResponse.rewrite(url);
+  return NextResponse.rewrite(nextUrl, { request });
 }
 
 export const config = {
