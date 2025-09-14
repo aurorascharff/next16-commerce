@@ -41,7 +41,7 @@ export default async function ProductDetails({ productId, loggedIn = false }: Pr
         </div>
 
         <div className="border-divider dark:border-divider-dark mt-6 border-t pt-4">
-          <Boundary rendering="static" hydration="client">
+          <Boundary rendering="static">
             <SavedProduct productId={productId} loggedIn={loggedIn} />
           </Boundary>
         </div>
