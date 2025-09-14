@@ -10,7 +10,7 @@ import SaveProductButton from './SaveProductButton';
 
 type Props = {
   productId: number;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 export function preloadProductDetails(productId: number) {
