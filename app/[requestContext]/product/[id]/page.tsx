@@ -11,6 +11,10 @@ import Reviews from '@/features/product/components/Reviews';
 import { getRequestContext } from '@/utils/request-context';
 import type { Route } from 'next';
 
+export async function generateStaticParams() {
+  return [];
+}
+
 export default async function ProductPage({ params }: PageProps<'/[requestContext]/product/[id]'>) {
   const { id } = await params;
   const productId = Number(id);
