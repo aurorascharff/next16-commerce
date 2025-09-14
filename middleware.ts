@@ -6,23 +6,8 @@ function isUserAuthenticated(request: NextRequest): boolean {
   return !!request.cookies.get('selectedAccountId')?.value;
 }
 
-function isValidRequestContext(segment: string): boolean {
-  try {
-    const jsonString = Buffer.from(segment, 'base64url').toString();
-    const data = JSON.parse(jsonString);
-    return typeof data === 'object' && typeof data.loggedIn === 'boolean';
-  } catch {
-    return false;
-  }
-}
-
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-
-  const firstSegment = pathname.split('/').filter(Boolean)[0];
-  if (firstSegment && isValidRequestContext(firstSegment)) {
-    return NextResponse.next();
-  }
 
   /**
    * Examples of other data you could include in the encoded context:

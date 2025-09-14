@@ -1,5 +1,6 @@
 'use client';
 
+import { useQueryClient } from '@tanstack/react-query';
 import { Bookmark, BookmarkCheck } from 'lucide-react';
 import React, { useOptimistic, useTransition } from 'react';
 import Boundary from '@/components/internal/Boundary';
@@ -14,10 +15,12 @@ type Props = {
 export default function SaveProductButton({ productId, initialSaved }: Props) {
   const [isPending, startTransition] = useTransition();
   const [optimisticSaved, setOptimisticSaved] = useOptimistic(initialSaved);
+  const queryClient = useQueryClient();
 
   const handleToggleSave = () => {
     startTransition(async () => {
       setOptimisticSaved(!optimisticSaved);
+      queryClient.invalidateQueries({ queryKey: ['savedProduct', productId] });
       await toggleSaveProduct(productId, optimisticSaved);
     });
   };
