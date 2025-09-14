@@ -3,9 +3,10 @@
 import { revalidatePath } from 'next/cache';
 import { prisma } from '@/db';
 import { verifyAuth } from '../auth/auth-actions';
+import type { Route } from 'next';
 
 async function saveProduct(productId: number) {
-  const accountId = await verifyAuth('/product/' + productId);
+  const accountId = await verifyAuth(('/product/' + productId) as Route);
 
   await prisma.savedProduct.create({
     data: {
