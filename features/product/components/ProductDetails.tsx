@@ -1,9 +1,9 @@
 import { Bookmark } from 'lucide-react';
-import React, { Suspense } from 'react';
+import React from 'react';
 import Boundary from '@/components/internal/Boundary';
 import Skeleton from '@/components/ui/Skeleton';
-import { getProductDetails, isSavedProduct } from '../product-queries';
-import SaveProductButton from './SaveProductButton';
+import { getProductDetails } from '../product-queries';
+import SavedProduct from './SavedProduct';
 
 type Props = {
   productId: number;
@@ -41,24 +41,13 @@ export default async function ProductDetails({ productId, loggedIn = false }: Pr
         </div>
 
         <div className="border-divider dark:border-divider-dark mt-6 border-t pt-4">
-          <Suspense fallback={<Bookmark aria-hidden className="text-gray size-5" />}>
-            <Boundary rendering="dynamic">
-              <SavedProduct productId={productId} loggedIn={loggedIn} />
-            </Boundary>
-          </Suspense>
+          <Boundary rendering="static" hydration="client">
+            <SavedProduct productId={productId} loggedIn={loggedIn} />
+          </Boundary>
         </div>
       </div>
     </Boundary>
   );
-}
-
-async function SavedProduct({ productId, loggedIn }: { productId: number; loggedIn: boolean }) {
-  if (!loggedIn) {
-    return <SaveProductButton productId={productId} initialSaved={false} />;
-  }
-
-  const productIsSaved = await isSavedProduct(productId);
-  return <SaveProductButton productId={productId} initialSaved={productIsSaved} />;
 }
 
 export function ProductDetailsSkeleton() {

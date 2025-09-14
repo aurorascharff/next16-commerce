@@ -1,5 +1,4 @@
 import { ArrowLeft } from 'lucide-react';
-
 import Link from 'next/link';
 import React, { Suspense } from 'react';
 import Card from '@/components/ui/Card';
@@ -11,6 +10,10 @@ import ProductDetails, {
 import Reviews from '@/features/product/components/Reviews';
 import { getRequestContext } from '@/utils/request-context';
 import type { Route } from 'next';
+
+export async function generateStaticParams() {
+  return [];
+}
 
 export default async function ProductPage({ params }: PageProps<'/[requestContext]/product/[id]'>) {
   const { id } = await params;
