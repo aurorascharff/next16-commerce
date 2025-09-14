@@ -1,7 +1,6 @@
 import 'server-only';
 
 import { notFound } from 'next/navigation';
-import { connection } from 'next/server';
 import { cache } from 'react';
 import { prisma } from '@/db';
 import { slow } from '@/utils/slow';
@@ -34,7 +33,6 @@ export const getProductDetails = cache(async (productId: number) => {
 
 export const getProducts = cache(async (searchQuery?: string, sort?: 'asc' | 'desc', page = 1, limit = 9) => {
   await slow(500);
-  await connection();
 
   const skip = (page - 1) * limit;
 
@@ -72,7 +70,6 @@ export const getProducts = cache(async (searchQuery?: string, sort?: 'asc' | 'de
 
 export const getReviews = cache(async (productId: number) => {
   await slow();
-  await connection();
 
   return prisma.review.findMany({
     orderBy: { createdAt: 'desc' },

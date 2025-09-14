@@ -7,14 +7,14 @@ import SavedProduct from './SavedProduct';
 
 type Props = {
   productId: number;
-  loggedIn?: boolean;
+  loggedIn: boolean;
 };
 
 export function preloadProductDetails(productId: number) {
   void getProductDetails(productId);
 }
 
-export default async function ProductDetails({ productId, loggedIn = false }: Props) {
+export default async function ProductDetails({ productId, loggedIn }: Props) {
   const productDetails = await getProductDetails(productId);
 
   return (
@@ -39,7 +39,6 @@ export default async function ProductDetails({ productId, loggedIn = false }: Pr
             <span className="font-medium">Warranty:</span> {productDetails?.warrantyInfo || 'No warranty information'}
           </p>
         </div>
-
         <div className="border-divider dark:border-divider-dark mt-6 border-t pt-4">
           <Boundary rendering="static">
             <SavedProduct productId={productId} loggedIn={loggedIn} />

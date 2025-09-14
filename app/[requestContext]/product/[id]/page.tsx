@@ -1,6 +1,6 @@
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
-import React, { Suspense } from 'react';
+import { Suspense } from 'react';
 import Card from '@/components/ui/Card';
 import Product, { ProductSkeleton } from '@/features/product/components/Product';
 import ProductDetails, {
@@ -17,9 +17,10 @@ export async function generateStaticParams() {
 
 export default async function ProductPage({ params }: PageProps<'/[requestContext]/product/[id]'>) {
   const { id } = await params;
-  const productId = Number(id);
-  preloadProductDetails(productId);
   const { loggedIn } = getRequestContext(await params);
+  const productId = Number(id);
+
+  preloadProductDetails(productId);
 
   return (
     <div className="flex flex-col gap-6">

@@ -8,7 +8,6 @@ export async function generateStaticParams() {
 
 export default async function ProductModal({ params }: PageProps<'/[requestContext]/product/[id]'>) {
   const { id } = await params;
-
   const productId = Number(id);
 
   return (
