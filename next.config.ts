@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     authInterrupts: true,
     cacheComponents: true,
     inlineCss: true,
-    ppr: true,
+    // ppr: true,
     reactCompiler: true,
     staleTimes: {
       dynamic: 30,
