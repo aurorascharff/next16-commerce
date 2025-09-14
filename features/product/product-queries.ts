@@ -9,6 +9,10 @@ import { verifyAuth } from '../auth/auth-actions';
 export const getProduct = cache(async (productId: number) => {
   await slow();
 
+  if (!productId || isNaN(productId) || productId <= 0) {
+    notFound();
+  }
+
   const product = await prisma.product.findUnique({
     where: { id: productId },
   });
@@ -20,6 +24,10 @@ export const getProduct = cache(async (productId: number) => {
 
 export const getProductDetails = cache(async (productId: number) => {
   await slow();
+
+  if (!productId || isNaN(productId) || productId <= 0) {
+    notFound();
+  }
 
   const productDetails = await prisma.productDetail.findUnique({
     where: { productId },
