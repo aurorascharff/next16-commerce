@@ -8,7 +8,7 @@ import ProductDetails, {
   preloadProductDetails,
   ProductDetailsSkeleton,
 } from '@/features/product/components/ProductDetails';
-import Reviews, { ReviewsSkeleton } from '@/features/product/components/Reviews';
+import Reviews from '@/features/product/components/Reviews';
 import { getRequestContext } from '@/utils/request-context';
 import type { Route } from 'next';
 
@@ -49,9 +49,7 @@ export default async function ProductPage({ params }: PageProps<'/[requestContex
         </Card>
         <div>
           <h2 className="mb-4 text-xl font-semibold">Customer Reviews</h2>
-          <Suspense fallback={<ReviewsSkeleton />}>
-            <Reviews productId={productId} />
-          </Suspense>
+          <Reviews productId={productId} />
         </div>
       </div>
     </div>

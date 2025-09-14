@@ -1,23 +1,40 @@
+'use client';
+
+import { useQuery } from '@tanstack/react-query';
 import { Star } from 'lucide-react';
 import React from 'react';
 import Boundary from '@/components/internal/Boundary';
-import { getReviews } from '../product-queries';
+import type { Review } from '@prisma/client';
+
+async function fetchReviews(productId: number) {
+  const res = await fetch(`/api/reviews?productId=${productId}`);
+  return res.json();
+}
 
 type Props = {
   productId: number;
 };
 
-export default async function Reviews({ productId }: Props) {
-  const reviews = await getReviews(productId);
+export default function Reviews({ productId }: Props) {
+  const { data: reviews, isLoading } = useQuery<Review[]>({
+    queryFn: () => {
+      return fetchReviews(productId);
+    },
+    queryKey: ['reviews', productId],
+  });
+
+  if (isLoading) {
+    return <ReviewsSkeleton />;
+  }
 
   return (
-    <Boundary rendering="dynamic" hydration="server">
+    <Boundary rendering="static" hydration="client">
       <div className="space-y-4">
-        {reviews.length === 0 ? (
+        {reviews && reviews.length === 0 ? (
           <p className="py-8 text-center text-gray-600 dark:text-gray-400">No reviews yet for this product.</p>
         ) : (
           <div className="space-y-4">
-            {reviews.map(review => {
+            {reviews?.map(review => {
               return (
                 <div key={review.id} className="border-divider dark:border-divider-dark rounded-lg border p-4">
                   <div className="mb-3 flex items-center justify-between">

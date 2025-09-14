@@ -1,38 +1,46 @@
+'use client';
+
+import { useQuery } from '@tanstack/react-query';
 import { User } from 'lucide-react';
 import Link from 'next/link';
-import React, { Suspense } from 'react';
+import React from 'react';
 import Boundary from '@/components/internal/Boundary';
-import { getCurrentAccount } from '@/features/auth/auth-queries';
 import LoginButton from '@/features/auth/components/LoginButton';
+import type { Account } from '@prisma/client';
 
-export default async function UserProfile({ loggedIn }: { loggedIn: boolean }) {
-  if (!loggedIn)
-    return (
-      <div className="flex items-center gap-2">
-        <div className="flex flex-col items-end gap-1">
-          <LoginButton />
-        </div>
-        <User aria-hidden className="text-gray size-8 rounded-full p-1" />
-      </div>
-    );
+async function fetchUser() {
+  const res = await fetch('/api/user');
+  return res.json();
+}
 
-  const account = await getCurrentAccount();
+export default function UserProfile() {
+  const { data: account, isLoading } = useQuery<Account>({
+    queryFn: fetchUser,
+    queryKey: ['currentAccount'],
+  });
+  if (isLoading) {
+    return <UserProfileSkeleton />;
+  }
 
   return (
-    <Boundary rendering="dynamic">
+    <Boundary rendering="static" hydration="client">
       <div className="flex items-center gap-2">
         <div className="flex flex-col items-end gap-1">
           <span className="text-sm">{account?.name}</span>
-          <Suspense>
-            <LoginButton />
-          </Suspense>
+          <LoginButton />
         </div>
         <Link href="/user" prefetch>
-          <span className="sr-only">Go to Profile</span>
-          <User
-            aria-hidden
-            className="text-primary hover:text-primary-dark size-8 cursor-pointer rounded-full p-1 transition-all hover:bg-gray-100 dark:hover:bg-gray-800"
-          />
+          {account?.name ? (
+            <>
+              <span className="sr-only">Go to Profile</span>
+              <User
+                aria-hidden
+                className="text-primary hover:text-primary-dark size-8 cursor-pointer rounded-full p-1 transition-all hover:bg-gray-100 dark:hover:bg-gray-800"
+              />
+            </>
+          ) : (
+            <User aria-hidden className="text-gray size-8 rounded-full p-1" />
+          )}
         </Link>
       </div>
     </Boundary>
