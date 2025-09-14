@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 import Header from '@/components/Header';
 import Boundary from '@/components/internal/Boundary';
 import { AuthProvider } from '@/features/auth/components/AuthProvider';
+import { ProductListSkeleton } from '@/features/product/components/ProductList';
 import UserProfile, { UserProfileSkeleton } from '@/features/user/components/UserProfile';
 import { getRequestContext } from '@/utils/request-context';
 
