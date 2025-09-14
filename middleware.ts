@@ -2,37 +2,12 @@ import { NextResponse } from 'next/server';
 import { encodeRequestContext } from '@/utils/request-context';
 import type { NextRequest } from 'next/server';
 
-function isUserAuthenticated(request: NextRequest): boolean {
-  return !!request.cookies.get('selectedAccountId')?.value;
-}
-
-function isValidRequestContext(segment: string): boolean {
-  try {
-    // Try to decode as base64url
-    const jsonString = Buffer.from(segment, 'base64url').toString();
-    const data = JSON.parse(jsonString);
-    // Check if it has the expected structure
-    return typeof data === 'object' && typeof data.loggedIn === 'boolean';
-  } catch {
-    return false;
-  }
-}
-
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-
-  // Check if this is already a requestContext path (internal rewrite)
-  const firstSegment = pathname.split('/').filter(Boolean)[0];
-  if (firstSegment && isValidRequestContext(firstSegment)) {
-    return NextResponse.next(); // Already internal path, continue
-  }
-
-  // This is a clean URL (like /about), rewrite to internal requestContext path
   const encodedContext = encodeRequestContext({
-    loggedIn: isUserAuthenticated(request),
+    loggedIn: !!request.cookies.get('selectedAccountId')?.value,
   });
 
-  // Rewrite clean URL to internal requestContext path
   const internalPath = pathname === '/' ? `/${encodedContext}` : `/${encodedContext}${pathname}`;
   const url = new URL(internalPath, request.url);
   url.search = request.nextUrl.search;
@@ -41,15 +16,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - any file with an extension
-     */
-    '/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)',
-  ],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)'],
 };
