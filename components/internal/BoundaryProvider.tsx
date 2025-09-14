@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState } from 'react';
 
-type BoundaryMode = 'off' | 'rendering' | 'hydration';
+export type BoundaryMode = 'off' | 'rendering' | 'hydration';
 
 interface BoundaryContextType {
   mode: BoundaryMode;
@@ -22,11 +22,7 @@ export function BoundaryProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
-  return (
-    <BoundaryContext.Provider value={{ mode, toggleMode }}>
-      {children}
-    </BoundaryContext.Provider>
-  );
+  return <BoundaryContext.Provider value={{ mode, toggleMode }}>{children}</BoundaryContext.Provider>;
 }
 
 export function useBoundaryMode() {

@@ -8,7 +8,7 @@ import { slow } from '@/utils/slow';
 import { getCurrentAccount } from './auth-queries';
 import type { Route } from 'next';
 
-export const verifyAuth = cache(async (redirectUrl?: string) => {
+export const verifyAuth = cache(async (redirectUrl?: Route | URL) => {
   const user = await getCurrentAccount();
   if (!user) {
     if (redirectUrl) {
