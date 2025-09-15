@@ -1,10 +1,12 @@
 import { Mail, MapPin, Phone, User } from 'lucide-react';
 import { unauthorized } from 'next/navigation';
-import React, { Suspense } from 'react';
+import { Suspense } from 'react';
 import Boundary from '@/components/internal/Boundary';
 import { getCurrentAccountWithDetails } from '@/features/auth/auth-queries';
 import SavedProducts, { SavedProductsSkeleton } from '@/features/product/components/SavedProducts';
 import Discounts, { DiscountsSkeleton } from '@/features/user/components/Discounts';
+
+export const dynamic = 'force-dynamic';
 
 function PreferenceItem({ label, value }: { label: string; value: string }) {
   return (
