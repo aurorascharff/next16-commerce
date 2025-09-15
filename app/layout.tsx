@@ -1,10 +1,11 @@
 import './globals.css';
 
-import { Inter } from 'next/font/google';
+import { Geist } from 'next/font/google';
 import Footer from '@/components/Footer';
 import { BoundaryProvider } from '@/components/internal/BoundaryProvider';
 import type { Metadata } from 'next';
-const inter = Inter({ subsets: ['latin'] });
+
+const GeistSans = Geist({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   description: 'Next.js 15 App Router Commerce',
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={GeistSans.className}>
         <BoundaryProvider>
           <div className="flex min-h-screen flex-col">{children}</div>
           <Footer />
