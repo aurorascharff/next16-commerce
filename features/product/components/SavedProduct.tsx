@@ -1,14 +1,9 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
 import { Bookmark } from 'lucide-react';
+import useSWR from 'swr';
+import { fetcher } from '@/utils/fetcher';
 import SaveProductButton from './SaveProductButton';
-
-async function fetchSavedProduct(productId: number) {
-  const res = await fetch(`/api/saved-products?productId=${productId}`);
-  const data = await res.json();
-  return data.saved;
-}
 
 type Props = {
   productId: number;
@@ -16,12 +11,10 @@ type Props = {
 };
 
 export default function SavedProduct({ productId, loggedIn }: Props) {
-  const { data: productIsSaved = false, isLoading } = useQuery<boolean>({
-    queryFn: () => {
-      return fetchSavedProduct(productId);
-    },
-    queryKey: ['savedProduct', productId],
-  });
+  const { data: productIsSaved = false, isLoading } = useSWR<boolean>(
+    `/api/saved-products?productId=${productId}`,
+    fetcher,
+  );
 
   if (isLoading) {
     return <Bookmark aria-hidden className="text-gray size-5" />;

@@ -1,26 +1,17 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
 import { Star } from 'lucide-react';
+import useSWR from 'swr';
 import Boundary from '@/components/internal/Boundary';
+import { fetcher } from '@/utils/fetcher';
 import type { Review } from '@prisma/client';
-
-async function fetchReviews(productId: number) {
-  const res = await fetch(`/api/reviews?productId=${productId}`);
-  return res.json();
-}
 
 type Props = {
   productId: number;
 };
 
 export default function Reviews({ productId }: Props) {
-  const { data: reviews, isLoading } = useQuery<Review[]>({
-    queryFn: () => {
-      return fetchReviews(productId);
-    },
-    queryKey: ['reviews', productId],
-  });
+  const { data: reviews, isLoading } = useSWR<Review[]>(`/api/reviews?productId=${productId}`, fetcher);
 
   if (isLoading) {
     return <ReviewsSkeleton />;

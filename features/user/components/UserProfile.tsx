@@ -1,23 +1,17 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
 import { User } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
+import useSWR from 'swr';
 import Boundary from '@/components/internal/Boundary';
 import LoginButton from '@/features/auth/components/LoginButton';
+import { fetcher } from '@/utils/fetcher';
 import type { Account } from '@prisma/client';
 
-async function fetchUser() {
-  const res = await fetch('/api/user');
-  return res.json();
-}
-
 export default function UserProfile() {
-  const { data: account, isLoading } = useQuery<Account>({
-    queryFn: fetchUser,
-    queryKey: ['currentAccount'],
-  });
+  const { data: account, isLoading } = useSWR<Account>('/api/user', fetcher);
+
   if (isLoading) {
     return <UserProfileSkeleton />;
   }
