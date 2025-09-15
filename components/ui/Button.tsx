@@ -27,13 +27,14 @@ export default function Button({
   const isSubmitting = loading || pending;
 
   const baseClasses =
-    'inline-flex items-center justify-center rounded-lg px-4 py-2 font-medium transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50';
+    'inline-flex items-center justify-center rounded-none px-5 py-2.5 font-semibold uppercase tracking-wide transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50';
 
   const variantClasses = {
-    primary: 'bg-primary hover:bg-primary/90 focus:ring-primary text-white disabled:bg-gray-400',
+    primary:
+      'bg-accent text-white hover:bg-accent-hover focus:ring-accent disabled:bg-gray-400 dark:disabled:bg-gray-600',
     secondary:
-      'bg-card dark:bg-section hover:bg-gray-300 dark:hover:bg-gray-600 focus:ring-gray-400 text-gray-900 dark:text-gray-100 disabled:bg-gray-200 dark:disabled:bg-gray-700',
-  };
+      'bg-card dark:bg-card-dark border border-divider dark:border-divider-dark text-black dark:text-white hover:bg-gray-200 dark:hover:bg-[#1a1a1a] focus:ring-accent',
+  } as const;
 
   return (
     <Boundary hydration="client">

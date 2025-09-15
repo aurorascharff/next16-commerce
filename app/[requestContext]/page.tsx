@@ -24,7 +24,7 @@ export default async function RootPage({ searchParams, params }: PageProps<'/[re
     <>
       <DiscountBanner loggedIn={loggedIn} />
       <Search />
-      <div className="flex h-full grow flex-col gap-4">
+      <div className="flex h-full grow flex-col gap-6">
         <SortButton sort={sort} searchQuery={q} />
         <Suspense fallback={<ProductListSkeleton />}>
           <ProductList searchQuery={q} sort={sort} page={currentPage} />
@@ -48,11 +48,15 @@ function SortButton({ sort, searchQuery }: { sort?: 'asc' | 'desc'; searchQuery?
         prefetch
         scroll={false}
         href={{ pathname: '/' as Route, query: queryParams }}
-        className="text-primary hover:text-primary-dark inline-flex items-center text-sm font-medium"
+        className="inline-flex items-center gap-1.5 text-xs font-bold tracking-wide uppercase"
       >
         <LinkStatus>
           <div className="flex items-center gap-2">
-            {nextSort === 'desc' ? <ArrowUp className="mr-1" /> : <ArrowDown className="mr-1" />}
+            {nextSort === 'desc' ? (
+              <ArrowUp className="bg-accent size-3.5 rounded-none p-0.5 text-white dark:text-black" />
+            ) : (
+              <ArrowDown className="bg-accent size-3.5 rounded-none p-0.5 text-white dark:text-black" />
+            )}
             Sort {nextSort === 'desc' ? 'A-Z' : 'Z-A'}
           </div>
         </LinkStatus>

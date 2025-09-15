@@ -26,8 +26,11 @@ export default function Reviews({ productId }: Props) {
           <div className="space-y-4">
             {reviews?.map(review => {
               return (
-                <div key={review.id} className="border-divider dark:border-divider-dark rounded-lg border p-4">
-                  <div className="mb-3 flex items-center justify-between">
+                <div
+                  key={review.id}
+                  className="border-divider dark:border-divider-dark dark:bg-card-dark rounded-none border bg-white p-5"
+                >
+                  <div className="mb-4 flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       {[...Array(5)].map((_, i) => {
                         return (
@@ -38,9 +41,11 @@ export default function Reviews({ productId }: Props) {
                           />
                         );
                       })}
-                      <span className="ml-1 text-sm font-medium">{review.rating}/5</span>
+                      <span className="ml-1 text-sm font-medium tracking-wide uppercase">{review.rating}/5</span>
                     </div>
-                    <span className="text-xs text-gray-500 dark:text-gray-400">{new Date().toLocaleDateString()}</span>
+                    <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                      {new Date().toLocaleDateString()}
+                    </span>
                   </div>
                   {review.comment && (
                     <p className="leading-relaxed text-gray-700 dark:text-gray-300">{review.comment}</p>

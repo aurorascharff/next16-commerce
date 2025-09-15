@@ -2,7 +2,7 @@ import Skeleton from '@/components/ui/Skeleton';
 
 export default function Loading() {
   return (
-    <div className="border-card dark:border-card-dark flex flex-col gap-6 rounded-lg border p-8 xl:mx-40 2xl:mx-60">
+    <div className="border-card dark:border-card-dark flex flex-col gap-8 rounded-lg border p-8 xl:mx-40 2xl:mx-60">
       <div className="flex items-center gap-4">
         <div className="size-16 rounded-full bg-gray-200 dark:bg-neutral-800" />
         <div className="flex flex-col gap-2">
@@ -14,7 +14,7 @@ export default function Loading() {
         <Skeleton />
         <Skeleton />
       </div>
-      <Skeleton className="max-w-md" />
+      <Skeleton className="mt-18 max-w-md" />
     </div>
   );
 }

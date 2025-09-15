@@ -32,7 +32,7 @@ export default function Pagination({
             prefetch
             scroll={false}
             href={createPageUrl(currentPage - 1)}
-            className="text-primary hover:text-primary-dark inline-flex items-center px-3 py-2 text-sm font-medium"
+            className="inline-flex items-center px-3 py-2 text-sm font-medium"
           >
             <LinkStatus>Previous</LinkStatus>
           </Link>
@@ -46,7 +46,9 @@ export default function Pagination({
               <Link scroll={false} key={page} href={createPageUrl(page)} prefetch={shouldPrefetch}>
                 <LinkStatus
                   className={`inline-flex items-center px-3 py-2 text-sm font-medium ${
-                    page === currentPage ? 'bg-primary text-white' : 'text-primary hover:text-primary-dark'
+                    page === currentPage
+                      ? 'bg-primary text-white dark:text-black'
+                      : 'text-primary hover:text-primary-dark'
                   }`}
                   variant="background"
                 >
@@ -61,7 +63,7 @@ export default function Pagination({
             prefetch
             scroll={false}
             href={createPageUrl(currentPage + 1)}
-            className="text-primary hover:text-primary-dark inline-flex items-center px-3 py-2 text-sm font-medium"
+            className="inline-flex items-center px-3 py-2 text-sm font-medium"
           >
             <LinkStatus>Next</LinkStatus>
           </Link>

@@ -11,14 +11,14 @@ export function BannerContainer({ children }: { children: ReactNode }) {
 
   return (
     <Boundary hydration="client">
-      <div className="border-divider bg-primary/5 dark:border-divider-dark dark:bg-primary/10 rounded-lg border p-4">
-        <div className="flex items-start justify-between">
+      <div className="border-divider dark:border-divider-dark from-accent/5 via-accent/3 dark:from-accent/10 dark:via-accent/5 relative border bg-gradient-to-tr to-transparent p-0 dark:to-transparent">
+        <div className="flex items-start justify-between gap-4 p-4 sm:p-5">
           <div className="flex-1">{children}</div>
           <button
             onClick={() => {
-              return setDismissed(true);
+              setDismissed(true);
             }}
-            className="ml-4 rounded-md p-1 text-gray-400 transition-colors hover:text-gray-600 dark:hover:text-gray-300"
+            className="group text-gray/70 hover:border-divider hover:text-accent dark:text-gray/60 dark:hover:text-accent -m-1 inline-flex h-6 w-6 items-center justify-center rounded-none border border-transparent p-0 transition-colors"
             aria-label="Dismiss banner"
           >
             <X aria-hidden className="h-4 w-4" />

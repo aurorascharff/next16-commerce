@@ -2,43 +2,48 @@
 
 @theme {
   --color-gray: #9ca3af;
-  --color-divider-dark: #374151;
-  --color-divider: #e5e7eb;
-  --color-card-dark: #131313;
-  --color-card: #e5e7eb;
-  --color-section: #2a2929;
+  --color-divider-dark: #303030;
+  --color-divider: #ededed;
+  --color-card-dark: #0d0d0d;
+  --color-card: #f5f5f5;
+  --color-section: #111111;
 
   --color-primary: #2457fa;
   --color-primary-dark: #1d47cf;
   --color-primary-darker: #142f8b;
+  --color-accent: #1b50ff;
+  --color-accent-hover: #1340d1;
+  --color-accent-fade: #214fff33;
 
-  --color-primary-variant-1: #95ade9;
-  --color-primary-variant-2: #7a90c6;
-  --color-primary-variant-3: #273e76;
+  --color-success: #0fa958;
+  --color-danger: #e54848;
+  --color-warning: #f5a524;
 
   --font-mono: var(--font-geist-mono);
   --font-sans: var(--font-geist-sans);
+  --tracking-tight: -0.02em;
+  --tracking-wide: 0.08em;
 }
 
 @layer base {
   body {
-    @apply bg-white font-sans text-black dark:bg-black dark:text-white;
+    @apply bg-white font-sans text-black antialiased dark:bg-black dark:text-white selection:bg-accent selection:text-white;
   }
 
   h1 {
-    @apply font-sans text-4xl text-black dark:text-white;
+    @apply font-sans text-[clamp(2.75rem,5vw,4.25rem)] font-semibold leading-[0.95] tracking-tight text-black dark:text-white;
   }
 
   h2 {
-    @apply text-xl md:text-2xl text-black dark:text-white;
+    @apply font-sans text-[clamp(1.75rem,3.2vw,2.75rem)] font-medium leading-tight tracking-tight text-black dark:text-white;
   }
 
   h3 {
-    @apply text-lg md:text-xl text-black dark:text-white;
+    @apply font-sans text-xl md:text-2xl font-medium tracking-tight text-black dark:text-white;
   }
   
   input {
-    @apply w-full rounded-lg border border-divider bg-white px-3 py-2 text-black placeholder-gray focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none dark:border-divider-dark dark:bg-card-dark dark:text-white dark:placeholder-gray;
+    @apply w-full rounded-none border border-divider bg-white px-3 py-2 text-sm tracking-wide text-black placeholder-gray focus:border-accent focus:ring-1 focus:ring-accent focus:outline-none dark:border-divider-dark dark:bg-card-dark dark:text-white dark:placeholder-gray;
   }
   
   label {
@@ -46,7 +51,7 @@
   }
   
   a {
-    @apply text-primary hover:text-primary-dark font-medium transition-colors;
+    @apply font-medium uppercase tracking-wide text-accent no-underline transition-colors hover:text-accent-hover;
   }
 }
 

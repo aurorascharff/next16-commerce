@@ -1,7 +1,7 @@
 'use client';
 
 import { Eye, EyeOff, Zap } from 'lucide-react';
-import React from 'react';
+import Button from '../ui/Button';
 import { useBoundaryMode } from './BoundaryProvider';
 import type { BoundaryMode } from './BoundaryProvider';
 
@@ -41,13 +41,14 @@ export default function BoundaryToggle() {
   const { toggleMode, mode } = useBoundaryMode();
 
   return (
-    <button
+    <Button
+      className="flex gap-2 px-3 py-2 text-xs font-semibold tracking-wide"
+      variant="secondary"
       onClick={toggleMode}
-      className="flex items-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
       title={`Switch to ${getNextMode(mode)} boundaries`}
     >
       {getIcon(mode)}
-      {getLabel(mode)}
-    </button>
+      {getLabel(mode).toUpperCase()}
+    </Button>
   );
 }

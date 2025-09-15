@@ -32,15 +32,19 @@ export default async function ProductList({ searchQuery, sort, page = 1 }: Props
                 href={`/product/${product.id}` as Route}
                 key={product.id}
                 prefetch={shouldPrefetch}
-                className="border-divider dark:border-divider-dark dark:bg-card-dark flex flex-row rounded-lg border bg-white transition-shadow hover:shadow-md"
+                className="group border-divider hover:border-accent dark:border-divider-dark dark:hover:border-accent flex flex-row rounded-none border bg-white transition-all hover:shadow-md dark:bg-black"
               >
                 <ImagePlaceholder className="h-full w-24 sm:w-28" />
-                <div className="flex flex-1 flex-col gap-2 p-4">
-                  <h2 className="group-hover:text-primary line-clamp-1 text-base font-semibold">{product.name}</h2>
+                <div className="flex flex-1 flex-col gap-2 p-5">
+                  <h2 className="group-hover:text-accent line-clamp-1 text-sm font-bold tracking-wide text-black uppercase dark:text-white">
+                    {product.name}
+                  </h2>
                   {product.description && (
-                    <p className="text-gray line-clamp-2 text-xs leading-relaxed">{product.description}</p>
+                    <p className="line-clamp-2 text-xs leading-relaxed text-gray-700 normal-case dark:text-gray-300">
+                      {product.description}
+                    </p>
                   )}
-                  <p className="text-primary mt-auto text-sm font-medium">${product.price.toFixed(2)}</p>
+                  <p className="text-accent mt-auto text-sm font-bold tracking-wider">${product.price.toFixed(2)}</p>
                 </div>
               </Link>
             );

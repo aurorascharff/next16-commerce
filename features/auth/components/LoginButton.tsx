@@ -15,7 +15,7 @@ export default function LoginButton() {
     <Boundary hydration="client">
       <button
         aria-disabled={isPending}
-        className="text-primary hover:text-primary-dark aria-disabled:text-gray cursor-pointer text-sm transition-colors aria-disabled:cursor-not-allowed aria-disabled:italic"
+        className="text-primary hover:text-primary-dark aria-disabled:text-gray cursor-pointer text-sm font-semibold uppercase transition-colors aria-disabled:cursor-not-allowed aria-disabled:italic"
         onClick={() => {
           if (loggedIn) {
             startTransition(async () => {

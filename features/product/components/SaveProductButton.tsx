@@ -36,7 +36,7 @@ export default function SaveProductButton({ productId, initialSaved }: Props) {
           ) : (
             <Bookmark aria-hidden className="size-5" />
           )}
-          <span>{optimisticSaved ? 'Unsave product' : 'Save product'}</span>
+          <span className="uppercase">{optimisticSaved ? 'Unsave product' : 'Save product'}</span>
         </button>
       </form>
     </Boundary>
