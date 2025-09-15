@@ -1,9 +1,7 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
-
 import { logIn } from '@/features/auth/auth-actions';
 import { getRequestContext } from '@/utils/request-context';
 import type { Route } from 'next';
