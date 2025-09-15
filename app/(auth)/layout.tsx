@@ -10,10 +10,8 @@ export default async function AuthLayout({ children, modal }: LayoutProps<'/'>) 
   return (
     <AuthProvider loggedIn={loggedIn}>
       <AppLayout headerContent={<Suspense fallback={<UserProfileSkeleton />}>{<UserProfile />}</Suspense>}>
-        <Suspense>
-          {children}
-          {modal}
-        </Suspense>
+        {children}
+        {modal}
       </AppLayout>
     </AuthProvider>
   );
