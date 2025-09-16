@@ -7,7 +7,7 @@ type Props = {
 
 export default function ImagePlaceholder({ className }: Props) {
   return (
-    <div className={cn('bg-card dark:bg-section flex h-96 w-full items-center justify-center', className)}>
+    <div className={cn('bg-card dark:bg-card-dark flex h-96 w-full items-center justify-center', className)}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="text-gray h-24 w-24"

@@ -42,7 +42,7 @@ export default function BoundaryToggle() {
 
   return (
     <Button
-      className="flex gap-2 px-3 py-2 text-xs font-semibold tracking-wide"
+      className="hidden gap-2 px-3 py-2 text-xs font-semibold tracking-wide md:flex"
       variant="secondary"
       onClick={toggleMode}
       title={`Switch to ${getNextMode(mode)} boundaries`}

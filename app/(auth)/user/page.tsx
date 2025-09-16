@@ -25,7 +25,7 @@ export default async function UserPage() {
   return (
     <div className="flex flex-col gap-16 xl:mx-40 2xl:mx-60">
       <Boundary rendering="dynamic" hydration="server">
-        <div className="border-divider dark:border-divider-dark dark:bg-card-dark flex flex-col gap-6 border bg-white p-8">
+        <div className="border-divider dark:border-divider-dark flex flex-col gap-6 border bg-white p-8 dark:bg-black">
           <div className="flex items-center gap-4">
             <User className="text-primary size-16 rounded-full bg-gray-100 p-3 dark:bg-gray-800" />
             <div className="flex flex-col">

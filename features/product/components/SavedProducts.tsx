@@ -26,7 +26,7 @@ export default async function SavedProducts() {
           return (
             <div
               key={product.id}
-              className="border-divider dark:border-divider-dark dark:bg-card-dark flex items-center gap-4 border bg-white p-4 transition-colors hover:bg-gray-50 dark:hover:bg-neutral-800/50"
+              className="border-divider dark:border-divider-dark flex items-center gap-4 border bg-white p-4 transition-colors hover:bg-gray-50 dark:bg-black dark:hover:bg-neutral-800/50"
             >
               <ImagePlaceholder className="size-16 flex-shrink-0" />
               <div className="min-w-0 flex-1">
@@ -46,7 +46,7 @@ export default async function SavedProducts() {
 
 export function SavedProductsSkeleton() {
   return (
-    <div className="border-divider dark:border-divider-dark dark:bg-card-dark flex items-center gap-4 rounded-lg border bg-white p-4">
+    <div className="border-divider dark:border-divider-dark flex items-center gap-4 rounded-lg border bg-white p-4 dark:bg-black">
       <div className="size-16 flex-shrink-0 rounded bg-gray-200 dark:bg-neutral-800" />
       <div className="flex-1">
         <div className="skeleton-animation h-5 w-3/4 rounded" />
