@@ -44,7 +44,7 @@ export default function Pagination({
           {Array.from({ length: totalPages }, (_, i) => {
             return i + 1;
           }).map(page => {
-            const shouldPrefetch = page <= 5;
+            const shouldPrefetch = page <= 2;
             return (
               <Link scroll={false} key={page} href={createPageUrl(page)} prefetch={shouldPrefetch}>
                 <LinkStatus
