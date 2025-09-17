@@ -1,10 +1,23 @@
+import { revalidateTag } from 'next/cache';
 import { cacheLife } from 'next/dist/server/use-cache/cache-life';
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import Boundary from '@/components/internal/Boundary';
+import Button from '@/components/ui/Button';
 import ImagePlaceholder from '@/components/ui/ImagePlaceholder';
 import LinkButton from '@/components/ui/LinkButton';
 import { getFeaturedProducts } from '../product-queries';
 import type { Route } from 'next';
+
+let featuredIndex = 0;
+
+async function resetFeatured() {
+  'use server';
+
+  // Cycle featuredIndex between 1 and 4
+  featuredIndex = featuredIndex < 4 ? featuredIndex + 1 : 1;
+
+  revalidateTag('featured-product');
+}
 
 export default async function Hero() {
   'use cache';
@@ -12,8 +25,8 @@ export default async function Hero() {
   cacheTag('featured-product');
   cacheLife('hours');
 
-  const featuredProducts = await getFeaturedProducts(1);
-  const heroProduct = featuredProducts[0];
+  const featuredProducts = await getFeaturedProducts(5);
+  const heroProduct = featuredProducts[featuredIndex];
 
   return (
     <Boundary rendering="hybrid" hydration="server">
@@ -30,13 +43,20 @@ export default async function Hero() {
               ? `Discover the ${heroProduct.name} and our premium selection of electronics. Starting at $${heroProduct.price}.`
               : 'Discover exclusive offers on our premium selection of electronics and accessories. Upgrade your setup with cutting-edge technology designed for professionals.'}
           </p>
-          <div className="flex flex-wrap gap-4">
-            <LinkButton
-              title={heroProduct ? 'View Product' : 'Shop Now'}
-              link={heroProduct ? (`/product/${heroProduct.id}` as Route) : ('/product/1' as Route)}
-              variant="primary"
-            />
-            <LinkButton title="Browse All" link="/all" variant="secondary" />
+          <div className="flex justify-between">
+            <div className="flex flex-wrap gap-4">
+              <LinkButton
+                title={heroProduct ? 'View Product' : 'Shop Now'}
+                link={heroProduct ? (`/product/${heroProduct.id}` as Route) : ('/product/1' as Route)}
+                variant="primary"
+              />
+              <LinkButton title="Browse All" link="/all" variant="secondary" />
+            </div>
+            <form action={resetFeatured}>
+              <Button title="Reset" variant="secondary">
+                Refresh
+              </Button>
+            </form>
           </div>
         </div>
         <div className="relative flex items-center justify-center overflow-hidden">
