@@ -2,17 +2,15 @@
 
 import Link from 'next/link';
 import React, { Suspense } from 'react';
-import ProductCategories, { ProductCategoriesSkeleton } from '@/features/product/components/ProductCategories';
+import Categories, { CategoriesSkeleton } from '@/features/category/components/Categories';
 import Boundary from './internal/Boundary';
 
 export default async function Footer() {
   return (
     <footer className="bg-white dark:bg-black">
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-10">
-        <Suspense fallback={<ProductCategoriesSkeleton />}>
-          <Boundary rendering="hybrid">
-            <ProductCategories />
-          </Boundary>
+        <Suspense fallback={<CategoriesSkeleton />}>
+          <Categories />
         </Suspense>
         <Boundary rendering="static">
           <div className="border-divider dark:border-divider-dark my-6 border-b" />

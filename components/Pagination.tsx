@@ -7,18 +7,21 @@ export default function Pagination({
   totalPages,
   searchQuery,
   sort,
+  category,
 }: {
   currentPage: number;
   totalPages: number;
   searchQuery?: string;
   sort?: 'asc' | 'desc';
+  category?: string;
 }) {
   const createPageUrl = (page: number) => {
     return {
-      pathname: '/',
+      pathname: '/all',
       query: {
         ...(searchQuery && { q: searchQuery }),
         ...(sort && { sort }),
+        ...(category && { category }),
         ...(page > 1 && { page: page.toString() }),
       },
     };

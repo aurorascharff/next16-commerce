@@ -3,13 +3,13 @@ import { unauthorized } from 'next/navigation';
 import React, { Suspense } from 'react';
 import Boundary from '@/components/internal/Boundary';
 import { getCurrentAccountWithDetails } from '@/features/auth/auth-queries';
-import SavedProducts, { SavedProductsSkeleton } from '@/features/product/components/SavedProducts';
 import Discounts, { DiscountsSkeleton } from '@/features/user/components/Discounts';
+import SavedProducts, { SavedProductsSkeleton } from '@/features/user/components/SavedProducts';
 
 function PreferenceItem({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex justify-between">
-      <span className="text-sm font-medium text-gray-600 uppercase dark:text-gray-400">{label}:</span>
+      <span className="text-sm font-semibold tracking-wide text-gray-600 uppercase dark:text-gray-400">{label}:</span>
       <span className="text-gray-900 dark:text-gray-100">{value}</span>
     </div>
   );
@@ -39,7 +39,7 @@ export default async function UserPage() {
           </div>
           <div className="grid gap-6 md:grid-cols-2">
             <div>
-              <h2 className="mb-4 text-xl font-semibold tracking-wide uppercase">Contact Information</h2>
+              <h2 className="mb-4 text-xl font-bold tracking-tight uppercase">Contact Information</h2>
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <Mail className="text-primary size-5" />
@@ -68,7 +68,7 @@ export default async function UserPage() {
             </div>
             {account.accountDetail && (
               <div>
-                <h2 className="mb-4 text-xl font-semibold tracking-wide uppercase">Preferences</h2>
+                <h2 className="mb-4 text-xl font-bold tracking-tight uppercase">Preferences</h2>
                 <div className="space-y-4">
                   <PreferenceItem label="Theme" value={account.accountDetail.theme || 'Default'} />
                   <PreferenceItem label="Language" value={(account.accountDetail.language || 'en').toUpperCase()} />
@@ -89,20 +89,20 @@ export default async function UserPage() {
           </div>
           {account.birthDate && (
             <div>
-              <h2 className="mb-4 text-xl font-semibold tracking-wide uppercase">Personal Information</h2>
+              <h2 className="mb-4 text-xl font-bold tracking-tight uppercase">Personal Information</h2>
               <PreferenceItem label="Birth Date" value={new Date(account.birthDate).toLocaleDateString()} />
             </div>
           )}
         </div>
       </Boundary>
       <div>
-        <h2 className="mb-4 text-xl font-semibold tracking-wide uppercase">Your Discounts</h2>
+        <h2 className="mb-4 text-2xl font-bold tracking-tight uppercase">Your Discounts</h2>
         <Suspense fallback={<DiscountsSkeleton />}>
           <Discounts />
         </Suspense>
       </div>
       <div>
-        <h2 className="mb-4 text-xl font-semibold tracking-wide uppercase">Saved Products</h2>
+        <h2 className="mb-4 text-2xl font-bold tracking-tight uppercase">Saved Products</h2>
         <Suspense fallback={<SavedProductsSkeleton />}>
           <SavedProducts />
         </Suspense>

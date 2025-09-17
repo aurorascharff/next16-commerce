@@ -1,7 +1,6 @@
 import 'server-only';
 
 import { notFound } from 'next/navigation';
-
 import { cache } from 'react';
 import { prisma } from '@/db';
 import { slow } from '@/utils/slow';
@@ -40,42 +39,49 @@ export const getProductDetails = cache(async (productId: number) => {
   return productDetails;
 });
 
-export const getProducts = cache(async (searchQuery?: string, sort?: 'asc' | 'desc', page = 1, limit = 9) => {
-  await slow(500);
+export const getProducts = cache(
+  async (searchQuery?: string, sort?: 'asc' | 'desc', page = 1, limit = 9, category?: string) => {
+    await slow(500);
 
-  const skip = (page - 1) * limit;
+    const skip = (page - 1) * limit;
 
-  const [products, total] = await Promise.all([
-    prisma.product.findMany({
-      orderBy: {
-        name: sort === 'asc' ? 'desc' : 'asc',
-      },
-      skip,
-      take: limit,
-      where: {
+    const whereClause = {
+      ...(searchQuery && {
         name: {
           contains: searchQuery,
-          mode: 'insensitive', // Remove with sqlite
+          mode: 'insensitive' as const, // Remove with sqlite
         },
-      },
-    }),
-    prisma.product.count({
-      where: {
-        name: {
-          contains: searchQuery,
-          mode: 'insensitive', // Remove with sqlite
+      }),
+      ...(category && {
+        category: {
+          equals: category,
+          mode: 'insensitive' as const,
         },
-      },
-    }),
-  ]);
+      }),
+    };
 
-  return {
-    currentPage: page,
-    products,
-    total,
-    totalPages: Math.ceil(total / limit),
-  };
-});
+    const [products, total] = await Promise.all([
+      prisma.product.findMany({
+        orderBy: {
+          name: sort === 'asc' ? 'desc' : 'asc',
+        },
+        skip,
+        take: limit,
+        where: whereClause,
+      }),
+      prisma.product.count({
+        where: whereClause,
+      }),
+    ]);
+
+    return {
+      currentPage: page,
+      products,
+      total,
+      totalPages: Math.ceil(total / limit),
+    };
+  },
+);
 
 export const getReviews = cache(async (productId: number) => {
   await slow();
@@ -84,32 +90,6 @@ export const getReviews = cache(async (productId: number) => {
     orderBy: { createdAt: 'desc' },
     where: { productId },
   });
-});
-
-export const getCategories = cache(async () => {
-  await slow();
-
-  const categories = await prisma.product.findMany({
-    distinct: ['category'],
-    orderBy: {
-      category: 'asc',
-    },
-    select: {
-      category: true,
-    },
-    take: 20,
-    where: {
-      category: {
-        not: null,
-      },
-    },
-  });
-
-  return categories
-    .map(item => {
-      return item.category;
-    })
-    .filter(Boolean) as string[];
 });
 
 export const isSavedProduct = cache(async (productId: number) => {
@@ -143,4 +123,100 @@ export const getSavedProducts = cache(async () => {
   return savedProducts.map(saved => {
     return saved.product;
   });
+});
+
+export const getFeaturedProducts = cache(async (limit = 4) => {
+  await slow();
+
+  const products = await prisma.product.findMany({
+    orderBy: { createdAt: 'desc' },
+    take: limit,
+  });
+
+  return products;
+});
+
+export const getProductsByCategory = cache(async (category: string, limit = 4) => {
+  const products = await prisma.product.findMany({
+    orderBy: { createdAt: 'desc' },
+    take: limit,
+    where: {
+      category: {
+        equals: category,
+        mode: 'insensitive',
+      },
+    },
+  });
+
+  return products;
+});
+
+export const getRecommendedProducts = cache(async (limit = 4) => {
+  await slow();
+
+  const accountId = await verifyAuth();
+
+  // Get user's saved products to understand their preferences
+  const savedProducts = await prisma.savedProduct.findMany({
+    include: {
+      product: true,
+    },
+    where: { accountId },
+  });
+
+  let recommendedProducts: Awaited<ReturnType<typeof prisma.product.findMany>> = [];
+
+  if (savedProducts.length > 0) {
+    // Get a random category from saved products
+    const categories = Array.from(
+      new Set(
+        savedProducts
+          .map(sp => {
+            return sp.product.category;
+          })
+          .filter(Boolean),
+      ),
+    );
+    const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+
+    if (randomCategory) {
+      // Get products from that category, excluding already saved ones
+      recommendedProducts = await prisma.product.findMany({
+        orderBy: { createdAt: 'desc' },
+        take: limit,
+        where: {
+          category: {
+            equals: randomCategory,
+            mode: 'insensitive',
+          },
+          id: {
+            notIn: savedProducts.map(sp => {
+              return sp.product.id;
+            }),
+          },
+        },
+      });
+    }
+  }
+
+  // If no recommendations or not enough, fall back to featured products
+  if (recommendedProducts.length < limit) {
+    const featuredProducts = await getFeaturedProducts(limit);
+    const excludeIds = [
+      ...savedProducts.map(sp => {
+        return sp.product.id;
+      }),
+      ...recommendedProducts.map(p => {
+        return p.id;
+      }),
+    ];
+
+    const additionalProducts = featuredProducts.filter(product => {
+      return !excludeIds.includes(product.id);
+    });
+
+    recommendedProducts = [...recommendedProducts, ...additionalProducts];
+  }
+
+  return recommendedProducts.slice(0, limit);
 });

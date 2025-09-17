@@ -6,8 +6,8 @@ import Boundary from '@/components/internal/Boundary';
 import Divider from '@/components/ui/Divider';
 import Skeleton from '@/components/ui/Skeleton';
 import { getIsAuthenticated } from '@/features/auth/auth-queries';
+import SaveProductButton from '../../user/components/SaveProductButton';
 import { getProductDetails, isSavedProduct } from '../product-queries';
-import SaveProductButton from './SaveProductButton';
 
 type Props = {
   productId: number;
