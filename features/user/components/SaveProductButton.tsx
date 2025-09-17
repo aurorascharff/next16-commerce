@@ -4,7 +4,7 @@ import { Bookmark, BookmarkCheck } from 'lucide-react';
 import { useOptimistic, useTransition } from 'react';
 import Boundary from '@/components/internal/Boundary';
 import { cn } from '@/utils/cn';
-import { toggleSaveProduct } from '../product-actions';
+import { toggleSaveProduct } from '../../product/product-actions';
 
 type Props = {
   productId: number;

@@ -4,10 +4,10 @@ import React, { createContext, useContext, useState } from 'react';
 
 export type BoundaryMode = 'off' | 'rendering' | 'hydration';
 
-interface BoundaryContextType {
+type BoundaryContextType = {
   mode: BoundaryMode;
   toggleMode: () => void;
-}
+};
 
 const BoundaryContext = createContext<BoundaryContextType | null>(null);
 

@@ -28,7 +28,7 @@ export default function Reviews({ productId }: Props) {
               return (
                 <div
                   key={review.id}
-                  className="border-divider dark:border-divider-dark dark:bg-card-dark rounded-none border bg-white p-5"
+                  className="border-divider dark:border-divider-dark border bg-white p-5 dark:bg-black"
                 >
                   <div className="mb-4 flex items-center justify-between">
                     <div className="flex items-center gap-2">

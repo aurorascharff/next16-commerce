@@ -27,7 +27,7 @@ export default function Button({
   const isSubmitting = loading || pending;
 
   const baseClasses =
-    'inline-flex items-center justify-center rounded-none px-5 py-2.5 font-semibold uppercase tracking-wide transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50';
+    'inline-flex items-center justify-center px-5 py-2.5 font-semibold uppercase tracking-wide transition-colors focus:ring-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 focus:ring-offset-2 dark:focus:ring-offset-gray-900';
 
   const variantClasses = {
     primary:

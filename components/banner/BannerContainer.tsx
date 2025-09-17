@@ -18,7 +18,7 @@ export function BannerContainer({ children }: { children: ReactNode }) {
             onClick={() => {
               setDismissed(true);
             }}
-            className="group text-gray/70 hover:border-divider hover:text-accent dark:text-gray/60 dark:hover:text-accent -m-1 inline-flex h-6 w-6 items-center justify-center rounded-none border border-transparent p-0 transition-colors"
+            className="group text-gray/70 hover:border-divider hover:text-accent dark:text-gray/60 dark:hover:text-accent -m-1 inline-flex h-6 w-6 items-center justify-center border border-transparent p-0 transition-colors"
             aria-label="Dismiss banner"
           >
             <X aria-hidden className="h-4 w-4" />

@@ -8,7 +8,7 @@ type Props = {
 
 export default function Card({ children, className }: Props) {
   return (
-    <div className={cn('border-divider dark:border-divider-dark rounded-lg border p-6 shadow-sm', className)}>
+    <div className={cn('border-divider dark:border-divider-dark rounded-none border p-6 shadow-sm', className)}>
       {children}
     </div>
   );

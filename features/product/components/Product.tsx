@@ -16,7 +16,7 @@ export default async function Product({ productId, details, imageClassName }: Pr
 
   return (
     <Boundary rendering="hybrid" hydration="server">
-      <div className="border-divider dark:border-divider-dark dark:bg-card-dark flex flex-col rounded-none border bg-white">
+      <div className="flex flex-col bg-white dark:bg-black">
         <ImagePlaceholder className={imageClassName} />
         <div className="flex flex-1 flex-col p-5">
           <h2 className="mb-3 text-xl font-bold tracking-tight">{product.name}</h2>
@@ -37,8 +37,8 @@ export default async function Product({ productId, details, imageClassName }: Pr
 
 export function ProductSkeleton({ className, isDetails = false }: { className?: string; isDetails?: boolean }) {
   return (
-    <div className={cn('dark:bg-card-dark flex flex-col bg-white', className)}>
-      <div className={cn('bg-card dark:bg-section w-full', isDetails ? 'h-96' : 'h-60')} />
+    <div className={cn('flex flex-col bg-white dark:bg-black', className)}>
+      <div className={cn('bg-card dark:bg-card-dark w-full', isDetails ? 'h-96' : 'h-60')} />
       <Skeleton className="p-[22px]" />
     </div>
   );

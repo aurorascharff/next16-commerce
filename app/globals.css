@@ -3,8 +3,8 @@
 @theme {
   --color-gray: #9ca3af;
   --color-divider-dark: #303030;
-  --color-divider: #ededed;
-  --color-card-dark: #0d0d0d;
+  --color-divider: #d1d5db;
+  --color-card-dark: #1a1a1a;
   --color-card: #f5f5f5;
   --color-section: #111111;
 
@@ -43,7 +43,7 @@
   }
   
   input {
-    @apply w-full rounded-none border border-divider bg-white px-3 py-2 text-sm tracking-wide text-black placeholder-gray focus:border-accent focus:ring-1 focus:ring-accent focus:outline-none dark:border-divider-dark dark:bg-card-dark dark:text-white dark:placeholder-gray;
+    @apply w-full border border-divider bg-white px-3 py-2 text-sm text-black placeholder-gray focus:border-accent focus:ring-1 focus:ring-accent focus:outline-none dark:border-divider-dark dark:bg-black dark:text-white dark:placeholder-gray;
   }
   
   label {
@@ -51,7 +51,7 @@
   }
   
   a {
-    @apply font-medium uppercase tracking-wide text-accent no-underline transition-colors hover:text-accent-hover;
+    @apply font-medium uppercase text-accent no-underline transition-colors hover:text-accent-hover;
   }
 }
 

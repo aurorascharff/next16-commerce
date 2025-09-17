@@ -2,8 +2,8 @@
 
 import { Bookmark } from 'lucide-react';
 import useSWR from 'swr';
+import SaveProductButton from '@/features/user/components/SaveProductButton';
 import { fetcher } from '@/utils/fetcher';
-import SaveProductButton from './SaveProductButton';
 
 type Props = {
   productId: number;

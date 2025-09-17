@@ -20,7 +20,7 @@ export default async function ProductDetails({ productId, loggedIn }: Props) {
 
   return (
     <Boundary rendering="hybrid" hydration="server">
-      <div className="border-divider dark:border-divider-dark dark:bg-card-dark w-full rounded-none border bg-white p-5">
+      <div className="border-divider dark:border-divider-dark w-full border bg-white p-5 dark:bg-black">
         <h2 className="mb-4 text-lg font-bold tracking-tight">Product Details</h2>
         <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
           <p>
@@ -55,10 +55,10 @@ export default async function ProductDetails({ productId, loggedIn }: Props) {
 
 export function ProductDetailsSkeleton() {
   return (
-    <div className="border-divider dark:border-divider-dark dark:bg-card-dark w-full rounded-none border bg-white p-5">
-      <div className="skeleton-animation mt-2 mb-4 h-10 w-40 rounded-none" />
+    <div className="border-divider dark:border-divider-dark w-full rounded-sm border bg-white p-5 dark:bg-black">
+      <div className="skeleton-animation mt-2 mb-4 h-10 w-40 rounded-sm" />
       <Skeleton />
-      <div className="skeleton-animation mb-4 h-6 w-38 rounded-none" />
+      <div className="skeleton-animation mb-4 h-6 w-38" />
       <div className="mt-6">
         <div className="border-divider dark:border-divider-dark mb-4 border-b border-dotted" />
         <Bookmark aria-hidden className="text-gray size-5" />

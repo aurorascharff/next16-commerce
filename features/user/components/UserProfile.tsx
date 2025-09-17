@@ -44,8 +44,8 @@ export default function UserProfile() {
 export function UserProfileSkeleton() {
   return (
     <div className="flex items-center gap-2">
-      <div className="h-6 w-6 rounded-full bg-gray-200 dark:bg-gray-700" />
-      <div className="h-4 w-16 rounded bg-gray-200 dark:bg-gray-700" />
+      <div className="skeleton-animation h-6 w-6 rounded-full" />
+      <div className="skeleton-animation h-4 w-16 rounded" />
     </div>
   );
 }

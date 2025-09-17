@@ -1,66 +1,109 @@
-import { ArrowUp, ArrowDown } from 'lucide-react';
 import Link from 'next/link';
-import React, { Suspense } from 'react';
-import Search from '@/components/Search';
-import { DiscountBanner } from '@/components/banner/Banner';
+import { Suspense } from 'react';
+import WelcomeBanner from '@/components/banner/WelcomeBanner';
 import Boundary from '@/components/internal/Boundary';
-import LinkStatus from '@/components/ui/LinkStatus';
-import ProductList, { ProductListSkeleton } from '@/features/product/components/ProductList';
+import LinkButton from '@/components/ui/LinkButton';
+import FeaturedCategories, { FeaturedCategoriesSkeleton } from '@/features/category/components/FeaturedCategories';
+import FeaturedProductsSection, { FeaturedProductsSkeleton } from '@/features/product/components/FeaturedProduct';
+import Hero, { HeroSkeleton } from '@/features/product/components/Hero';
+import Recommendations, { RecommendationsSkeleton } from '@/features/user/components/Recommendations';
 import { getRequestContext } from '@/utils/request-context';
 import type { Route } from 'next';
 
-type SearchParams = {
-  page?: string;
-  q?: string;
-  sort?: 'asc' | 'desc';
-};
-
-export default async function RootPage({ searchParams, params }: PageProps<'/[requestContext]'>) {
-  const { q, sort, page } = (await searchParams) as SearchParams;
-  const currentPage = page ? parseInt(page, 10) : 1;
+export default async function HomePage({ params }: PageProps<'/[requestContext]'>) {
   const { loggedIn } = getRequestContext(await params);
 
   return (
-    <>
-      <DiscountBanner loggedIn={loggedIn} />
-      <Search />
-      <div className="flex h-full grow flex-col gap-6">
-        <SortButton sort={sort} searchQuery={q} />
-        <Suspense fallback={<ProductListSkeleton />}>
-          <ProductList searchQuery={q} sort={sort} page={currentPage} />
-        </Suspense>
+    <div className="flex flex-col gap-10">
+      <Suspense fallback={<HeroSkeleton />}>
+        <Hero />
+      </Suspense>
+      <WelcomeBanner loggedIn={loggedIn} />
+      {loggedIn && (
+        <>
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight uppercase">Something for You?</h2>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Personalized recommendations based on your interests
+              </p>
+            </div>
+            <Link href="/user" className="text-sm font-semibold tracking-wide uppercase">
+              View Saved →
+            </Link>
+          </div>
+          <Suspense fallback={<RecommendationsSkeleton />}>
+            <Recommendations />
+          </Suspense>
+        </>
+      )}
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold tracking-tight uppercase">Featured Categories</h2>
+        <Link href="/all" className="text-sm font-semibold tracking-wide uppercase">
+          View All →
+        </Link>
       </div>
-    </>
+      <Suspense fallback={<FeaturedCategoriesSkeleton />}>
+        <FeaturedCategories />
+      </Suspense>
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold tracking-tight uppercase">
+          {loggedIn ? 'More Products' : 'Featured Products'}
+        </h2>
+        <Link href="/all" className="text-sm font-semibold tracking-wide uppercase">
+          View All Products →
+        </Link>
+      </div>
+      <Suspense fallback={<FeaturedProductsSkeleton />}>
+        <FeaturedProductsSection />
+      </Suspense>
+      <Boundary rendering="static" hydration="server">
+        <section className="grid gap-6 md:grid-cols-2">
+          <PromoBanner
+            title="Membership Benefits"
+            subtitle="Join our exclusive club for special discounts, early access, and premium support."
+            link={'/sign-in' as Route}
+            bgColor="bg-accent/10 dark:bg-accent/20"
+          />
+          <PromoBanner
+            title="Trade-In Program"
+            subtitle="Upgrade your devices and get credit towards your next purchase."
+            link={'/about' as Route}
+            bgColor="bg-black/5 dark:bg-white/10"
+          />
+        </section>
+        <section>
+          <h2 className="mb-4 text-2xl font-bold tracking-tight uppercase">Quick Links</h2>
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6">
+            <LinkButton title="Price Match" link={'/about' as Route} />
+            <LinkButton title="Support" link={'/about' as Route} />
+            <LinkButton title="Free Delivery" link={'/about' as Route} />
+            <LinkButton title="My Account" link={'/user' as Route} />
+            <LinkButton title="Returns" link={'/about' as Route} />
+            <LinkButton title="Gift Cards" link={'/about' as Route} />
+          </div>
+        </section>
+      </Boundary>
+    </div>
   );
 }
 
-function SortButton({ sort, searchQuery }: { sort?: 'asc' | 'desc'; searchQuery?: string; page?: string }) {
-  const nextSort = sort === 'asc' ? 'desc' : 'asc';
-
-  const queryParams = {
-    ...(searchQuery && { q: searchQuery }),
-    sort: nextSort,
-  };
-
+function PromoBanner({
+  title,
+  subtitle,
+  link,
+  bgColor,
+}: {
+  title: string;
+  subtitle: string;
+  link: Route | URL;
+  bgColor: string;
+}) {
   return (
-    <Boundary hydration="hybrid">
-      <Link
-        prefetch
-        scroll={false}
-        href={{ pathname: '/' as Route, query: queryParams }}
-        className="inline-flex items-center gap-1.5 text-xs font-bold tracking-wide uppercase"
-      >
-        <LinkStatus>
-          <div className="flex items-center gap-2">
-            {nextSort === 'desc' ? (
-              <ArrowUp className="bg-accent size-3.5 rounded-none p-0.5 text-white dark:text-black" />
-            ) : (
-              <ArrowDown className="bg-accent size-3.5 rounded-none p-0.5 text-white dark:text-black" />
-            )}
-            Sort {nextSort === 'desc' ? 'A-Z' : 'Z-A'}
-          </div>
-        </LinkStatus>
-      </Link>
-    </Boundary>
+    <div className={`${bgColor} border-divider dark:border-divider-dark border p-6`}>
+      <h3 className="mb-2 text-xl font-bold tracking-tight uppercase">{title}</h3>
+      <p className="mb-4 text-sm">{subtitle}</p>
+      <LinkButton title="Learn More" link={link} variant="primary" />
+    </div>
   );
 }

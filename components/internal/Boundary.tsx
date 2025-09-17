@@ -7,13 +7,13 @@ import { useBoundaryMode } from './BoundaryProvider';
 type RenderingType = 'static' | 'dynamic' | 'hybrid';
 type HydrationType = 'server' | 'client' | 'hybrid';
 
-interface BoundaryProps {
+type Props = {
   children: React.ReactNode;
   rendering?: RenderingType;
   hydration?: HydrationType;
   label?: string;
   showLabel?: boolean;
-}
+};
 
 const renderingColors = {
   dynamic: 'border-blue-500 bg-blue-50 dark:bg-blue-950/20',
@@ -27,7 +27,7 @@ const componentColors = {
   server: 'border-red-500 bg-red-50 dark:bg-red-950/20',
 } as const;
 
-export default function Boundary({ children, rendering, hydration, label, showLabel = true }: BoundaryProps) {
+export default function Boundary({ children, rendering, hydration, label, showLabel = true }: Props) {
   const { mode } = useBoundaryMode();
 
   if (mode === 'off') {
@@ -70,7 +70,10 @@ export default function Boundary({ children, rendering, hydration, label, showLa
   }
 
   return (
-    <div className={cn('relative rounded-md border-2 border-dashed p-2 pt-6', colorClasses)}>
+    <div
+      className={cn('relative rounded-md border-2 border-dashed', colorClasses)}
+      style={{ padding: '2px 2px 2px 2px', paddingTop: '24px' }}
+    >
       {showLabel && labelText && (
         <div className="absolute -top-2 left-2">
           <div
@@ -83,7 +86,9 @@ export default function Boundary({ children, rendering, hydration, label, showLa
           </div>
         </div>
       )}
-      {children}
+      <div className="contents" style={{ margin: '-2px -2px -2px -2px', marginTop: '-24px' }}>
+        {children}
+      </div>
     </div>
   );
 }
