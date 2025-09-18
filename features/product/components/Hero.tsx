@@ -52,7 +52,7 @@ export default async function Hero() {
               />
               <LinkButton title="Browse All" link="/all" variant="secondary" />
             </div>
-            <form action={refreshFeatured}>
+            <form className="hidden sm:flex" action={refreshFeatured}>
               <Button title="Reset" variant="secondary">
                 Refresh
               </Button>
