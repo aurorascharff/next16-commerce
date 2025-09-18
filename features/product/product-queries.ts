@@ -43,25 +43,37 @@ export const getProducts = cache(
   async (searchQuery?: string, sort?: 'asc' | 'desc', page = 1, limit = 9, category?: string) => {
     const skip = (page - 1) * limit;
 
-    const whereClause = {
-      ...(searchQuery && {
-        name: {
-          contains: searchQuery,
-          mode: 'insensitive' as const, // Remove with sqlite
-        },
-      }),
-      ...(category && {
-        category: {
-          equals: category,
-          mode: 'insensitive' as const,
-        },
-      }),
-    };
+    const whereClause: {
+      name?: { contains: string; mode: 'insensitive' };
+      category?: { equals: string; mode: 'insensitive' };
+    } = {};
 
-    const [products, total] = await Promise.all([
+    if (searchQuery) {
+      whereClause.name = {
+        contains: searchQuery,
+        mode: 'insensitive' as const,
+      };
+    }
+
+    if (category) {
+      whereClause.category = {
+        equals: category,
+        mode: 'insensitive' as const,
+      };
+    }
+
+    const [products, total] = await prisma.$transaction([
       prisma.product.findMany({
         orderBy: {
-          name: sort === 'asc' ? 'desc' : 'asc',
+          name: sort === 'asc' ? 'asc' : 'desc', // Fixed: was reversed
+        },
+        select: {
+          category: true,
+          createdAt: true,
+          description: true,
+          id: true,
+          name: true,
+          price: true,
         },
         skip,
         take: limit,
