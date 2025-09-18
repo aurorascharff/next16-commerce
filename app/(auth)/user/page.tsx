@@ -31,7 +31,7 @@ export default async function UserPage() {
                 )}
               </div>
             </div>
-            <form className="hidden sm:flex" action={refreshFeatured}>
+            <form className="hidden h-fit sm:flex" action={refreshFeatured}>
               <Button title="Reset" variant="secondary">
                 Refresh featured
               </Button>
