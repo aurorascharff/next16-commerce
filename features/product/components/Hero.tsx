@@ -29,7 +29,7 @@ export default async function Hero() {
   const heroProduct = featuredProducts[featuredIndex];
 
   return (
-    <Boundary rendering="hybrid" hydration="server">
+    <Boundary rendering="hybrid" hydration="server" cached>
       <div className="border-divider dark:border-divider-dark dark:bg-card-dark relative grid gap-6 border bg-white p-6 md:grid-cols-[2fr,1fr]">
         <div className="flex flex-col justify-center">
           <span className="mb-3 inline-block w-fit bg-black px-2.5 py-1 text-xs font-bold tracking-[0.2em] text-white uppercase dark:bg-white dark:text-black">

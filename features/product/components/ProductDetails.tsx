@@ -27,7 +27,7 @@ export default async function ProductDetails({ productId, children }: Props) {
   const productDetails = await getProductDetails(productId);
 
   return (
-    <Boundary rendering="hybrid" hydration="server">
+    <Boundary rendering="hybrid" hydration="server" cached>
       <div className="border-divider dark:border-divider-dark w-full border bg-white p-5 dark:bg-black">
         <h2 className="mb-4 text-lg font-bold tracking-tight">Product Details</h2>
         <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">

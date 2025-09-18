@@ -10,7 +10,7 @@ export default async function Reviews({ productId }: Props) {
   const reviews = await getReviews(productId);
 
   return (
-    <Boundary rendering="dynamic" hydration="server">
+    <Boundary rendering="hybrid" hydration="server">
       <div className="space-y-4">
         {reviews.length === 0 ? (
           <p className="py-8 text-center text-gray-600 dark:text-gray-400">No reviews yet for this product.</p>

@@ -15,7 +15,7 @@ export default async function Categories() {
   const categories = await getCategories();
 
   return (
-    <Boundary rendering="hybrid">
+    <Boundary rendering="hybrid" cached>
       <ShowMore initial={5}>
         {categories.map(category => {
           return (

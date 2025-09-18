@@ -13,6 +13,7 @@ type Props = {
   hydration?: HydrationType;
   label?: string;
   showLabel?: boolean;
+  cached?: boolean;
 };
 
 const renderingColors = {
@@ -27,7 +28,7 @@ const componentColors = {
   server: 'border-red-500 bg-red-50 dark:bg-red-950/20',
 } as const;
 
-export default function Boundary({ children, rendering, hydration, label, showLabel = true }: Props) {
+export default function Boundary({ children, rendering, hydration, label, showLabel = true, cached = false }: Props) {
   const { mode } = useBoundaryMode();
 
   if (mode === 'off') {
@@ -75,7 +76,7 @@ export default function Boundary({ children, rendering, hydration, label, showLa
       style={{ padding: '2px 2px 2px 2px', paddingTop: '24px' }}
     >
       {showLabel && labelText && (
-        <div className="absolute -top-2 left-2">
+        <div className="absolute -top-2 left-2 flex gap-2">
           <div
             className={cn(
               'rounded border bg-white px-2 py-0.5 font-mono text-xs lowercase shadow-sm dark:bg-black',
@@ -84,6 +85,11 @@ export default function Boundary({ children, rendering, hydration, label, showLa
           >
             {labelText}
           </div>
+          {cached && (
+            <div className="rounded border border-green-500 bg-green-50 px-2 py-0.5 font-mono text-xs text-green-700 lowercase shadow-sm dark:bg-green-950/20 dark:text-green-300">
+              cached
+            </div>
+          )}
         </div>
       )}
       <div className="contents" style={{ margin: '-2px -2px -2px -2px', marginTop: '-24px' }}>
