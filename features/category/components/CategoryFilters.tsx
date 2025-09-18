@@ -17,7 +17,6 @@ export default async function CategoryFilters({ selectedCategory, searchQuery, s
     <Boundary hydration="server" rendering="hybrid">
       <div className="flex flex-wrap gap-2">
         <Link
-          prefetch
           scroll={false}
           href={{
             pathname: '/all',
@@ -44,7 +43,6 @@ export default async function CategoryFilters({ selectedCategory, searchQuery, s
           return (
             <Link
               key={category}
-              prefetch
               scroll={false}
               href={{
                 pathname: '/all',

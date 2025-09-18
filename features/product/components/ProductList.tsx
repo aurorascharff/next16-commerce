@@ -27,12 +27,10 @@ export default async function ProductList({ searchQuery, sort, page = 1, categor
       <div className="flex h-full grow flex-col justify-between gap-4 sm:gap-8">
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
           {products.map(product => {
-            const shouldPrefetch = currentPage === 1;
             return (
               <Link
                 href={`/product/${product.id}` as Route}
                 key={product.id}
-                prefetch={shouldPrefetch}
                 className="group border-divider hover:border-accent dark:border-divider-dark dark:hover:border-accent flex flex-row border bg-white transition-all hover:shadow-md dark:bg-black"
               >
                 <ImagePlaceholder variant="simple" className="h-full w-24 sm:w-28" />

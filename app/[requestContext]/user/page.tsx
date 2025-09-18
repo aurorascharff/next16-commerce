@@ -6,15 +6,6 @@ import { getCurrentAccountWithDetails } from '@/features/auth/auth-queries';
 import Discounts, { DiscountsSkeleton } from '@/features/user/components/Discounts';
 import SavedProducts, { SavedProductsSkeleton } from '@/features/user/components/SavedProducts';
 
-function PreferenceItem({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex justify-between">
-      <span className="text-sm font-semibold tracking-wide text-gray-600 uppercase dark:text-gray-400">{label}:</span>
-      <span className="text-gray-900 dark:text-gray-100">{value}</span>
-    </div>
-  );
-}
-
 export default async function UserPage() {
   const account = await getCurrentAccountWithDetails();
 
@@ -26,15 +17,17 @@ export default async function UserPage() {
     <div className="flex flex-col gap-16 xl:mx-40 2xl:mx-60">
       <Boundary rendering="dynamic" hydration="server">
         <div className="border-divider dark:border-divider-dark flex flex-col gap-6 border bg-white p-8 dark:bg-black">
-          <div className="flex items-center gap-4">
-            <User className="text-primary size-16 rounded-full bg-gray-100 p-3 dark:bg-gray-800" />
-            <div className="flex flex-col">
-              <h1 className="text-3xl font-bold uppercase">{account.name}</h1>
-              {account.firstName && account.lastName && (
-                <p className="text-lg text-gray-600 dark:text-gray-400">
-                  {account?.firstName} {account?.lastName}
-                </p>
-              )}
+          <div className="flex justify-between">
+            <div className="flex items-center gap-4">
+              <User className="text-primary size-16 rounded-full bg-gray-100 p-3 dark:bg-gray-800" />
+              <div className="flex flex-col">
+                <h1 className="text-3xl font-bold uppercase">{account.name}</h1>
+                {account.firstName && account.lastName && (
+                  <p className="text-lg text-gray-600 dark:text-gray-400">
+                    {account.firstName} {account.lastName}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
           <div className="grid gap-6 md:grid-cols-2">
@@ -107,6 +100,15 @@ export default async function UserPage() {
           <SavedProducts />
         </Suspense>
       </div>
+    </div>
+  );
+}
+
+function PreferenceItem({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex justify-between">
+      <span className="text-sm font-semibold tracking-wide text-gray-600 uppercase dark:text-gray-400">{label}:</span>
+      <span className="text-gray-900 dark:text-gray-100">{value}</span>
     </div>
   );
 }

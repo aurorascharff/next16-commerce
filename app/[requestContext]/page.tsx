@@ -21,14 +21,14 @@ export default async function HomePage({ params }: PageProps<'/[requestContext]'
       <WelcomeBanner loggedIn={loggedIn} />
       {loggedIn && (
         <>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h2 className="text-2xl font-bold tracking-tight uppercase">Something for You?</h2>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Something for You?</h2>
+              <p className="text-xs text-gray-600 sm:text-sm dark:text-gray-400">
                 Personalized recommendations based on your interests
               </p>
             </div>
-            <Link href="/user" className="text-sm font-semibold tracking-wide uppercase">
+            <Link href="/user" className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
               View Saved →
             </Link>
           </div>
@@ -37,20 +37,20 @@ export default async function HomePage({ params }: PageProps<'/[requestContext]'
           </Suspense>
         </>
       )}
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold tracking-tight uppercase">Featured Categories</h2>
-        <Link href="/all" className="text-sm font-semibold tracking-wide uppercase">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Featured Categories</h2>
+        <Link href="/all" className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
           View All →
         </Link>
       </div>
       <Suspense fallback={<FeaturedCategoriesSkeleton />}>
         <FeaturedCategories />
       </Suspense>
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold tracking-tight uppercase">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">
           {loggedIn ? 'More Products' : 'Featured Products'}
         </h2>
-        <Link href="/all" className="text-sm font-semibold tracking-wide uppercase">
+        <Link href="/all" className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
           View All Products →
         </Link>
       </div>

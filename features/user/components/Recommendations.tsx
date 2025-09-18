@@ -16,7 +16,7 @@ export default async function Recommendations() {
 
   return (
     <Boundary rendering="dynamic" hydration="server">
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
         {recommendedProducts.map(product => {
           return (
             <ProductCard key={product.id} id={product.id} name={product.name} price={product.price} badge="For You" />
@@ -29,7 +29,7 @@ export default async function Recommendations() {
 
 export function RecommendationsSkeleton() {
   return (
-    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
       {Array.from({ length: 4 }).map((_, i) => {
         return <ProductCardSkeleton key={i} />;
       })}

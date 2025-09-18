@@ -31,7 +31,7 @@ export async function PersonalBanner({ loggedIn }: { loggedIn: boolean }) {
           {featuredDiscount ? (
             <>
               Use code{' '}
-              <span className="bg-black px-2 py-1 font-mono font-semibold text-white dark:bg-white dark:text-black">
+              <span className="bg-black px-1 py-0.5 font-mono font-semibold text-white sm:px-2 sm:py-1 dark:bg-white dark:text-black">
                 {featuredDiscount.code}
               </span>{' '}
               for <span className="font-bold">{featuredDiscount.percentage}% off</span> –{' '}

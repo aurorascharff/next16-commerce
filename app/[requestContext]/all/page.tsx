@@ -60,7 +60,6 @@ function SortButton({
   return (
     <Boundary hydration="hybrid">
       <Link
-        prefetch
         scroll={false}
         href={{ pathname: '/all', query: queryParams }}
         className="inline-flex items-center gap-1.5 text-xs font-bold tracking-wide uppercase"

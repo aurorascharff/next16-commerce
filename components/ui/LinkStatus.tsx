@@ -34,6 +34,10 @@ export default function LinkStatus({ className, width = 20, height = 20, variant
     );
   }
   if (variant === 'background') {
-    return <div className={cn(pending && 'text-gray bg-gray-200', className)}>{children}</div>;
+    return (
+      <Boundary hydration="client">
+        <div className={cn(pending && 'text-gray bg-gray-200 dark:bg-gray-700', className)}>{children}</div>
+      </Boundary>
+    );
   }
 }

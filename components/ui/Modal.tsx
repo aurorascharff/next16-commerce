@@ -18,6 +18,7 @@ export default function Modal({ openModal, children, goBackOnClose = false, titl
 
   const handleClose = () => {
     ref.current?.close();
+    document.body.style.overflow = 'unset';
     if (goBackOnClose) {
       router.back();
     }
@@ -26,14 +27,21 @@ export default function Modal({ openModal, children, goBackOnClose = false, titl
   useEffect(() => {
     if (openModal) {
       ref.current?.showModal();
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
     }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
   }, [openModal]);
 
   return (
     <dialog
       ref={ref}
       onCancel={handleClose}
-      className="fixed inset-0 m-auto w-[90%] max-w-lg rounded-lg border-none bg-white p-0 shadow-xl backdrop:bg-black/50 backdrop:backdrop-blur-sm dark:bg-black"
+      className="border-divider dark:border-divider-dark fixed inset-0 m-auto w-[90%] max-w-lg rounded-lg border bg-white p-0 shadow-xl backdrop:bg-black/70 backdrop:backdrop-blur-md dark:bg-black dark:backdrop:bg-white/20"
     >
       <Boundary hydration="client">
         <div className="flex w-full flex-col">
