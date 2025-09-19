@@ -1,7 +1,4 @@
-'use cache: remote';
-
 import { ArrowRight, Award, Gift, Package, RefreshCw, Shield, Truck } from 'lucide-react';
-import { cacheLife } from 'next/dist/server/use-cache/cache-life';
 import Link from 'next/link';
 import React from 'react';
 import Boundary from '@/components/internal/Boundary';
@@ -13,8 +10,6 @@ import { getRequestContext } from '@/utils/request-context';
 import type { Route } from 'next';
 
 export default async function AboutPage({ params }: { params: Promise<{ requestContext: string }> }) {
-  cacheLife('max');
-
   const { loggedIn } = getRequestContext(await params);
 
   return (

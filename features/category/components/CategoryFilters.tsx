@@ -1,5 +1,3 @@
-import { cacheLife } from 'next/dist/server/use-cache/cache-life';
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import Link from 'next/link';
 import Boundary from '@/components/internal/Boundary';
 import LinkStatus from '@/components/ui/LinkStatus';
@@ -12,11 +10,6 @@ type Props = {
 };
 
 export default async function CategoryFilters({ selectedCategory, searchQuery, sort }: Props) {
-  'use cache: remote';
-
-  cacheTag('categories');
-  cacheLife('max');
-
   const categories = await getCategories();
 
   return (

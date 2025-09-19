@@ -1,5 +1,3 @@
-import { cacheLife } from 'next/dist/server/use-cache/cache-life';
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import Boundary from '@/components/internal/Boundary';
 import ImagePlaceholder from '@/components/ui/ImagePlaceholder';
 import LinkButton from '@/components/ui/LinkButton';
@@ -7,11 +5,6 @@ import { getFeaturedProducts } from '../product-queries';
 import type { Route } from 'next';
 
 export default async function Hero() {
-  'use cache: remote';
-
-  cacheTag('featured-product');
-  cacheLife('max');
-
   const featuredProducts = await getFeaturedProducts(1);
   const heroProduct = featuredProducts[0];
 
