@@ -1,10 +1,10 @@
 import React, { Suspense } from 'react';
 import Header from '@/components/Header';
 import Boundary from '@/components/internal/Boundary';
-import { AuthProvider } from '@/features/auth/components/AuthProvider';
+
 import UserProfile, { UserProfileSkeleton } from '@/features/user/components/UserProfile';
 import type { RequestContextData } from '@/utils/request-context';
-import { encodeRequestContext, getRequestContext } from '@/utils/request-context';
+import { encodeRequestContext } from '@/utils/request-context';
 
 export async function generateStaticParams() {
   const contexts: RequestContextData[] = [{ loggedIn: false }, { loggedIn: true }];
@@ -15,11 +15,9 @@ export async function generateStaticParams() {
   });
 }
 
-export default async function RequestContextLayout({ children, modal, params }: LayoutProps<'/[requestContext]'>) {
-  const { loggedIn } = getRequestContext(await params);
-
+export default async function RequestContextLayout({ children, modal }: LayoutProps<'/[requestContext]'>) {
   return (
-    <AuthProvider loggedIn={loggedIn}>
+    <>
       <Boundary rendering="static">
         <Header
           rightContent={
@@ -33,6 +31,6 @@ export default async function RequestContextLayout({ children, modal, params }: 
         {children}
         {modal}
       </main>
-    </AuthProvider>
+    </>
   );
 }

@@ -1,14 +1,15 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 import Boundary from '@/components/internal/Boundary';
+import { decodeRequestContext } from '@/utils/request-context';
 import { logOut } from '../auth-actions';
-import { useAuth } from './AuthProvider';
 
 export default function LoginButton() {
   const [isPending, startTransition] = useTransition();
-  const { loggedIn } = useAuth();
+  const { requestContext } = useParams();
+  const loggedIn = decodeRequestContext(requestContext as string);
   const router = useRouter();
 
   return (
