@@ -10,7 +10,7 @@ export default async function FeaturedCategories() {
   'use cache: remote';
 
   cacheTag('categories');
-  cacheLife('hours');
+  cacheLife('max');
 
   const categoriesWithCount = await getCategoriesWithCount();
   const categoryList = categoriesWithCount.slice(0, 4);

@@ -8,7 +8,7 @@ export default async function FeaturedProductsSection() {
   'use cache: remote';
 
   cacheTag('featured-product');
-  cacheLife('hours');
+  cacheLife('max');
 
   const products = await getFeaturedProducts(4);
 

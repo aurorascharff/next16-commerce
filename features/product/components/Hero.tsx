@@ -23,7 +23,7 @@ export default async function Hero() {
   'use cache: remote';
 
   cacheTag('featured-product');
-  cacheLife('hours');
+  cacheLife('max');
 
   const featuredProducts = await getFeaturedProducts(5);
   const heroProduct = featuredProducts[featuredIndex];
