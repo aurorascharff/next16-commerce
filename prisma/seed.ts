@@ -66,6 +66,7 @@ const PRODUCTS = [
   {
     category: 'Audio',
     description: 'High-quality noise cancelling headphones with 20 hours battery life',
+    featured: true,
     id: 1,
     name: 'Wireless Headphones',
     price: 199.99,

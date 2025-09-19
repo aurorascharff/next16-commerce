@@ -1,3 +1,5 @@
+import { cacheLife } from 'next/dist/server/use-cache/cache-life';
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import Boundary from '@/components/internal/Boundary';
 import ImagePlaceholder from '@/components/ui/ImagePlaceholder';
 import LinkButton from '@/components/ui/LinkButton';
@@ -5,6 +7,11 @@ import { getFeaturedProducts } from '../product-queries';
 import type { Route } from 'next';
 
 export default async function Hero() {
+  'use cache: remote';
+
+  cacheTag('featured-product');
+  cacheLife('max');
+
   const featuredProducts = await getFeaturedProducts(1);
   const heroProduct = featuredProducts[0];
 
@@ -26,10 +33,10 @@ export default async function Hero() {
           <div className="flex flex-wrap gap-4">
             <LinkButton
               title={heroProduct ? 'View Product' : 'Shop Now'}
-              link={heroProduct ? (`/product/${heroProduct.id}` as Route) : ('/product/1' as Route)}
+              href={heroProduct ? (`/product/${heroProduct.id}` as Route) : ('/product/1' as Route)}
               variant="primary"
             />
-            <LinkButton title="Browse All" link={'/all' as Route} variant="secondary" />
+            <LinkButton title="Browse All" href={'/all' as Route} variant="secondary" />
           </div>
         </div>
         <div className="relative flex items-center justify-center overflow-hidden">

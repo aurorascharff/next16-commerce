@@ -1,8 +1,9 @@
 import { Bookmark } from 'lucide-react';
-import React from 'react';
 import Boundary from '@/components/internal/Boundary';
+import Button from '@/components/ui/Button';
 import Divider from '@/components/ui/Divider';
 import Skeleton from '@/components/ui/Skeleton';
+import { setFeaturedProduct } from '../product-actions';
 import { getProductDetails } from '../product-queries';
 import SavedProduct from './SavedProduct';
 
@@ -17,11 +18,19 @@ export function preloadProductDetails(productId: number) {
 
 export default async function ProductDetails({ productId, loggedIn }: Props) {
   const productDetails = await getProductDetails(productId);
+  const setFeaturedForProduct = setFeaturedProduct.bind(null, productId);
 
   return (
     <Boundary rendering="hybrid" hydration="server">
       <div className="border-divider dark:border-divider-dark w-full border bg-white p-5 dark:bg-black">
-        <h2 className="mb-4 text-lg font-bold tracking-tight">Product Details</h2>
+        <div className="flex justify-between">
+          <h2 className="mb-4 text-lg font-bold tracking-tight">Product Details</h2>
+          <form className="hidden sm:flex" action={setFeaturedForProduct}>
+            <Button title="Mark as Featured" variant="secondary">
+              Feature This Product
+            </Button>
+          </form>
+        </div>
         <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
           <p>
             <span className="font-medium">Brand:</span> {productDetails?.brand || 'N/A'}
@@ -56,11 +65,11 @@ export default async function ProductDetails({ productId, loggedIn }: Props) {
 export function ProductDetailsSkeleton() {
   return (
     <div className="border-divider dark:border-divider-dark w-full rounded-sm border bg-white p-5 dark:bg-black">
-      <div className="skeleton-animation mt-2 mb-4 h-10 w-40 rounded-sm" />
+      <div className="skeleton-animation mt-2 mb-4 h-[46px] w-40 rounded-sm" />
       <Skeleton />
       <div className="skeleton-animation mb-4 h-6 w-38" />
       <div className="mt-6">
-        <div className="border-divider dark:border-divider-dark mb-4 border-b border-dotted" />
+        <Divider variant="dotted" className="mb-4" />
         <Bookmark aria-hidden className="text-gray size-5" />
       </div>
     </div>

@@ -17,17 +17,15 @@ export default async function UserPage() {
     <div className="flex flex-col gap-16 xl:mx-40 2xl:mx-60">
       <Boundary rendering="dynamic" hydration="server">
         <div className="border-divider dark:border-divider-dark flex flex-col gap-6 border bg-white p-8 dark:bg-black">
-          <div className="flex justify-between">
-            <div className="flex items-center gap-4">
-              <User className="text-primary size-16 rounded-full bg-gray-100 p-3 dark:bg-gray-800" />
-              <div className="flex flex-col">
-                <h1 className="text-3xl font-bold uppercase">{account.name}</h1>
-                {account.firstName && account.lastName && (
-                  <p className="text-lg text-gray-600 dark:text-gray-400">
-                    {account.firstName} {account.lastName}
-                  </p>
-                )}
-              </div>
+          <div className="flex items-center gap-4">
+            <User className="text-primary size-16 rounded-full bg-gray-100 p-3 dark:bg-gray-800" />
+            <div className="flex flex-col">
+              <h1 className="text-3xl font-bold uppercase">{account.name}</h1>
+              {account.firstName && account.lastName && (
+                <p className="text-lg text-gray-600 dark:text-gray-400">
+                  {account.firstName} {account.lastName}
+                </p>
+              )}
             </div>
           </div>
           <div className="grid gap-6 md:grid-cols-2">

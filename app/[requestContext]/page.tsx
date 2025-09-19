@@ -62,25 +62,25 @@ export default async function HomePage({ params }: PageProps<'/[requestContext]'
           <PromoBanner
             title="Membership Benefits"
             subtitle="Join our exclusive club for special discounts, early access, and premium support."
-            link={'/sign-in' as Route}
+            href={'/sign-in' as Route}
             bgColor="bg-accent/10 dark:bg-accent/20"
           />
           <PromoBanner
             title="Trade-In Program"
             subtitle="Upgrade your devices and get credit towards your next purchase."
-            link={'/about' as Route}
+            href={'/about' as Route}
             bgColor="bg-black/5 dark:bg-white/10"
           />
         </section>
         <section>
           <h2 className="mb-4 text-2xl font-bold tracking-tight uppercase">Quick Links</h2>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6">
-            <LinkButton title="Price Match" link={'/about' as Route} />
-            <LinkButton title="Support" link={'/about' as Route} />
-            <LinkButton title="Free Delivery" link={'/about' as Route} />
-            <LinkButton title="My Account" link={'/user' as Route} />
-            <LinkButton title="Returns" link={'/about' as Route} />
-            <LinkButton title="Gift Cards" link={'/about' as Route} />
+            <LinkButton title="Price Match" href={'/about' as Route} />
+            <LinkButton title="Support" href={'/about' as Route} />
+            <LinkButton title="Free Delivery" href={'/about' as Route} />
+            <LinkButton title="My Account" href={'/user' as Route} />
+            <LinkButton title="Returns" href={'/about' as Route} />
+            <LinkButton title="Gift Cards" href={'/about' as Route} />
           </div>
         </section>
       </Boundary>
@@ -91,19 +91,19 @@ export default async function HomePage({ params }: PageProps<'/[requestContext]'
 function PromoBanner({
   title,
   subtitle,
-  link,
+  href,
   bgColor,
 }: {
   title: string;
   subtitle: string;
-  link: Route | URL;
+  href?: Route;
   bgColor: string;
 }) {
   return (
     <div className={`${bgColor} border-divider dark:border-divider-dark border p-6`}>
       <h3 className="mb-2 text-xl font-bold tracking-tight uppercase">{title}</h3>
       <p className="mb-4 text-sm">{subtitle}</p>
-      <LinkButton title="Learn More" link={link} variant="primary" />
+      <LinkButton scroll title="Learn More" href={href!} variant="primary" />
     </div>
   );
 }

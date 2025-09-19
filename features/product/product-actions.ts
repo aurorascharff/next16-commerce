@@ -1,6 +1,6 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { prisma } from '@/db';
 import { verifyAuth } from '../auth/auth-actions';
 import type { Route } from 'next';
@@ -41,4 +41,18 @@ export async function toggleSaveProduct(productId: number, saved: boolean) {
   } else {
     return await saveProduct(productId);
   }
+}
+
+export async function setFeaturedProduct(productId: number) {
+  await prisma.product.updateMany({
+    data: { featured: false },
+    where: { featured: true },
+  });
+
+  await prisma.product.update({
+    data: { featured: true },
+    where: { id: productId },
+  });
+
+  revalidateTag('featured-product');
 }

@@ -50,6 +50,7 @@ model Product {
   description   String?
   price         Float
   category      String?
+  featured      Boolean        @default(false)
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   Review        Review[]
@@ -60,6 +61,7 @@ model Product {
   @@index([name])
   @@index([createdAt])
   @@index([category, createdAt])
+  @@index([featured])
 }
 
 model Category {

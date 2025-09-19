@@ -1,3 +1,5 @@
+import { cacheLife } from 'next/dist/server/use-cache/cache-life';
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import Link from 'next/link';
 import Boundary from '@/components/internal/Boundary';
 import Skeleton from '@/components/ui/Skeleton';
@@ -5,6 +7,11 @@ import { getCategoriesWithCount } from '../category-queries';
 import type { Route } from 'next';
 
 export default async function FeaturedCategories() {
+  'use cache: remote';
+
+  cacheTag('categories');
+  cacheLife('max');
+
   const categoriesWithCount = await getCategoriesWithCount();
   const categoryList = categoriesWithCount.slice(0, 4);
 
@@ -44,7 +51,7 @@ export function FeaturedCategoriesSkeleton() {
       {Array.from({ length: 4 }).map((_, i) => {
         return (
           <div key={i} className="border-divider dark:border-divider-dark dark:bg-card-dark border bg-white">
-            <Skeleton className="mb-[25px] p-6" />
+            <Skeleton className="mb-[6px] p-6" />
           </div>
         );
       })}

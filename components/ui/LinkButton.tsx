@@ -1,14 +1,15 @@
 import Link from 'next/link';
 import type { Route } from 'next';
+import type { LinkProps } from 'next/link';
 
 type Props = {
   title: string;
-  link: Route | URL;
+  href: Route;
   variant?: 'default' | 'primary' | 'secondary';
   className?: string;
 };
 
-export default function LinkButton({ title, link, variant = 'default', className = '' }: Props) {
+export default function LinkButton({ title, href, variant = 'default', className = '' }: Props & LinkProps<Route>) {
   const baseClasses = 'inline-flex items-center text-sm font-bold tracking-wide uppercase';
 
   const variantClasses = {
@@ -21,7 +22,7 @@ export default function LinkButton({ title, link, variant = 'default', className
   const combinedClasses = `${baseClasses} ${variantClasses[variant]} ${className}`.trim();
 
   return (
-    <Link href={link} className={combinedClasses}>
+    <Link href={href} className={combinedClasses}>
       {variant === 'default' ? <span className="text-xs font-bold tracking-wide uppercase">{title}</span> : title}
     </Link>
   );

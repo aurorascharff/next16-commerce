@@ -25,16 +25,31 @@ export default async function RootPage({ searchParams, params }: PageProps<'/[re
     <>
       <WelcomeBanner loggedIn={loggedIn} />
       <Search />
-      <div className="flex h-full grow flex-col gap-6">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <Suspense fallback={<CategoryFiltersSkeleton />}>
-            <CategoryFilters selectedCategory={category} searchQuery={q} sort={sort} />
-          </Suspense>
-          <SortButton sort={sort} searchQuery={q} category={category} />
+      <div className="flex h-full grow gap-12">
+        <div className="hidden w-64 flex-shrink-0 md:block">
+          <div className="sticky top-4">
+            <h3 className="mb-4 text-lg font-bold tracking-tight uppercase">Categories</h3>
+            <Suspense fallback={<CategoryFiltersSkeleton />}>
+              <CategoryFilters selectedCategory={category} searchQuery={q} sort={sort} />
+            </Suspense>
+          </div>
         </div>
-        <Suspense fallback={<ProductListSkeleton />}>
-          <ProductList searchQuery={q} sort={sort} page={currentPage} category={category} />
-        </Suspense>
+        <div className="flex flex-1 flex-col gap-6">
+          <div className="flex flex-col gap-4 md:hidden">
+            <Suspense fallback={<CategoryFiltersSkeleton />}>
+              <CategoryFilters selectedCategory={category} searchQuery={q} sort={sort} />
+            </Suspense>
+            <div className="flex justify-end">
+              <SortButton sort={sort} searchQuery={q} category={category} />
+            </div>
+          </div>
+          <div className="hidden justify-end md:flex">
+            <SortButton sort={sort} searchQuery={q} category={category} />
+          </div>
+          <Suspense fallback={<ProductListSkeleton />}>
+            <ProductList searchQuery={q} sort={sort} page={currentPage} category={category} />
+          </Suspense>
+        </div>
       </div>
     </>
   );
