@@ -1,7 +1,6 @@
 import 'server-only';
 
 import { cookies } from 'next/headers';
-import { unauthorized } from 'next/navigation';
 import { cache } from 'react';
 import { prisma } from '@/db';
 import { slow } from '@/utils/slow';
@@ -54,7 +53,7 @@ export const getCurrentAccount = cache(async () => {
 export const getCurrentAccountWithDetails = cache(async () => {
   const selectedAccountId = (await cookies()).get('selectedAccountId')?.value;
   if (!selectedAccountId) {
-    unauthorized();
+    throw new Error('Not authenticated');
   }
 
   return getAccountWithDetails(selectedAccountId);
