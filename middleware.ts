@@ -12,6 +12,7 @@ export function middleware(request: NextRequest) {
    *
    *   locale?: string;              // 'en', 'no', 'sv' - for internationalization
    *   theme?: 'light' | 'dark';     // user theme preference
+   *   userGroups?: string[];        // ['gamer', 'developer'] - for targeted content
    *   userType?: 'b2c' | 'b2b';     // business vs consumer
    *   debugMode?: boolean;          // for development/testing
    *   featureFlags?: string[];      // ['newCheckout', 'betaFeatures']
