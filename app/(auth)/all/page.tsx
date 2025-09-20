@@ -26,7 +26,7 @@ export default async function RootPage({ searchParams }: PageProps<'/'>) {
       <div className="flex h-full grow gap-12">
         <div className="hidden w-64 flex-shrink-0 md:block">
           <div className="sticky top-4">
-            <h3 className="mb-4 text-lg font-bold tracking-tight uppercase">Categories</h3>
+            <h3 className="mb-5 text-lg font-bold tracking-tight uppercase">Categories</h3>
             <Suspense fallback={<CategoryFiltersSkeleton />}>
               <CategoryFilters selectedCategory={category} searchQuery={q} sort={sort} />
             </Suspense>
