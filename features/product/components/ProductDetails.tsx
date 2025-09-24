@@ -22,7 +22,7 @@ export function preloadProductDetails(productId: number) {
 }
 
 export default async function ProductDetails({ productId, children }: Props) {
-  'use cache: remote';
+  'use cache';
 
   cacheLife('max');
   cacheTag('product-' + productId);

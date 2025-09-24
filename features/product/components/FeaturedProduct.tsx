@@ -5,7 +5,7 @@ import ProductCard, { ProductCardSkeleton } from '@/components/ui/ProductCard';
 import { getFeaturedProducts } from '../product-queries';
 
 export default async function FeaturedProductsSection() {
-  'use cache: remote';
+  'use cache';
 
   cacheTag('featured-product');
   cacheLife('max');

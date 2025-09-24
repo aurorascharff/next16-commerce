@@ -12,7 +12,7 @@ type Props = {
 };
 
 export default async function CategoryFilters({ selectedCategory, searchQuery, sort }: Props) {
-  'use cache: remote';
+  'use cache';
 
   cacheTag('categories');
   cacheLife('max');

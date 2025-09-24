@@ -8,7 +8,7 @@ import { getFeaturedProducts } from '../product-queries';
 import type { Route } from 'next';
 
 export default async function Hero() {
-  'use cache: remote';
+  'use cache';
 
   cacheTag('featured-product');
   cacheLife('max');
