@@ -133,26 +133,6 @@ async function DynamicProductsSection() {
   );
 }
 
-function PromoBanner({
-  title,
-  subtitle,
-  href,
-  bgColor,
-}: {
-  title: string;
-  subtitle: string;
-  href?: Route;
-  bgColor: string;
-}) {
-  return (
-    <div className={`${bgColor} border-divider dark:border-divider-dark border p-6`}>
-      <h3 className="mb-2 text-xl font-bold tracking-tight uppercase">{title}</h3>
-      <p className="mb-4 text-sm">{subtitle}</p>
-      <LinkButton scroll title="Learn More" href={href!} variant="primary" />
-    </div>
-  );
-}
-
 async function AuthenticatedPromoBanner() {
   const loggedIn = await getIsAuthenticated();
 
@@ -163,5 +143,25 @@ async function AuthenticatedPromoBanner() {
       href={(loggedIn ? '/user' : '/sign-in') as Route}
       bgColor="bg-accent/10 dark:bg-accent/20"
     />
+  );
+}
+
+function PromoBanner({
+  title,
+  subtitle,
+  href,
+  bgColor,
+}: {
+  title: string;
+  subtitle: string;
+  href: Route;
+  bgColor: string;
+}) {
+  return (
+    <div className={`${bgColor} border-divider dark:border-divider-dark border p-6`}>
+      <h3 className="mb-2 text-xl font-bold tracking-tight uppercase">{title}</h3>
+      <p className="mb-4 text-sm">{subtitle}</p>
+      <LinkButton scroll title="Learn More" href={href} variant="primary" />
+    </div>
   );
 }
