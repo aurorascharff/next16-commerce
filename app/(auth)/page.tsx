@@ -8,7 +8,6 @@ import FeaturedCategories, { FeaturedCategoriesSkeleton } from '@/features/categ
 import FeaturedProductsSection, { FeaturedProductsSkeleton } from '@/features/product/components/FeaturedProduct';
 import Hero, { HeroSkeleton } from '@/features/product/components/Hero';
 import Recommendations, { RecommendationsSkeleton } from '@/features/user/components/Recommendations';
-import type { Route } from 'next';
 
 export default async function HomePage() {
   return (
@@ -29,34 +28,18 @@ export default async function HomePage() {
       <Suspense fallback={<FeaturedCategoriesSkeleton />}>
         <FeaturedCategories />
       </Suspense>
-      <Suspense
-        fallback={<div className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Featured Products</div>}
-      >
-        <DynamicProductsSection />
-      </Suspense>
+      <ProductsHeader />
       <Suspense fallback={<FeaturedProductsSkeleton />}>
         <FeaturedProductsSection />
       </Suspense>
       <Boundary rendering="static" hydration="server">
         <section className="grid gap-6 md:grid-cols-2">
-          <Suspense
-            fallback={
-              <div className="bg-accent/10 dark:bg-accent/20 border-divider dark:border-divider-dark border p-6">
-                <h3 className="mb-2 text-xl font-bold tracking-tight uppercase">Membership Benefits</h3>
-                <p className="mb-4 text-sm">
-                  Join our exclusive club for special discounts, early access, and premium support.
-                </p>
-              </div>
-            }
-          >
-            <AuthenticatedPromoBanner />
-          </Suspense>
-          <PromoBanner
-            title="Trade-In Program"
-            subtitle="Upgrade your devices and get credit towards your next purchase."
-            href="/about"
-            bgColor="bg-black/5 dark:bg-white/10"
-          />
+          <PromoBanner />
+          <div className="border-divider dark:border-divider-dark border bg-black/5 p-6 dark:bg-white/10">
+            <h3 className="mb-2 text-xl font-bold tracking-tight uppercase">Trade-In Program</h3>
+            <p className="mb-4 text-sm">Upgrade your devices and get credit towards your next purchase.</p>
+            <LinkButton scroll title="Learn More" href="/about" variant="primary" />
+          </div>
         </section>
         <section>
           <h2 className="mb-4 text-2xl font-bold tracking-tight uppercase">Quick Links</h2>
@@ -118,14 +101,13 @@ function PersonalizedSectionSkeleton() {
   );
 }
 
-async function DynamicProductsSection() {
+async function PersonalProductsHeader() {
   const loggedIn = await getIsAuthenticated();
+  if (!loggedIn) return <GeneralProductsHeader />;
 
   return (
     <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-      <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">
-        {loggedIn ? 'More Products' : 'Featured Products'}
-      </h2>
+      <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">More Products</h2>
       <Link href="/all" className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
         View All Products →
       </Link>
@@ -133,35 +115,52 @@ async function DynamicProductsSection() {
   );
 }
 
-async function AuthenticatedPromoBanner() {
-  const loggedIn = await getIsAuthenticated();
-
+function GeneralProductsHeader() {
   return (
-    <PromoBanner
-      title="Membership Benefits"
-      subtitle="Join our exclusive club for special discounts, early access, and premium support."
-      href={(loggedIn ? '/user' : '/sign-in') as Route}
-      bgColor="bg-accent/10 dark:bg-accent/20"
-    />
+    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+      <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Featured Products</h2>
+      <Link href="/all" className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
+        View All Products →
+      </Link>
+    </div>
   );
 }
 
-function PromoBanner({
-  title,
-  subtitle,
-  href,
-  bgColor,
-}: {
-  title: string;
-  subtitle: string;
-  href: Route;
-  bgColor: string;
-}) {
+function ProductsHeader() {
   return (
-    <div className={`${bgColor} border-divider dark:border-divider-dark border p-6`}>
-      <h3 className="mb-2 text-xl font-bold tracking-tight uppercase">{title}</h3>
-      <p className="mb-4 text-sm">{subtitle}</p>
-      <LinkButton scroll title="Learn More" href={href} variant="primary" />
+    <Suspense fallback={<GeneralProductsHeader />}>
+      <PersonalProductsHeader />
+    </Suspense>
+  );
+}
+
+async function PersonalPromoBanner() {
+  const loggedIn = await getIsAuthenticated();
+  if (!loggedIn) return <GeneralPromoBanner />;
+
+  return (
+    <div className="bg-accent/10 dark:bg-accent/20 border-divider dark:border-divider-dark border p-6">
+      <h3 className="mb-2 text-xl font-bold tracking-tight uppercase">Membership Benefits</h3>
+      <p className="mb-4 text-sm">Join our exclusive club for special discounts, early access, and premium support.</p>
+      <LinkButton scroll title="Learn More" href="/user" variant="primary" />
     </div>
+  );
+}
+
+function GeneralPromoBanner() {
+  return (
+    <div className="bg-accent/10 dark:bg-accent/20 border-divider dark:border-divider-dark border p-6">
+      <h3 className="mb-2 text-xl font-bold tracking-tight uppercase">Membership Benefits</h3>
+      <p className="mb-4 text-sm">Join our exclusive club for special discounts, early access, and premium support.</p>
+      <LinkButton scroll title="Learn More" href="/sign-in" variant="primary" />
+    </div>
+  );
+}
+
+function PromoBanner() {
+  return (
+    <Suspense fallback={<GeneralPromoBanner />}>
+      <PersonalPromoBanner />
+    </Suspense>
   );
 }
