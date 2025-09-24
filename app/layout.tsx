@@ -1,7 +1,3 @@
-import React from 'react';
-
-import { getIsAuthenticated } from '@/features/auth/auth-queries';
-
 import './globals.css';
 
 import { Analytics } from '@vercel/analytics/next';
@@ -11,6 +7,7 @@ import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import Boundary from '@/components/internal/Boundary';
 import { BoundaryProvider } from '@/components/internal/BoundaryProvider';
+import { getIsAuthenticated } from '@/features/auth/auth-queries';
 import { AuthProvider } from '@/features/auth/components/AuthProvider';
 
 import type { Metadata } from 'next';
