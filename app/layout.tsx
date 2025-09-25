@@ -6,7 +6,6 @@ import { Geist } from 'next/font/google';
 import React from 'react';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
-import Boundary from '@/components/internal/Boundary';
 import { BoundaryProvider } from '@/components/internal/BoundaryProvider';
 import type { Metadata } from 'next';
 
@@ -23,9 +22,7 @@ export default async function RootLayout({ children }: LayoutProps<'/'>) {
       <body className={GeistSans.className}>
         <BoundaryProvider>
           <div className="flex min-h-screen flex-col">
-            <Boundary>
-              <Header />
-            </Boundary>
+            <Header />
             <main className="mb-4 flex flex-1 flex-col gap-6 p-4 sm:mb-8 sm:gap-10 sm:p-10 lg:mb-10 2xl:px-60">
               {children}
             </main>
