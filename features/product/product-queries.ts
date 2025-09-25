@@ -165,7 +165,7 @@ export const getFeaturedProducts = cache(async (limit = 4) => {
 });
 
 export const getRecommendedProducts = cache(async (limit = 4) => {
-  await slow();
+  await slow(500);
 
   const accountId = await verifyAuth();
 

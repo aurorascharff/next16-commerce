@@ -19,7 +19,7 @@ export default async function HomePage({ params }: PageProps<'/[requestContext]'
         <Hero />
       </Suspense>
       <WelcomeBanner loggedIn={loggedIn} />
-      {loggedIn && (
+      {loggedIn ? (
         <>
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div>
@@ -28,7 +28,7 @@ export default async function HomePage({ params }: PageProps<'/[requestContext]'
                 Personalized recommendations based on your interests
               </p>
             </div>
-            <Link href="/user" className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
+            <Link href={'/user' as Route} className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
               View Saved →
             </Link>
           </div>
@@ -36,10 +36,23 @@ export default async function HomePage({ params }: PageProps<'/[requestContext]'
             <Recommendations />
           </Suspense>
         </>
+      ) : (
+        <>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Something for You?</h2>
+              <p className="text-xs text-gray-600 sm:text-sm dark:text-gray-400">
+                Personalized recommendations based on your interests
+              </p>
+            </div>
+            <div className="h-4 w-20 rounded bg-gray-200 sm:h-5 sm:w-24 dark:bg-gray-700" />
+          </div>
+          <RecommendationsSkeleton />
+        </>
       )}
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Featured Categories</h2>
-        <Link href="/all" className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
+        <Link href={'/all' as Route} className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
           View All →
         </Link>
       </div>
@@ -50,7 +63,7 @@ export default async function HomePage({ params }: PageProps<'/[requestContext]'
         <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">
           {loggedIn ? 'More Products' : 'Featured Products'}
         </h2>
-        <Link href="/all" className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
+        <Link href={'/all' as Route} className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
           View All Products →
         </Link>
       </div>
@@ -59,51 +72,42 @@ export default async function HomePage({ params }: PageProps<'/[requestContext]'
       </Suspense>
       <Boundary rendering="static" hydration="server">
         <section className="grid gap-6 md:grid-cols-2">
-          <PromoBanner
-            title="Membership Benefits"
-            subtitle="Join our exclusive club for special discounts, early access, and premium support."
-            href={'/sign-in' as Route}
-            bgColor="bg-accent/10 dark:bg-accent/20"
-          />
-          <PromoBanner
-            title="Trade-In Program"
-            subtitle="Upgrade your devices and get credit towards your next purchase."
-            href={'/about' as Route}
-            bgColor="bg-black/5 dark:bg-white/10"
-          />
+          <div className="bg-accent/10 dark:bg-accent/20 border-divider dark:border-divider-dark border p-6">
+            <h3 className="mb-2 text-xl font-bold tracking-tight uppercase">Member Rewards</h3>
+            <p className="mb-4 text-sm">
+              Unlock exclusive perks like extra discounts, early product launches, and priority support. Sign in to
+              access your dashboard and discover new offers!
+            </p>
+            {loggedIn ? (
+              <LinkButton href={'/user' as Route} variant="primary">
+                Go to Dashboard
+              </LinkButton>
+            ) : (
+              <LinkButton href={'/sign-in' as Route} variant="primary">
+                Sign In to Join
+              </LinkButton>
+            )}
+          </div>
+          <div className="border-divider dark:border-divider-dark border bg-black/5 p-6 dark:bg-white/10">
+            <h3 className="mb-2 text-xl font-bold tracking-tight uppercase">Trade-In Program</h3>
+            <p className="mb-4 text-sm">Upgrade your devices and get credit towards your next purchase.</p>
+            <LinkButton href={'/about' as Route} variant="primary">
+              Learn More
+            </LinkButton>
+          </div>
         </section>
         <section>
           <h2 className="mb-4 text-2xl font-bold tracking-tight uppercase">Quick Links</h2>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6">
-            <LinkButton title="Price Match" href={'/about' as Route} />
-            <LinkButton title="Support" href={'/about' as Route} />
-            <LinkButton title="Free Delivery" href={'/about' as Route} />
-            <LinkButton title="My Account" href={'/user' as Route} />
-            <LinkButton title="Returns" href={'/about' as Route} />
-            <LinkButton title="Gift Cards" href={'/about' as Route} />
+            <LinkButton href={'/about' as Route}>Price Match</LinkButton>
+            <LinkButton href={'/about' as Route}>Support</LinkButton>
+            <LinkButton href={'/about' as Route}>Free Delivery</LinkButton>
+            <LinkButton href={'/user' as Route}>My Account</LinkButton>
+            <LinkButton href={'/about' as Route}>Returns</LinkButton>
+            <LinkButton href={'/about' as Route}>Gift Cards</LinkButton>
           </div>
         </section>
       </Boundary>
-    </div>
-  );
-}
-
-function PromoBanner({
-  title,
-  subtitle,
-  href,
-  bgColor,
-}: {
-  title: string;
-  subtitle: string;
-  href?: Route;
-  bgColor: string;
-}) {
-  return (
-    <div className={`${bgColor} border-divider dark:border-divider-dark border p-6`}>
-      <h3 className="mb-2 text-xl font-bold tracking-tight uppercase">{title}</h3>
-      <p className="mb-4 text-sm">{subtitle}</p>
-      <LinkButton scroll title="Learn More" href={href!} variant="primary" />
     </div>
   );
 }

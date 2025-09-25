@@ -85,7 +85,7 @@ export default function Boundary({ children, rendering, hydration, label, showLa
           >
             {labelText}
           </div>
-          {cached && (
+          {cached && mode === 'rendering' && (
             <div className="rounded border border-green-500 bg-green-50 px-2 py-0.5 font-mono text-xs text-green-700 lowercase shadow-sm dark:bg-green-950/20 dark:text-green-300">
               cached
             </div>

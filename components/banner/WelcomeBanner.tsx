@@ -7,6 +7,16 @@ import { slow } from '@/utils/slow';
 import Boundary from '../internal/Boundary';
 import { BannerContainer } from './BannerContainer';
 
+export default function WelcomeBanner({ loggedIn }: { loggedIn: boolean }) {
+  return (
+    <BannerContainer>
+      <Suspense fallback={<GeneralBanner />}>
+        <PersonalBanner loggedIn={loggedIn} />
+      </Suspense>
+    </BannerContainer>
+  );
+}
+
 export async function PersonalBanner({ loggedIn }: { loggedIn: boolean }) {
   await slow();
   if (!loggedIn) return <GeneralBanner />;
@@ -84,15 +94,5 @@ export function GeneralBanner() {
         </p>
       </div>
     </Boundary>
-  );
-}
-
-export default function WelcomeBanner({ loggedIn }: { loggedIn: boolean }) {
-  return (
-    <BannerContainer>
-      <Suspense fallback={<GeneralBanner />}>
-        <PersonalBanner loggedIn={loggedIn} />
-      </Suspense>
-    </BannerContainer>
   );
 }

@@ -1,20 +1,16 @@
+'use client';
+
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import Boundary from './internal/Boundary';
 import LinkStatus from './ui/LinkStatus';
 
-export default function Pagination({
-  currentPage,
-  totalPages,
-  searchQuery,
-  sort,
-  category,
-}: {
-  currentPage: number;
-  totalPages: number;
-  searchQuery?: string;
-  sort?: 'asc' | 'desc';
-  category?: string;
-}) {
+export default function Pagination({ currentPage, totalPages }: { currentPage: number; totalPages: number }) {
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get('q');
+  const sort = searchParams.get('sort') as 'asc' | 'desc' | null;
+  const category = searchParams.get('category');
+
   const createPageUrl = (page: number) => {
     return {
       pathname: '/all',

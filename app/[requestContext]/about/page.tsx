@@ -1,21 +1,15 @@
 import { ArrowRight, Award, Gift, Package, RefreshCw, Shield, Truck } from 'lucide-react';
-import Link from 'next/link';
 import React from 'react';
 import Boundary from '@/components/internal/Boundary';
-import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 import Divider from '@/components/ui/Divider';
 import LinkButton from '@/components/ui/LinkButton';
-import { getRequestContext } from '@/utils/request-context';
 import type { Route } from 'next';
 
-export default async function AboutPage({ params }: { params: Promise<{ requestContext: string }> }) {
-  const { loggedIn } = getRequestContext(await params);
-
+export default function AboutPage() {
   return (
     <Boundary rendering="static">
       <div className="mx-auto max-w-6xl space-y-16">
-        {/* Hero Section */}
         <div className="space-y-6 text-center">
           <span className="mb-4 inline-block w-fit bg-black px-2.5 py-1 text-xs font-bold tracking-[0.2em] text-white uppercase dark:bg-white dark:text-black">
             About Us
@@ -24,13 +18,9 @@ export default async function AboutPage({ params }: { params: Promise<{ requestC
           <p className="mx-auto mt-4 max-w-3xl text-xl text-gray-600 dark:text-gray-400">
             Your trusted partner for cutting-edge technology and exceptional service.
           </p>
-          <Boundary rendering="static">
-            <Link href={loggedIn ? ('/' as Route) : ('/sign-in' as Route)}>
-              <Button variant="primary" title="Start Shopping">
-                Start Shopping <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-          </Boundary>
+          <LinkButton variant="primary" href={'/' as Route}>
+            Start Shopping <ArrowRight className="ml-2 h-4 w-4" />
+          </LinkButton>
         </div>
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           <ServiceCard
@@ -89,8 +79,12 @@ export default async function AboutPage({ params }: { params: Promise<{ requestC
               Quality products, exceptional service, and customer satisfaction are the pillars of our business.
             </p>
             <div className="flex flex-col gap-4 sm:flex-row">
-              <LinkButton title="Browse Products" href={'/all' as Route} variant="primary" />
-              <LinkButton title="Contact Support" href={'/all' as Route} variant="secondary" />
+              <LinkButton href={'/all' as Route} variant="primary">
+                Browse Products
+              </LinkButton>
+              <LinkButton href={'/user' as Route} variant="secondary">
+                Contact Support
+              </LinkButton>
             </div>
           </div>
         </div>
