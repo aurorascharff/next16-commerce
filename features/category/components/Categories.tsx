@@ -35,7 +35,7 @@ export function CategoriesSkeleton() {
     <div>
       <div className="mb-4 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
         {Array.from({ length: 5 }).map((_, index) => {
-          return <div key={index} className="h-5 w-full rounded bg-gray-200 dark:bg-gray-700" />;
+          return <div key={index} className="skeleton-animation h-5 w-full rounded" />;
         })}
         <div className="mb-1 h-5 w-full" />
       </div>
