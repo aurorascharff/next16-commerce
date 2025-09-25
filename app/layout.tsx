@@ -3,11 +3,11 @@ import './globals.css';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Geist } from 'next/font/google';
-import React, { Suspense } from 'react';
+import React from 'react';
 import Footer from '@/components/Footer';
+import Header from '@/components/Header';
+import Boundary from '@/components/internal/Boundary';
 import { BoundaryProvider } from '@/components/internal/BoundaryProvider';
-import AppLayout from '@/components/layout/AppLayout';
-import UserProfile, { UserProfileSkeleton } from '@/features/user/components/UserProfile';
 import type { Metadata } from 'next';
 
 const GeistSans = Geist({ subsets: ['latin'] });
@@ -23,9 +23,12 @@ export default async function RootLayout({ children }: LayoutProps<'/'>) {
       <body className={GeistSans.className}>
         <BoundaryProvider>
           <div className="flex min-h-screen flex-col">
-            <AppLayout headerContent={<Suspense fallback={<UserProfileSkeleton />}>{<UserProfile />}</Suspense>}>
+            <Boundary>
+              <Header />
+            </Boundary>
+            <main className="mb-4 flex flex-1 flex-col gap-6 p-4 sm:mb-8 sm:gap-10 sm:p-10 lg:mb-10 2xl:px-60">
               {children}
-            </AppLayout>
+            </main>
           </div>
           <Footer />
         </BoundaryProvider>

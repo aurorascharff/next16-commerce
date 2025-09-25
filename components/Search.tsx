@@ -45,7 +45,7 @@ export default function Search() {
 export function SearchSkeleton() {
   return (
     <div className="relative">
-      <input className="skeleton-animation pl-9 text-sm outline-offset-2" placeholder="Loading..." disabled />
+      <input className="pl-9 text-sm outline-offset-2" placeholder="Loading..." disabled />
       <div className="absolute top-1/2 left-3 -translate-y-1/2">
         <div className="skeleton-animation h-4 w-4 rounded-full" />
       </div>
