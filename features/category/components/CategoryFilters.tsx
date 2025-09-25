@@ -1,18 +1,13 @@
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import React, { Suspense } from 'react';
 import Boundary from '@/components/internal/Boundary';
 import { getCategories } from '../category-queries';
 import CategoryFilterButton from './CategoryFilterButton';
 
 export default async function CategoryFilters() {
-  'use cache';
-
-  cacheTag('categories');
-
   const categories = await getCategories();
 
   return (
-    <Boundary hydration="server" rendering="hybrid" cached>
+    <Boundary hydration="server" rendering="hybrid">
       <div className="flex flex-wrap gap-2 md:flex-col md:gap-1">
         <Suspense fallback={<CategoryFilterButtonSkeleton />}>
           <CategoryFilterButton>All</CategoryFilterButton>

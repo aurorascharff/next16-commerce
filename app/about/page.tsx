@@ -2,11 +2,9 @@ import { ArrowRight, Award, Gift, Package, RefreshCw, Shield, Truck } from 'luci
 import React from 'react';
 import Boundary from '@/components/internal/Boundary';
 import AppLayout from '@/components/layout/AppLayout';
-import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 import Divider from '@/components/ui/Divider';
 import LinkButton from '@/components/ui/LinkButton';
-import { signInOrRedirect } from '@/features/auth/auth-actions';
 
 export default function AboutPage() {
   return (
@@ -21,13 +19,9 @@ export default function AboutPage() {
             <p className="mx-auto mt-4 max-w-3xl text-xl text-gray-600 dark:text-gray-400">
               Your trusted partner for cutting-edge technology and exceptional service.
             </p>
-            <Boundary rendering="static">
-              <form action={signInOrRedirect}>
-                <Button variant="primary" title="Start Shopping">
-                  Start Shopping <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </form>
-            </Boundary>
+            <LinkButton variant="primary" href="/">
+              Start Shopping <ArrowRight className="ml-2 h-4 w-4" />
+            </LinkButton>
           </div>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             <ServiceCard
@@ -86,8 +80,12 @@ export default function AboutPage() {
                 Quality products, exceptional service, and customer satisfaction are the pillars of our business.
               </p>
               <div className="flex flex-col gap-4 sm:flex-row">
-                <LinkButton title="Browse Products" href="/all" variant="primary" />
-                <LinkButton title="Contact Support" href="/user" variant="secondary" />
+                <LinkButton href="/all" variant="primary">
+                  Browse Products
+                </LinkButton>
+                <LinkButton href="/user" variant="secondary">
+                  Contact Support
+                </LinkButton>
               </div>
             </div>
           </div>

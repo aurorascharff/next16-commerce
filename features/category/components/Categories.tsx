@@ -1,4 +1,3 @@
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import Link from 'next/link';
 import Boundary from '@/components/internal/Boundary';
 import LinkStatus from '@/components/ui/LinkStatus';
@@ -6,14 +5,10 @@ import ShowMore from '@/components/ui/ShowMore';
 import { getCategories } from '../category-queries';
 
 export default async function Categories() {
-  'use cache';
-
-  cacheTag('categories');
-
   const categories = await getCategories();
 
   return (
-    <Boundary rendering="hybrid" cached>
+    <Boundary rendering="hybrid">
       <ShowMore initial={5}>
         {categories.map(category => {
           return (
