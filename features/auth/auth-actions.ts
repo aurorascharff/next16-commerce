@@ -25,8 +25,6 @@ export async function logOut() {
   await slow();
 
   (await cookies()).delete('selectedAccountId');
-
-  redirect('/');
 }
 
 export async function logIn(email: string, redirectUrl?: Route) {
