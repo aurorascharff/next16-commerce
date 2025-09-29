@@ -5,7 +5,7 @@ import Boundary from '@/components/internal/Boundary';
 import LinkButton from '@/components/ui/LinkButton';
 import { getIsAuthenticated } from '@/features/auth/auth-queries';
 import FeaturedCategories, { FeaturedCategoriesSkeleton } from '@/features/category/components/FeaturedCategories';
-import FeaturedProductsSection, { FeaturedProductsSkeleton } from '@/features/product/components/FeaturedProduct';
+import FeaturedProducts, { FeaturedProductsSkeleton } from '@/features/product/components/FeaturedProducts';
 import Hero, { HeroSkeleton } from '@/features/product/components/Hero';
 import Recommendations, { RecommendationsSkeleton } from '@/features/user/components/Recommendations';
 
@@ -16,6 +16,10 @@ export default async function HomePage() {
     <div className="flex flex-col gap-10">
       <Suspense fallback={<HeroSkeleton />}>
         <Hero />
+      </Suspense>
+      <WelcomeBanner />
+      <Suspense>
+        <PersonalizedSection />
       </Suspense>
       <WelcomeBanner />
       {loggedIn ? (
@@ -59,15 +63,13 @@ export default async function HomePage() {
         <FeaturedCategories />
       </Suspense>
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">
-          {loggedIn ? 'More Products' : 'Featured Products'}
-        </h2>
+        <ProductsHeader />
         <Link href="/all" className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
           View All Products →
         </Link>
       </div>
       <Suspense fallback={<FeaturedProductsSkeleton />}>
-        <FeaturedProductsSection />
+        <FeaturedProducts />
       </Suspense>
       <Boundary rendering="static" hydration="server">
         <section className="grid gap-6 md:grid-cols-2">
@@ -77,15 +79,7 @@ export default async function HomePage() {
               Unlock exclusive perks like extra discounts, early product launches, and priority support. Sign in to
               access your dashboard and discover new offers!
             </p>
-            {loggedIn ? (
-              <LinkButton href="/user" variant="primary">
-                Go to Dashboard
-              </LinkButton>
-            ) : (
-              <LinkButton href="/sign-in" variant="primary">
-                Sign In to Join
-              </LinkButton>
-            )}
+            <PromoBanner />
           </div>
           <div className="border-divider dark:border-divider-dark border bg-black/5 p-6 dark:bg-white/10">
             <h3 className="mb-2 text-xl font-bold tracking-tight uppercase">Trade-In Program</h3>
@@ -108,5 +102,82 @@ export default async function HomePage() {
         </section>
       </Boundary>
     </div>
+  );
+}
+
+async function PersonalizedSection() {
+  const loggedIn = await getIsAuthenticated();
+
+  if (!loggedIn) {
+    return null;
+  }
+
+  return (
+    <>
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Something for You?</h2>
+          <p className="text-xs text-gray-600 sm:text-sm dark:text-gray-400">
+            Personalized recommendations based on your interests
+          </p>
+        </div>
+        <Link href="/user" className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
+          View Saved →
+        </Link>
+      </div>
+      <Suspense fallback={<RecommendationsSkeleton />}>
+        <Recommendations />
+      </Suspense>
+    </>
+  );
+}
+
+function ProductsHeader() {
+  return (
+    <Suspense fallback={<GeneralProductsHeader />}>
+      <Boundary rendering="dynamic">
+        <PersonalProductsHeader />
+      </Boundary>
+    </Suspense>
+  );
+}
+
+async function PersonalProductsHeader() {
+  const loggedIn = await getIsAuthenticated();
+  if (!loggedIn) return <GeneralProductsHeader />;
+
+  return <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">More Products</h2>;
+}
+
+function GeneralProductsHeader() {
+  return <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Featured Products</h2>;
+}
+
+function PromoBanner() {
+  return (
+    <Suspense fallback={<GeneralPromoBanner />}>
+      <Boundary rendering="dynamic">
+        <PersonalPromoBanner />
+      </Boundary>
+    </Suspense>
+  );
+}
+
+async function PersonalPromoBanner() {
+  const loggedIn = await getIsAuthenticated();
+  if (!loggedIn) return <GeneralPromoBanner />;
+
+  return (
+    <LinkButton href="/user" variant="primary">
+      Go to Dashboard
+    </LinkButton>
+  );
+}
+
+function GeneralPromoBanner() {
+  return (
+    <LinkButton href="/sign-in" variant="primary">
+      Sign In to Join
+    </LinkButton>
   );
 }

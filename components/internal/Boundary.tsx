@@ -79,14 +79,14 @@ export default function Boundary({ children, rendering, hydration, label, showLa
         <div className="absolute -top-2 left-2 flex gap-2">
           <div
             className={cn(
-              'rounded border bg-white px-2 py-0.5 font-mono text-xs lowercase shadow-sm dark:bg-black',
+              'rounded border bg-white px-2 py-0.5 font-mono text-xs font-normal lowercase shadow-sm dark:bg-black',
               labelColor,
             )}
           >
             {labelText}
           </div>
           {cached && mode === 'rendering' && (
-            <div className="rounded border border-green-500 bg-green-50 px-2 py-0.5 font-mono text-xs text-green-700 lowercase shadow-sm dark:bg-green-950/20 dark:text-green-300">
+            <div className="rounded border border-green-500 bg-green-50 px-2 py-0.5 font-mono text-xs font-normal text-green-700 lowercase shadow-sm dark:bg-green-950/20 dark:text-green-300">
               cached
             </div>
           )}

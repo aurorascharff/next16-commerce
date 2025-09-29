@@ -1,9 +1,7 @@
-import Link from 'next/link';
 import React from 'react';
 import Pagination from '@/components/Pagination';
 import Boundary from '@/components/internal/Boundary';
-import ImagePlaceholder from '@/components/ui/ImagePlaceholder';
-import Skeleton from '@/components/ui/Skeleton';
+import ProductCard, { ProductCardSkeleton } from '@/components/ui/ProductCard';
 import { getProducts } from '../product-queries';
 
 type SearchParams = {
@@ -30,27 +28,18 @@ export default async function ProductList({ searchParams }: Props) {
   return (
     <Boundary rendering="hybrid" hydration="server">
       <div className="flex h-full grow flex-col justify-between gap-4 sm:gap-8">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
+        <div className="grid-cols-auto 3xl:grid-cols-3 grid gap-8 md:grid-cols-2">
           {products.map(product => {
             return (
-              <Link
-                href={`/product/${product.id}`}
+              <ProductCard
                 key={product.id}
-                className="group border-divider hover:border-accent dark:border-divider-dark dark:hover:border-accent flex flex-row border bg-white transition-all hover:shadow-md dark:bg-black"
-              >
-                <ImagePlaceholder variant="simple" className="h-full w-24 sm:w-28" />
-                <div className="flex flex-1 flex-col gap-2 p-5">
-                  <h2 className="group-hover:text-accent line-clamp-1 text-sm font-bold tracking-wide text-black uppercase dark:text-white">
-                    {product.name}
-                  </h2>
-                  {product.description && (
-                    <p className="line-clamp-2 text-xs leading-relaxed text-gray-700 normal-case dark:text-gray-300">
-                      {product.description}
-                    </p>
-                  )}
-                  <p className="text-accent mt-auto text-sm font-bold tracking-wider">${product.price.toFixed(2)}</p>
-                </div>
-              </Link>
+                id={product.id}
+                name={product.name}
+                price={product.price}
+                description={product.description || undefined}
+                variant="compact"
+                enableQuickPreview
+              />
             );
           })}
         </div>
@@ -68,7 +57,7 @@ export function ProductListSkeleton() {
   return (
     <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
       {Array.from({ length: 6 }).map((_, i) => {
-        return <Skeleton key={i} className="h-35" />;
+        return <ProductCardSkeleton key={i} variant="compact" />;
       })}
     </div>
   );

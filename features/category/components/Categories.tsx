@@ -18,7 +18,7 @@ export default async function Categories() {
                   pathname: '/all',
                   query: { category },
                 }}
-                className="text-gray dark:text-gray hover:text-primary block text-sm transition-colors"
+                className="hover:text-accent dark:hover:text-accent block text-sm text-gray-700 transition-colors dark:text-gray-300"
               >
                 <LinkStatus variant="spinner">{category}</LinkStatus>
               </Link>

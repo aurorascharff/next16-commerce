@@ -1,5 +1,4 @@
 import { Bookmark } from 'lucide-react';
-
 import React from 'react';
 import Boundary from '@/components/internal/Boundary';
 import Button from '@/components/ui/Button';

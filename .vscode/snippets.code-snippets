@@ -1,0 +1,17 @@
+{
+    "welcomeBanner": {
+        "scope": "typescriptreact",
+        "prefix": "welcomeBanner",
+        "body": [
+            "export default function WelcomeBanner() {",
+            "  return (",
+            "    <BannerContainer>",
+            "      <Suspense fallback={<GeneralBanner />}>",
+            "        <PersonalBanner />",
+            "      </Suspense>",
+            "    </BannerContainer>",
+            "  );",
+            "}"
+        ],
+    },
+}

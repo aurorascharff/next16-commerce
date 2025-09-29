@@ -9,7 +9,15 @@ export default async function FeaturedProductsSection() {
     <Boundary rendering="hybrid" hydration="server">
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {products.map(product => {
-          return <ProductCard key={product.id} id={product.id} name={product.name} price={product.price} />;
+          return (
+            <ProductCard
+              enableQuickPreview
+              key={product.id}
+              id={product.id}
+              name={product.name}
+              price={product.price}
+            />
+          );
         })}
       </div>
     </Boundary>
