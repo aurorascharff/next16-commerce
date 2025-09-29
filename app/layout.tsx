@@ -8,7 +8,6 @@ import Header from '@/components/Header';
 import { BoundaryProvider } from '@/components/internal/BoundaryProvider';
 import { getIsAuthenticated } from '@/features/auth/auth-queries';
 import { AuthProvider } from '@/features/auth/components/AuthProvider';
-
 import type { Metadata } from 'next';
 
 const GeistSans = Geist({ subsets: ['latin'] });
