@@ -63,7 +63,7 @@
 
 ### Request context
 
-- Open next vs code branch and web browser deployed branch. Here, I created a request context hidden URL param, that is being set in middleware. Avoiding doing auth check in the components themselves.
+- Open next vs code branch and web browser deployed branch. Here, I created a request context hidden URL param, that is being set in middleware. Encoded request context in the URL. Avoiding doing auth check in the components themselves.
 - We can generateStaticParams the different variant.
 - Show cache HIT about page. This is actually a common pattern, and is also recommended by the vercel flags sdk using a precompute function. And used by i18n libraries.
 - Client side fetch the user specific stuff on the product page, and the reviews because we want them fresh, cache HIT. UseSWR! Endpoints. Pages routes flashbacks. And also, we can't generateStaticParams thousands of products.
@@ -84,7 +84,6 @@
 
 - Now, everything here that's marked as hybrid can be cached. It's async and fetching something, but it does not depend on dynamic APIs.
 - Enable cache components. This will opt all our async calls into dynamic calls, and also give us errors whenever a dynamic API does not have a suspense boundary.
-- This error is caused because my searchParams are not suspended. At least now I'll now I wont be blocking any pages. A common problem is not knowing why your app feels slow, with cacheComponents, we will be notified where we need a suspense boundary.
 - Add "use cache" and cacheTag to the categories. Now it's fast on both about and home, we can remove this suspense boundary and skeleton. Worry less about millions of skeletons.
 - One cache key linked to components, no hassle revalidating many different pages.
 - No longer page level static/dynamic. And every cached segment will be a part of the statically generated shell from Partial Prerendering, and can also be prefetched for even faster navigations, cached on the CDN. That's why pushing my searchParams down like this will give me the biggest PPR shell.
@@ -93,9 +92,11 @@
 - Add "use cache" to all hybrid components after the home refactor. Hero, FeaturedProducts, FeaturedCategories. Now they're all fast. Remove suspense.
 - Add use cache to the Reviews, with cacheLife seconds. Keep the suspense.
 - PPR goes down as far as the cache goes, until it meets a dynamic API.
-- For the ProductDetails, it's inside params, so it can't be static. But, we can still use generateStaticParams, and also use "use cache: remote" to cache it between requests to avoid some server load. Inside dynamic API, we still need to add suspense.
+- For the Product, it's inside params, so it can't be static. But, we can still use generateStaticParams, and also use "use cache: remote" to cache it between requests to avoid some server load. Inside dynamic API, we still need to add suspense.
+- Can only use cache async functions, but since we already did the donut here it’s not a problem for the modal.
 - Try add use cache to the ProductDetails. It fails, exposing our dynamic API. Why? We have a dynamic dep. This is also useful for debugging btw. Mark it as dynamic.
 - Let's do some cache gymnastics. Weave in dynamic data. Same as donut pattern, let's slot this. Composable caching. This is whats happening all over our app with pages and layouts.
+- Still, warning. Every await is now dynamic. The user saved product gives us the suspense warning. This error is caused because my cookies are not suspended. At least now I'll now I wont be blocking any pages. A common problem is not knowing why your app feels slow, with cacheComponents, we will be notified where we need a suspense boundary.
 - We could continue this across the whole app, not changing anything in our component tree and structure.
 - Our authProvider does not make it dynamic as long as the components using it are suspended, just like searchParams!
 - For incrementally adopting, we need to start high up with a dep, then build down. Or use the plain useCache, but for future proofing, consider cache components.
