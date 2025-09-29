@@ -14,7 +14,7 @@ export default function ShowMore({ children, initial = 5 }: ShowMoreProps) {
   const remaining = Children.count(children) - initial;
 
   return (
-    <Boundary hydration="client">
+    <Boundary>
       <div>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">{items}</div>
         {remaining > 0 && (
