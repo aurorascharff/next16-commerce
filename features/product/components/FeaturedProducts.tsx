@@ -2,7 +2,7 @@ import Boundary from '@/components/internal/Boundary';
 import ProductCard, { ProductCardSkeleton } from '@/components/ui/ProductCard';
 import { getFeaturedProducts } from '../product-queries';
 
-export default async function FeaturedProductsSection() {
+export default async function FeaturedProducts() {
   const products = await getFeaturedProducts(4);
 
   return (
