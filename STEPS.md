@@ -26,7 +26,7 @@
 - Notice this user page is very slow. We have a waterfall here. The discounts and saved products are locked inside this page. Many ways to fix it, extract to a UserProfile component. We can also utilize more of the app router to make.
 - Use a layout.tsx to parallel fetch this while keeping everything readable. Now it's no longer blocked. Layouts are helpful to minimize the skeletons we need to duplicate code to create. When possible, don't suspend the layout, just the data.
 - This user route is actually only accessible when logged in. Let's say we want to handle an unauthorized attempt here in a different way. This is a general error, will trigger this view on any error. Let's enable authInterrupts and create a custom error boundary. There is also a version of forbidden. Use this either in data access or components.
-- How about excessive prop passing. It's a very common problem. For exampke, getting the logged in state of a user on the server and passing it to the client.
+- How about excessive prop passing. It's a very common problem. For example, getting the logged in state of a user on the server and passing it to the client. Always need this dep when using loginButton.
 - Showcase my user profile. Passing props. We likely need this loggedIn state all the time.
 - Add authprovider. Let's pass it as a promise down, keep it as a promise in the provider. LoginButton is now composable again. Spoiler: we'll get back to this component.
 - Many purposes, any server state you want to share. Just remember to not pass secrets.
