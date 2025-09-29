@@ -6,18 +6,20 @@ import Boundary from '../internal/Boundary';
 import Button from './Button';
 
 type Props = {
-  openModal: boolean;
+  open: boolean;
+  setOpen?: (open: boolean) => void;
   goBackOnClose?: boolean;
   children: React.ReactNode;
   title?: string;
 };
 
-export default function Modal({ openModal, children, goBackOnClose = false, title }: Props) {
+export default function Modal({ open, setOpen, children, goBackOnClose = false, title }: Props) {
   const ref = useRef<HTMLDialogElement>(null);
   const router = useRouter();
 
   const handleClose = () => {
     ref.current?.close();
+    setOpen?.(false);
     document.body.style.overflow = 'unset';
     if (goBackOnClose) {
       router.back();
@@ -25,7 +27,7 @@ export default function Modal({ openModal, children, goBackOnClose = false, titl
   };
 
   useEffect(() => {
-    if (openModal) {
+    if (open) {
       ref.current?.showModal();
       document.body.style.overflow = 'hidden';
     } else {
@@ -35,7 +37,7 @@ export default function Modal({ openModal, children, goBackOnClose = false, titl
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [openModal]);
+  }, [open]);
 
   return (
     <dialog

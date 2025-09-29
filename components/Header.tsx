@@ -7,7 +7,7 @@ import type { Route } from 'next';
 export default function Header({ rightContent }: { rightContent?: React.ReactNode }) {
   return (
     <Boundary rendering="static">
-      <header className="border-divider dark:border-divider-dark flex min-h-20 items-center justify-between gap-4 border-b bg-white px-4 py-4 sm:px-10 2xl:px-60 dark:bg-black">
+      <header className="border-divider dark:border-divider-dark 3xl:px-60 flex min-h-20 items-center justify-between gap-4 border-b bg-white px-4 py-4 sm:px-10 2xl:px-40 dark:bg-black">
         <h1 className="text-3xl font-bold">
           <Link href={'/' as Route} className="text-primary hover:text-primary-dark font-bold normal-case">
             Commerce

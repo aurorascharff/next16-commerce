@@ -4,7 +4,7 @@ import WelcomeBanner from '@/components/banner/WelcomeBanner';
 import Boundary from '@/components/internal/Boundary';
 import LinkButton from '@/components/ui/LinkButton';
 import FeaturedCategories, { FeaturedCategoriesSkeleton } from '@/features/category/components/FeaturedCategories';
-import FeaturedProductsSection, { FeaturedProductsSkeleton } from '@/features/product/components/FeaturedProduct';
+import FeaturedProducts, { FeaturedProductsSkeleton } from '@/features/product/components/FeaturedProducts';
 import Hero, { HeroSkeleton } from '@/features/product/components/Hero';
 import Recommendations, { RecommendationsSkeleton } from '@/features/user/components/Recommendations';
 import { getRequestContext } from '@/utils/request-context';
@@ -68,7 +68,7 @@ export default async function HomePage({ params }: PageProps<'/[requestContext]'
         </Link>
       </div>
       <Suspense fallback={<FeaturedProductsSkeleton />}>
-        <FeaturedProductsSection />
+        <FeaturedProducts />
       </Suspense>
       <Boundary rendering="static" hydration="server">
         <section className="grid gap-6 md:grid-cols-2">

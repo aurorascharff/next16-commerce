@@ -23,6 +23,8 @@
   --font-sans: var(--font-geist-sans);
   --tracking-tight: -0.02em;
   --tracking-wide: 0.08em;
+  --breakpoint-3xl: 120rem;
+  --breakpoint-4xl: 140rem;
 }
 
 @layer base {

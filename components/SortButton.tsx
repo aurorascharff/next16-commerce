@@ -27,7 +27,7 @@ export default function SortButton() {
   };
 
   return (
-    <Boundary hydration="hybrid">
+    <Boundary hydration="client">
       <Link
         scroll={false}
         href={href}

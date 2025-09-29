@@ -8,7 +8,7 @@ export default async function CategoryFilters() {
 
   return (
     <Boundary hydration="server" rendering="hybrid" cached>
-      <div className="flex flex-wrap gap-2 md:flex-col md:gap-1">
+      <div className="flex flex-wrap gap-2 lg:flex-col lg:gap-1">
         <Suspense fallback={<CategoryFilterButtonSkeleton />}>
           <CategoryFilterButton>All</CategoryFilterButton>
         </Suspense>
