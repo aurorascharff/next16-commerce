@@ -93,7 +93,8 @@
 - Add "use cache" to all hybrid components after the home refactor. Hero, FeaturedProducts, FeaturedCategories. Now they're all fast. Remove suspense.
 - Add use cache to the Reviews, with cacheLife seconds. Keep the suspense.
 - PPR goes down as far as the cache goes, until it meets a dynamic API.
-- For the Product, it's inside params, so it can't be static. But, we can still use generateStaticParams, and also use "use cache: remote" to cache it between requests to avoid some server load. Inside dynamic API, we still need to add suspense.
+- For the Product, it's inside params, so it can't be static. But, we can still use generateStaticParams. Add an example generateStaticParams.
+- And also use "use cache: remote" to cache it between requests to avoid some server load. Inside dynamic API, we still need to add suspense.
 - Can only use cache async functions, but since we already did the donut here it’s not a problem for the modal.
 - Try add use cache to the ProductDetails. It fails, exposing our dynamic API. Why? We have a dynamic dep. This is also useful for debugging btw. Mark it as dynamic.
 - Let's do some cache gymnastics. Weave in dynamic data. Same as donut pattern, let's slot this. Composable caching. This is whats happening all over our app with pages and layouts.
