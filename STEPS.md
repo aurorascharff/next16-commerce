@@ -96,7 +96,8 @@
 - For the Product, it's inside params, so it can't be static. But, we can still use generateStaticParams. Add an example generateStaticParams.
 - And also use "use cache: remote" to cache it between requests to avoid some server load. Inside dynamic API, we still need to add suspense.
 - Can only use cache async functions, but since we already did the donut here it’s not a problem for the modal.
-- Try add use cache to the ProductDetails. It fails, exposing our dynamic API. Why? We have a dynamic dep. This is also useful for debugging btw. Mark it as dynamic.
+- Try add use cache to the ProductDetails. It fails, exposing our dynamic API. Why? We have a dynamic dep. This is also useful for debugging btw. Mark it as dynamic, and slot the dynamic dep.
+- Then, error again! Actually, there is no suspense here, and we would be blocking our entire page! Add suspense.
 - Let's do some cache gymnastics. Weave in dynamic data. Same as donut pattern, let's slot this. Composable caching. This is whats happening all over our app with pages and layouts.
 - Still, warning. Every await is now dynamic. The user saved product gives us the suspense warning. This error is caused because my cookies are not suspended. At least now I'll now I wont be blocking any pages. A common problem is not knowing why your app feels slow, with cacheComponents, we will be notified where we need a suspense boundary.
 - We could continue this across the whole app, not changing anything in our component tree and structure.
