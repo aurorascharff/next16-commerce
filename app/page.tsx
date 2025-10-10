@@ -5,7 +5,7 @@ import Boundary from '@/components/internal/Boundary';
 import LinkButton from '@/components/ui/LinkButton';
 import { getIsAuthenticated } from '@/features/auth/auth-queries';
 import FeaturedCategories, { FeaturedCategoriesSkeleton } from '@/features/category/components/FeaturedCategories';
-import FeaturedProductsSection, { FeaturedProductsSkeleton } from '@/features/product/components/FeaturedProducts';
+import FeaturedProducts, { FeaturedProductsSkeleton } from '@/features/product/components/FeaturedProducts';
 import Hero, { HeroSkeleton } from '@/features/product/components/Hero';
 import Recommendations, { RecommendationsSkeleton } from '@/features/user/components/Recommendations';
 
@@ -17,40 +17,8 @@ export default async function HomePage() {
       <Suspense fallback={<HeroSkeleton />}>
         <Hero />
       </Suspense>
-      <Suspense>
-        <WelcomeBanner />
-      </Suspense>
-      {loggedIn ? (
-        <>
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Something for You?</h2>
-              <p className="text-xs text-gray-600 sm:text-sm dark:text-gray-400">
-                Personalized recommendations based on your interests
-              </p>
-            </div>
-            <Link href="/user" className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
-              View Saved →
-            </Link>
-          </div>
-          <Suspense fallback={<RecommendationsSkeleton />}>
-            <Recommendations />
-          </Suspense>
-        </>
-      ) : (
-        <>
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Something for You?</h2>
-              <p className="text-xs text-gray-600 sm:text-sm dark:text-gray-400">
-                Personalized recommendations based on your interests
-              </p>
-            </div>
-            <div className="h-4 w-20 rounded bg-gray-200 sm:h-5 sm:w-24 dark:bg-gray-700" />
-          </div>
-          <RecommendationsSkeleton />
-        </>
-      )}
+      <WelcomeBanner loggedIn={loggedIn} />
+      {loggedIn && <PersonalizedSection />}
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Featured Categories</h2>
         <Link href="/all" className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
@@ -69,7 +37,7 @@ export default async function HomePage() {
         </Link>
       </div>
       <Suspense fallback={<FeaturedProductsSkeleton />}>
-        <FeaturedProductsSection />
+        <FeaturedProducts />
       </Suspense>
       <Boundary rendering="static" hydration="server">
         <section className="grid gap-6 md:grid-cols-2">
@@ -110,5 +78,26 @@ export default async function HomePage() {
         </section>
       </Boundary>
     </div>
+  );
+}
+
+async function PersonalizedSection() {
+  return (
+    <>
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Something for You?</h2>
+          <p className="text-xs text-gray-600 sm:text-sm dark:text-gray-400">
+            Personalized recommendations based on your interests
+          </p>
+        </div>
+        <Link href="/user" className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
+          View Saved →
+        </Link>
+      </div>
+      <Suspense fallback={<RecommendationsSkeleton />}>
+        <Recommendations />
+      </Suspense>
+    </>
   );
 }
