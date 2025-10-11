@@ -1,6 +1,6 @@
 'use server';
 
-import { revalidatePath, revalidateTag } from 'next/cache';
+import { refresh, revalidateTag } from 'next/cache';
 import { prisma } from '@/db';
 import { verifyAuth } from '../auth/auth-actions';
 import type { Route } from 'next';
@@ -15,8 +15,7 @@ async function saveProduct(productId: number) {
     },
   });
 
-  revalidatePath('/user');
-  revalidatePath('/product/' + productId);
+  refresh();
 }
 
 async function unsaveProduct(productId: number) {
@@ -31,8 +30,7 @@ async function unsaveProduct(productId: number) {
     },
   });
 
-  revalidatePath('/user');
-  revalidatePath('/product/' + productId);
+  refresh();
 }
 
 export async function toggleSaveProduct(productId: number, saved: boolean) {
@@ -54,5 +52,5 @@ export async function setFeaturedProduct(productId: number) {
     where: { id: productId },
   });
 
-  revalidateTag('featured-product');
+  revalidateTag('featured-product', 'max');
 }
