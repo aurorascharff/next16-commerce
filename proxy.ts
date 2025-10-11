@@ -6,7 +6,7 @@ function isUserAuthenticated(request: NextRequest): boolean {
   return !!request.cookies.get('selectedAccountId')?.value;
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   /**
    * Examples of other data you could include in the encoded context:
    *
