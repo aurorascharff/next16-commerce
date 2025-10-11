@@ -1,7 +1,7 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import Header from '@/components/Header';
 import Boundary from '@/components/internal/Boundary';
-import UserProfile, { UserProfileSkeleton } from '@/features/user/components/UserProfile';
+import UserProfile from '@/features/user/components/UserProfile';
 import type { RequestContextData } from '@/utils/request-context';
 import { encodeRequestContext } from '@/utils/request-context';
 
@@ -18,13 +18,7 @@ export default async function RequestContextLayout({ children }: LayoutProps<'/[
   return (
     <>
       <Boundary rendering="static">
-        <Header
-          rightContent={
-            <Suspense fallback={<UserProfileSkeleton />}>
-              <UserProfile />
-            </Suspense>
-          }
-        />
+        <Header rightContent={<UserProfile />} />
       </Boundary>
       <main className="3xl:px-60 mb-4 flex flex-1 flex-col gap-6 p-4 sm:mb-8 sm:gap-10 sm:p-10 lg:mb-10 2xl:px-40">
         {children}
