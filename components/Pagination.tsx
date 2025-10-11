@@ -1,30 +1,35 @@
-'use client';
-
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
 import Boundary from './internal/Boundary';
 import LinkStatus from './ui/LinkStatus';
+import type { SearchParams } from 'next/dist/server/request/search-params';
 
-export default function Pagination({ currentPage, totalPages }: { currentPage: number; totalPages: number }) {
-  const searchParams = useSearchParams();
-  const searchQuery = searchParams.get('q');
-  const sort = searchParams.get('sort') as 'asc' | 'desc' | null;
-  const category = searchParams.get('category');
-
+export default function Pagination({
+  currentPage,
+  totalPages,
+  searchParams,
+}: {
+  currentPage: number;
+  totalPages: number;
+  searchParams: SearchParams;
+}) {
   const createPageUrl = (page: number) => {
+    const query: Record<string, string> = {};
+    Object.entries(searchParams).forEach(([key, value]) => {
+      if (key !== 'page' && value) {
+        query[key] = value.toString();
+      }
+    });
+    if (page > 1) {
+      query.page = page.toString();
+    }
     return {
       pathname: '/all',
-      query: {
-        ...(searchQuery && { q: searchQuery }),
-        ...(sort && { sort }),
-        ...(category && { category }),
-        ...(page > 1 && { page: page.toString() }),
-      },
+      query,
     };
   };
 
   return (
-    <Boundary hydration="hybrid">
+    <Boundary>
       <div className="flex items-center gap-2">
         {currentPage > 1 && (
           <Link

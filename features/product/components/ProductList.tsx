@@ -4,7 +4,7 @@ import Boundary from '@/components/internal/Boundary';
 import ProductCard, { ProductCardSkeleton } from '@/components/ui/ProductCard';
 import { getProducts } from '../product-queries';
 
-type SearchParams = {
+export type SearchParams = {
   page?: string;
   q?: string;
   sort?: 'asc' | 'desc';
@@ -16,7 +16,8 @@ type Props = {
 };
 
 export default async function ProductList({ searchParams }: Props) {
-  const { q, sort, page, category } = (await searchParams) as SearchParams;
+  const resolvedSearchParams = (await searchParams) as SearchParams;
+  const { q, sort, page, category } = resolvedSearchParams;
   const pageNumber = page ? parseInt(page, 10) : 1;
   const { products, totalPages, currentPage } = await getProducts(q, sort, pageNumber, 9, category);
   const hasProducts = products.length > 0;
@@ -45,7 +46,7 @@ export default async function ProductList({ searchParams }: Props) {
         </div>
         {totalPages > 1 && (
           <div className="flex justify-center">
-            <Pagination currentPage={currentPage} totalPages={totalPages} />
+            <Pagination searchParams={resolvedSearchParams} currentPage={currentPage} totalPages={totalPages} />
           </div>
         )}
       </div>

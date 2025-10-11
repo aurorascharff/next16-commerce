@@ -90,7 +90,7 @@ export async function PersonalBanner({ loggedIn }: { loggedIn: boolean }) {
 
 export function GeneralBanner() {
   return (
-    <Boundary hydration="hybrid" rendering="static">
+    <Boundary rendering="static">
       <div className="flex flex-col justify-between pb-6">
         <span className="mb-3 inline-block w-fit bg-black px-2.5 py-1 text-xs font-bold tracking-[0.2em] text-white uppercase dark:bg-white dark:text-black">
           Member Perks

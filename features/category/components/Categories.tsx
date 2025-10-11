@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import Boundary from '@/components/internal/Boundary';
-import LinkStatus from '@/components/ui/LinkStatus';
 import ShowMore from '@/components/ui/ShowMore';
 import { getCategories } from '../category-queries';
 
@@ -9,7 +8,7 @@ export default async function Categories() {
 
   return (
     <Boundary rendering="hybrid">
-      <ShowMore initial={5}>
+      <ShowMore className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5" initial={5}>
         {categories.map(category => {
           return (
             <Boundary key={category} hydration="server">
@@ -20,7 +19,7 @@ export default async function Categories() {
                 }}
                 className="hover:text-accent dark:hover:text-accent block text-sm text-gray-700 transition-colors dark:text-gray-300"
               >
-                <LinkStatus variant="spinner">{category}</LinkStatus>
+                {category}
               </Link>
             </Boundary>
           );

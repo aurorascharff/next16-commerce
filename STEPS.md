@@ -15,6 +15,12 @@
 - Team reported issues with architecture and excessive prop drilling, making it hard to maintain and refactor features. Let's check out the home page. Maybe we tried to be smart and share this to make the page faster.
 - I'm noticing some issues. Fetching auth state top level, passing down to multiple components, conditional rendering. This is a common problem, making our components less reusable and composable.
 - We don't need to fetch top level with server components. We can fetch inside components,and then utilize react cache() to avoid duplicate calls. Refactor to fetch inside components, improve structure. If using fetch it's auto deduped.
+- Let's see another example, this all products page. Here, tried to be smart to avoid duplicate calls. But now, CategoryFilters are tied to this page, and the loading state responsibility is on the page.
+- Big skeleton code, reusable skeletons but still, no content shown. CategoryFilters has a redundant dependency.
+- Call getCategories inside the CategoryFilters component, add react cache() deduping, not a problem.
+- Refactor the /all page to use individual skeletons inside page.tsx.
+- Notice blocking in the network tab. The entire page is blocked on the ProductList data. This is a common problem. It's really hard to know where the blocking is coming from. Turns out, its the ProductList data fetch, suspend this also.
+- See the streaming in network tab and improved perceived performance as well as actual performance. We fixed it, but it's really hard to know where the blocking is coming from. Let's see later how we can improve this.
 - What about client components? In our header, getting the logged in state of a user on the server and passing it to the client. Always need this dep when using loginButton, forcing the parent to handle this.
 - Add authprovider. Let's pass it as a promise down, keep it as a promise in the provider. LoginButton is now composable again. Spoiler: we'll get back to this component here in the layout.
 - Keep component architecture reusable and composable by fetching inside components.
@@ -38,16 +44,6 @@
 - I want to hide the excess categories if theres many. Let's do some RSC gymnastics. Use ShowMore client wrapper and React.Children to maintain our separation of concerns, and reusability of the Categories component. Mark the boundary.
 - Extracting client logic to smaller client components, like this search.
 - Showcase all boundaries. Donut pattern can be used for anything like this, i.e Carousels and more.
-
-## Blocking calls and suspense usage -> Identify blocking and fix with layouts: app/user/page.tsx
-
-- Notice this user page is very slow. The discounts and saved products are locked inside this page.
-- Notice blocking in the network tab. The entire page is blocked on the user data. This is a common problem. It's really hard to know where the blocking is coming from.
-- Many ways to fix it, extract to a UserProfile component. We can also utilize more of the app router to simplify this.
-- Use a layout.tsx to parallel fetch this while keeping everything readable. Now it's no longer blocked. Layouts are helpful to minimize the skeletons we need to duplicate code to create. When possible, don't suspend the layout, just the data.
-- Identify blocking in the network tab, this time it's the sneaky Discounts. Suspense boundary here. Export skeleton makes it reusable.
-- See the streaming in network tab and improved perceived performance as well as actual performance.
-- We fixed it, but it's really hard to know where the blocking is coming from. Let's see later how we can improve this.
 
 ## Discuss dynamic issues
 
