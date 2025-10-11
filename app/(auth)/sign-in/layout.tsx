@@ -1,9 +1,9 @@
 import React from 'react';
 import Boundary from '@/components/internal/Boundary';
 
-export default async function SignInLayout({ children }: React.PropsWithChildren) {
+export default async function SignInLayout({ children }: LayoutProps<'/sign-in'>) {
   return (
-    <Boundary rendering="static" hydration="hybrid">
+    <Boundary rendering="static">
       <div className="mx-auto max-w-4xl space-y-12">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-black dark:text-white">Welcome Back</h1>

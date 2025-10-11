@@ -3,12 +3,13 @@
 import React, { Children, useState } from 'react';
 import Boundary from '../internal/Boundary';
 
-type ShowMoreProps = {
+type Props = {
   children: React.ReactNode[];
+  className?: string;
   initial?: number;
 };
 
-export default function ShowMore({ children, initial = 5 }: ShowMoreProps) {
+export default function ShowMore({ children, className, initial = 5 }: Props) {
   const [expanded, setExpanded] = useState(false);
   const items = expanded ? children : Children.toArray(children).slice(0, initial);
   const remaining = Children.count(children) - initial;
@@ -16,7 +17,7 @@ export default function ShowMore({ children, initial = 5 }: ShowMoreProps) {
   return (
     <Boundary hydration="client">
       <div>
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">{items}</div>
+        <div className={className}>{items}</div>
         {remaining > 0 && (
           <div className="mt-4 text-center">
             <button
