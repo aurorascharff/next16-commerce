@@ -31,3 +31,13 @@ export function CategoryFilterButtonSkeleton() {
     </div>
   );
 }
+
+export function CategoryFiltersSkeleton() {
+  return (
+    <div className="flex flex-wrap gap-2 md:flex-col md:gap-1">
+      <div className="border-divider dark:border-divider-dark border px-3 py-1.5 text-xs font-bold tracking-wide text-gray-400 uppercase md:w-full dark:text-gray-500">
+        Loading
+      </div>
+    </div>
+  );
+}
