@@ -49,5 +49,5 @@ export default function SortButton() {
 }
 
 export function SortButtonSkeleton() {
-  return <div className="inline-block h-6 w-20 animate-pulse rounded bg-gray-200 dark:bg-gray-700" />;
+  return <div className="inline-block h-6 w-20 animate-pulse rounded bg-neutral-200 dark:bg-neutral-800" />;
 }

@@ -3,10 +3,11 @@
 ## Setup and problem
 
 - This is a e commerce demo app. The setup is the Next.js App Router, Prisma ORM and an Prisma Postgres DB, Tailwind CSS.
-- Let's say the team here has reported issues with architecture and excessive passing of props, excessive client side JS, confusion around when to use suspense boundaries, and need help utilizing static generation and caching.
-- Demo app. Ecommerce mimic. Everything here looks pretty decent. Home page, browse page, login page, about page, profile page. Pretty good overall.
 - I have all my pages here. I'm using feature slicing to keep the app router folder clean and easy to read. Could also use the underscore components. Services and queries talking to my db.
+- Demo app. Ecommerce mimic. Everything here looks pretty decent. Home page, browse page, login page, about page, profile page. Pretty good overall.
 - Also using typed routes to get these page props and type safe links.
+- This is a regular next.js codebase, nothing fancy, however, keep in mind we have a pretty good mix of static and dynamic content.
+- Let's say the team here has reported issues with architecture and prop drilling, excessive client side JS, and need help utilizing static generation and caching.
 - The goal here is to improve this regular Next.js codebase and enhance it with modern patterns, regarding architecture, composition, and caching capabilities, to make it faster, more scalable, and easier to maintain.
 - Improvements based on my exp building with server comp also and other codebases I have seen, and what devs commonly do wrong or struggle to find solutions for.
 
@@ -15,6 +16,7 @@
 - Team reported issues with architecture and excessive prop drilling, making it hard to maintain and refactor features. Let's check out the home page. Maybe we tried to be smart and share this to make the page faster.
 - I'm noticing some issues. Fetching auth state top level, passing down to multiple components, conditional rendering. This is a common problem, making our components less reusable and composable.
 - We don't need to fetch top level with server components. We can fetch inside components,and then utilize react cache() to avoid duplicate calls. Refactor to fetch inside components, improve structure. If using fetch it's auto deduped.
+- Lot's of login deps. Extract this to components handling their own responsibilities.
 - Let's see another example, this all products page. Here, tried to be smart to avoid duplicate calls. But now, CategoryFilters are tied to this page, and the loading state responsibility is on the page.
 - Big skeleton code, reusable skeletons but still, no content shown. CategoryFilters has a redundant dependency.
 - Call getCategories inside the CategoryFilters component, add react cache() deduping, not a problem.
@@ -27,15 +29,15 @@
 
 ## Excessive client JS -> Client/Server composition: WelcomeBanner
 
-- Another reported issue is excessive client side JS. Let's check out this banner.
+- Another reported issue is excessive client side JS.
+- Check out this Pagination. Client side due to link status. Switch to new LinkStatus API.
 - Begin with this Banner. It's dismissing this with a useState(), and it has a motion.div animation. Switched to client side fetching with useSWR to make this interactive.
-- However, we break seperation of concerns by involving UI logic with data. Instead, let's utilize the donut pattern to make a client component wrapper, BannerContainer.
+- However, we break separation of concerns by involving UI logic with data. Instead, let's utilize the donut pattern to make a client component wrapper, BannerContainer.
 - Delete API layer, no longer needed.
 - See in devtools only the container is client.
 - By the way, using this pattern with a boundary provider. Wrap a boundary here so we can mark this as client. Hard code "hydration". See the links as well client. Mark as client.
 - For the motion.div, this simple animation is now forcing the entire banner to be client. Let's move this to a MotionWrapper component, that can be reused for other animations.
 - Compositional power, WelcomeBanner can be added anywhere. Add to /all page.
-- For component that don't rely on server logic and neither on client js, let's mark them hybrid. Pagination.
 - What if we want a modal for our products? Mark product as server. Relies on server stuff and is async. We can utilize for example the modal pattern with intercepting routes, or pass the content as props.
 - Add snippet passing down server component into a ProductModal. Mark modal as client.
 - The compositional power of server components, Product is passed into this modal, handles its own data.
@@ -88,29 +90,32 @@
 - We have an error right away! The authprovider... Theres no way to fix this without lots of refactor. I suppose we remove this pattern. OR! Let's not await this, and read it with use() inside components. As long as it's suspended, no issue! Like params.
 - Add "use cache" and cacheTag to the categories. Now it's fast on both about and home, we can remove this suspense boundary and skeleton. Worry less about millions of skeletons.
 - One cache key linked to components, no hassle revalidating many different pages.
-- No longer page level static/dynamic. And every cached segment will be a part of the statically generated shell from Partial Prerendering, and can also be prefetched for even faster navigations, cached on the CDN. That's why pushing my searchParams down like this will give me the biggest PPR shell.
-- That's why my pattern in the home page is good for both composition and PPR.
+- No longer page level static/dynamic.
+- That's why my pattern in the home page is good for both composition and PPR. I already refactored it alot, and it's making it alot easier for me.
 - Add "use cache" to the category filters. Error, search params resolving too high: don't, or use client comps! Need to create a bigger static shell. Remove suspense.
 - Add "use cache" to all hybrid components after the home refactor. Hero, FeaturedProducts, FeaturedCategories. Now they're all fast. Remove suspense.
 - Add use cache to the Reviews, with cacheLife seconds. Keep the suspense.
-- PPR goes down as far as the cache goes, until it meets a dynamic API.
+- And every cached segment will be a part of the statically generated shell from Partial Prerendering, and can also be prefetched for even faster navigations, cached on the CDN. PPR goes down as far as the cache goes, until it meets a dynamic API. That's why pushing my searchParams down like this will give me the biggest PPR shell.
 - For the Product, it's inside params, so it can't be static. But, we can still use generateStaticParams. Add an example generateStaticParams.
 - And also use "use cache: remote" to cache it between requests to avoid some server load. Inside dynamic API, we still need to add suspense.
 - Can only use cache async functions, but since we already did the donut here it’s not a problem for the modal.
 - Try add use cache to the ProductDetails. It fails, exposing our dynamic API. Why? We have a dynamic dep. This is also useful for debugging btw. Mark it as dynamic, and slot the dynamic dep.
 - Then, error again! Actually, there is no suspense here, and we would be blocking our entire page! Add suspense.
-- Let's do some cache gymnastics. Weave in dynamic data. Same as donut pattern, let's slot this. Composable caching. This is whats happening all over our app with pages and layouts.
+- Let's do some cache gymnastics. Weave in dynamic data. Same as donut pattern, let's slot this. Composable caching. This is whats happening all over our app with pages and layouts. We could also cache the data, but this is a showcase.
 - Still, warning. Every await is now dynamic. The user saved product gives us the suspense warning. This error is caused because my cookies are not suspended. At least now I'll now I wont be blocking any pages. A common problem is not knowing why your app feels slow, with cacheComponents, we will be notified where we need a suspense boundary.
 - We could continue this across the whole app, not changing anything in our component tree and structure.
 - Our authProvider does not make it dynamic as long as the components using it are suspended, just like searchParams!
 - For incrementally adopting, we need to start high up with a dep, then build down. Or use the plain useCache, but for future proofing, consider cache components.
-- My route tree is primarily the same, no refactors. Just following RSC best practices and adding caching. And doing gymnastics if I want to optimize, but thats totally voluntary. Every data fetch is server components! One paradigm, one mental model, composable by default.
+- My route tree is primarily the same, no refactors. Just following RSC best practices and adding caching. And doing gymnastics if I want to optimize, but thats totally voluntary.
 
 ## Final demo
 
-- See all boundaries, cached stuff. Initial page loads. Almost my entire page is already available.
-- Again, every cached segment will be a part of the statically generated shell from Partial Prerendering, and can also be prefetched for even faster navigations.
+- Go to deployed version.
+- Initial page loads. Almost my entire page is already available. So fast.
+- See all boundaries, cached stuff.
+- Again, every cached segment will be a part of the statically generated shell from Partial Prerendering, and can also be prefetched for even faster navigations.That's only in deployed that prefetching is enabled.
 - And with static shell prefetching, we don't see the params of the product on client side navs, because they're already known. We see them only on the initial load here, after that the remote cache handles it.
 - Show revalidation working with cacheTag.
 - Follow best practices and it should all just work out the box, giving you max performance.
-- There is no reason to be avoiding dynamic APIs anymore. There is not static and dynamic pages. Just performance and composition by default.
+- There is no reason to be avoiding dynamic APIs anymore. There is not static and dynamic pages.
+- Every data fetch is server components! One paradigm, one mental model, performant and composable by default.
