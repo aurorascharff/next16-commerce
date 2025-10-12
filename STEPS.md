@@ -90,11 +90,11 @@
 - Add "use cache" and cacheTag to the categories. Now it's fast on both about and home, we can remove this suspense boundary and skeleton. Worry less about millions of skeletons. Mark it as "cached".
 - One cache key linked to components, no hassle revalidating many different pages.
 - No longer page level static/dynamic.
-- And every cached segment will be a part of the statically generated shell from Partial Prerendering, and can also be prefetched for even faster navigations, cached on the CDN. PPR goes down as far as the cache goes, until it meets a dynamic API.
+- And every cached segment will included in the statically generated shell from Partial Prerendering, and can also be prefetched for even faster navigations, cached on the CDN. PPR goes down as far as the cache goes, until it meets a dynamic API.
 - Add "use cache" to the category filters, and mark as hybrid and cached. Error, search params resolving too high: don't, or use client comps! Refactor to resolve deeper down. Now I have a bigger static shell, because the searchparams dont prevent this content from being statically generated anymore.
 - Also, we are getting help identifying blocking calls.
 - Add "use cache" and mark cache on all hybrid components inside the home page: Hero, FeaturedProducts, FeaturedCategories. Now they're all fast. Remove suspense.
-- That's why my pattern in the home page is good for both composition and PPR. I already refactored it alot, and it's making it alot easier for me.
+- That's why my pattern in the home page is good for both composition and PPR. I already refactored it alot, and it's making it alot easier for me, letting me cache bigger chunks here.
 - Add use cache to the Reviews, with cacheLife seconds. Keep the suspense. Mark cached.
 - For the Product, it's inside params, so it can't be static. But, we can still use generateStaticParams. Add an example generateStaticParams.
 - And also use "use cache: remote" to cache it between requests to avoid some server load. Inside dynamic API, we still need to add suspense. Mark cached.
