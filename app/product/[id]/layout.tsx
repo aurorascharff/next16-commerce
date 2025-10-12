@@ -1,5 +1,3 @@
-'use cache';
-
 import BackButton from '@/components/ui/BackButton';
 
 export default async function ProductLayout({ children }: LayoutProps<'/product/[id]'>) {
