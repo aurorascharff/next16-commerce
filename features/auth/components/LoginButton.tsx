@@ -9,7 +9,7 @@ import { logOut } from '../auth-actions';
 export default function LoginButton() {
   const [isPending, startTransition] = useTransition();
   const { requestContext } = useParams();
-  const loggedIn = decodeRequestContext(requestContext as string);
+  const loggedIn = decodeRequestContext(requestContext as string).loggedIn;
   const router = useRouter();
 
   return (
