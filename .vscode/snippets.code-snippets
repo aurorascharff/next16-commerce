@@ -31,6 +31,13 @@
 
         ]
     },
+    "useAuth": {
+        "scope": "typescriptreact",
+        "prefix": "useAuth",
+        "body": [
+            "const { loggedIn: loggedInPromise } = useAuth()",
+        ]
+    },
     "suspenseWithFallback": {
         "scope": "typescriptreact",
         "prefix": "suspenseWithFallback",

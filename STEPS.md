@@ -21,7 +21,7 @@
 - What about client WelcomeBanner, WelcomeBanner? Always need this dep when using WelcomeBanner, forcing the parent to handle this. This is a dep we will encounter forever into the future of our apps life. Passing it multiple levels down.
 - Add authprovider. Let's pass it as a promise down, keep it as a promise in the provider. Let's not await this and block the root page.
 - Welcomebanner: Rather read it with use() inside components, can even go two levels deeper here. Suspend Personalbanner with GeneralBanner, while promise resolves with use(). As long as it's suspended, no issue! Like params.  WelcomeBanner is now composable again.
-- In our user profile, getting the logged in state of a user on the server and passing it to the client. Do the same refactor here. Keep in mind we need to suspend this.
+- In our user profile, getting the logged in state of a user on the server and passing it to the client. Do the same refactor here.
 - Let's see another example of prop drilling, this all products page. Here, tried to be smart to avoid duplicate calls for my responsive view. But now, getCategories are tied to this page, and the loading state responsibility is on the page.
 - Big skeleton code, reusable skeletons but still, no content shown. CategoryFilters has a redundant dependency, less composable.
 - Call getCategories inside the CategoryFilters component, add react cache() deduping, not a problem.
