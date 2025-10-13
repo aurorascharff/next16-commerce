@@ -10,8 +10,6 @@ import Hero, { HeroSkeleton } from '@/features/product/components/Hero';
 import Recommendations, { RecommendationsSkeleton } from '@/features/user/components/Recommendations';
 
 export default async function HomePage() {
-  const loggedIn = await getIsAuthenticated();
-
   return (
     <div className="flex flex-col gap-10">
       <Suspense fallback={<HeroSkeleton />}>
@@ -21,38 +19,6 @@ export default async function HomePage() {
       <Suspense>
         <PersonalizedSection />
       </Suspense>
-      <WelcomeBanner />
-      {loggedIn ? (
-        <>
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Something for You?</h2>
-              <p className="text-xs text-gray-600 sm:text-sm dark:text-gray-400">
-                Personalized recommendations based on your interests
-              </p>
-            </div>
-            <Link href="/user" className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
-              View Saved →
-            </Link>
-          </div>
-          <Suspense fallback={<RecommendationsSkeleton />}>
-            <Recommendations />
-          </Suspense>
-        </>
-      ) : (
-        <>
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Something for You?</h2>
-              <p className="text-xs text-gray-600 sm:text-sm dark:text-gray-400">
-                Personalized recommendations based on your interests
-              </p>
-            </div>
-            <div className="h-4 w-20 rounded bg-gray-200 sm:h-5 sm:w-24 dark:bg-gray-700" />
-          </div>
-          <RecommendationsSkeleton />
-        </>
-      )}
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Featured Categories</h2>
         <Link href="/all" className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
