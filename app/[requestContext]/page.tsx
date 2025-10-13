@@ -19,37 +19,7 @@ export default async function HomePage({ params }: PageProps<'/[requestContext]'
         <Hero />
       </Suspense>
       <WelcomeBanner loggedIn={loggedIn} />
-      {loggedIn ? (
-        <>
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Something for You?</h2>
-              <p className="text-xs text-gray-600 sm:text-sm dark:text-gray-400">
-                Personalized recommendations based on your interests
-              </p>
-            </div>
-            <Link href={'/user' as Route} className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
-              View Saved →
-            </Link>
-          </div>
-          <Suspense fallback={<RecommendationsSkeleton />}>
-            <Recommendations />
-          </Suspense>
-        </>
-      ) : (
-        <>
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Something for You?</h2>
-              <p className="text-xs text-gray-600 sm:text-sm dark:text-gray-400">
-                Personalized recommendations based on your interests
-              </p>
-            </div>
-            <div className="h-4 w-20 rounded bg-gray-200 sm:h-5 sm:w-24 dark:bg-gray-700" />
-          </div>
-          <RecommendationsSkeleton />
-        </>
-      )}
+      {loggedIn && <PersonalizedSection />}
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Featured Categories</h2>
         <Link href={'/all' as Route} className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
@@ -109,5 +79,26 @@ export default async function HomePage({ params }: PageProps<'/[requestContext]'
         </section>
       </Boundary>
     </div>
+  );
+}
+
+async function PersonalizedSection() {
+  return (
+    <>
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Something for You?</h2>
+          <p className="text-xs text-gray-600 sm:text-sm dark:text-gray-400">
+            Personalized recommendations based on your interests
+          </p>
+        </div>
+        <Link href="/user" className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
+          View Saved →
+        </Link>
+      </div>
+      <Suspense fallback={<RecommendationsSkeleton />}>
+        <Recommendations />
+      </Suspense>
+    </>
   );
 }
