@@ -3,7 +3,7 @@ import { prisma } from '@/db';
 import { slow } from '@/utils/slow';
 import 'server-only';
 
-export const getCategories = async () => {
+export const getCategories = cache(async () => {
   await slow();
 
   const categories = await prisma.product.groupBy({
@@ -23,7 +23,7 @@ export const getCategories = async () => {
       return item.category;
     })
     .filter(Boolean) as string[];
-};
+});
 
 export const getCategoriesWithCount = cache(async () => {
   await slow();

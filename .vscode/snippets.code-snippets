@@ -47,6 +47,31 @@
             "</Suspense>"
         ],
         "description": "Wraps selected component with Suspense and duplicates the name for fallback Skeleton."
-    }
+    },
+    "isAuth": {
+        "scope": "typescriptreact",
+        "prefix": "isAuth",
+        "body": [
+            "const loggedIn = await getIsAuthenticated();",
+        ]
+    },
+    "getDiscountData": {
+        "scope": "typescriptreact",
+        "prefix": "getDiscountData",
+        "body": [
+            "const [account, discounts, savedProducts] = await Promise.all([",
+            "  getCurrentAccount(),",
+            "  getUserDiscounts(),",
+            "  getSavedProducts(),",
+            "]);",
+        ]
+    },
+        "bannerContainer": {
+            "scope": "typescriptreact",
+            "prefix": "bannerContainer",
+            "body": [
+                "export default function BannerContainer({children}: { children: React.ReactNode }) {",
+            ]
+        },
 }
 

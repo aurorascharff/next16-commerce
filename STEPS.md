@@ -6,7 +6,7 @@
 - Demo app. Ecommerce mimic. Everything here looks pretty decent. Home page, browse page, login page, about page, profile page.
 - I have all my pages here. I'm using feature slicing to keep the app router folder clean and easy to read. Could also use the underscore components. Services and queries talking to my db.
 - Purposefully added slowness to my data fetching.
-- Also using typed routes to get these page props and type safe links.
+- (Also using typed routes to get these page props and type safe links).
 - This is a regular next.js codebase, nothing fancy, however, keep in mind we have a good mix of static and dynamic content.
 - Let's say the team here has reported issues with architecture and prop drilling, excessive client side JS, and need help utilizing static generation and caching.
 - The goal here is to improve this regular Next.js codebase and enhance it with modern patterns, regarding architecture, composition, and caching capabilities, to make it faster, more scalable, and easier to maintain.
@@ -15,31 +15,33 @@
 ## Excessive prop drilling -> component level fetching and authProvider: app/page.tsx
 
 - The first reported issue was with architecture and excessive prop drilling, making it hard to maintain and refactor features. Let's check out the home page.
-- I'm noticing some issues. Fetching auth state top level, passing down to multiple components, conditional rendering. This is a common problem, making our components less reusable and composable.
-- We don't need to fetch top level with server components. Maybe we tried to be smart and share this to make the page faster. We can fetch inside components,and then utilize react cache() to avoid duplicate calls. Refactor to fetch inside components, improve structure. If using fetch it's auto deduped.
-- Lot's of login deps. Extract this to components handling their own responsibilities: PersonalizedSection, ProductsHeader, MembershipTile.
-- What about client WelcomeBanner, WelcomeBanner? Always need this dep when using WelcomeBanner, forcing the parent to handle this. This is a dep we will encounter forever into the future of our apps life. Passing it multiple levels down.
+- I'm noticing some issues. Fetching auth state top level, passing down to multiple components, conditional rendering. This is a common problem, making our components less reusable and composable, and hard to read code.
+- We don't need to fetch top level with server components. Maybe we tried to be smart and share this to make the page faster. We can fetch inside components,and then utilize react cache() to avoid duplicate calls.
+- Lot's of login deps. Refactor to fetch inside components, improve structure: PersonalizedSection, ProductsHeader, MembershipTile.
+- If using fetch it's auto deduped.
+- What about client WelcomeBanner, WelcomeBanner? Always need this dep when using WelcomeBanner, forcing the parent to handle this dep, cant move this freely. This is a dep we will encounter forever into the future of our apps life. Passing it multiple levels down.
 - Add authprovider. Let's pass it as a promise down, keep it as a promise in the provider. Let's not await this and block the root page.
-- Welcomebanner: Rather read it with use() inside components, can even go two levels deeper here. Suspend Personalbanner with GeneralBanner, while promise resolves with use(). As long as it's suspended, no issue! Like params.  WelcomeBanner is now composable again.
+- Welcomebanner: Rather read it with use() inside components, can even go two levels deeper here. Now we need to suspend Personalbanner with GeneralBanner, ensuring we have a proper fallback and avoiding CLS, while promise resolves with use(). As long as it's suspended, no issue! Like params. WelcomeBanner is now composable again.
 - In our user profile, getting the logged in state of a user on the server and passing it to the client. Do the same refactor here.
-- Let's see another example of prop drilling, this all products page. Here, tried to be smart to avoid duplicate calls for my responsive view. But now, getCategories are tied to this page, and the loading state responsibility is on the page.
+- Let's see another example of prop drilling, this all products page.
+- Here, tried to be smart to avoid duplicate calls for my responsive view. But now, getCategories are tied to this page, and the loading state responsibility is on the page.
 - Big skeleton code, reusable skeletons but still, no content shown. CategoryFilters has a redundant dependency, less composable.
 - Call getCategories inside the CategoryFilters component, add react cache() deduping, not a problem.
 - Delete loading.tsx. Refactor the /all page to use individual skeletons inside page.tsx for the categoryFilters.
 - Notice blocking in the network tab. The entire page is blocked on something. It's really hard to know where the blocking is coming from. This is a common problem. Turns out, its the ProductList data fetch, suspend this also.
 - See the streaming in network tab and improved perceived performance as well as actual performance. Also our search is now accessible. We fixed it, but it's really hard to know where the blocking was coming from. Let's see later how we can improve this.
 - Through that refactor we can now maintain good component architecture, reusable and composable by fetching inside components.
+- Since our welcomebanner is composable again, let's add it here.
 
 ## Excessive client JS -> Client/Server composition: WelcomeBanner
 
 - The next reported issue was excessive client side JS.
-- Check out this Pagination. Client side due to link status. This one is simple, let's switch to new LinkStatus API.
+- Check out this Pagination. Client side due to nav status with a transition. ?Preventing default. This one is simple, let's switch to LinkStatus component.
 - Using a rather new nextjs feature, useLinkStatus. Like useFormStatus, avoid lack of feedback on stale navigation while waiting for the search param. Remove use client and excess code.
-- Move to this Banner. It's dismissing this with a useState(), and it has a motion.div animation. Switched to client side fetching with useSWR to make this interactive.
-- However, we break separation of concerns by involving UI logic with data. Instead, let's utilize the donut pattern to make a client component wrapper, BannerContainer.
-- Switch to server fetching, call isAuth and Delete API layer, no longer needed. Export WelcomeBanner with suspense.
-- Still have an error. For the motion.div, this simple animation might still be forcing the entire banner to be client. Let's move this to a MotionWrapper component, that can be reused for other animations.
-- Remove suspense home page, compositional power, WelcomeBanner can be added anywhere. Add to /all page.
+- Revisit the WelcomeBanner. It's dismissing this with a useState(), and it has a motion.div animation. Switched to client side fetching with useSWR to make this interactive, multiple ways to fetch now with API layer, no types.
+- Also, we break separation of concerns by involving UI logic with data. Instead, let's utilize the donut pattern to extract a client component wrapper, bannerContainer: use client here, rename, children, wrapper. Cut all except top line of comp.
+- Remove use client, switch to server fetching getDiscountData, isAuth and return general, and Delete API layer, no longer needed. Export WelcomeBanner with suspense.
+- Still have an error. For the motion.div, this simple animation might still be forcing the entire banner to be client. Let's move this to a MotionWrapper component, that can be reused for other animations. Could also switch to a react view transition!
 - By the way, using this donut pattern with a boundary provider. Wrap a boundary here so we can mark this as client. Toggle "hydration". See the links as well client. Mark as server and client, see the donut pattern visual. Notice other boundaries, i.e the search is extracted to a small client comp with a spinner.
 - I want to hide the excess categories if theres many. Let's do some RSC gymnastics. Use ShowMore client wrapper and React.Children to maintain our separation of concerns, and reusability of the Categories component. Mark the boundaries client and server.
 - The compositional power of server components, Categories is passed into this ShowMore, handles its own data. Can be used all over the app. Not tied to only the ShowMore version.
@@ -87,7 +89,7 @@
 ## Excessive dynamic rendering -> Composable caching with 'use cache'
 
 - Now, everything here that's marked as hybrid can be cached. It's async and fetching something, but it does not depend on dynamic APIs.
-- Enable cache components. This will opt all our async calls into request time calls, and also give us errors whenever a dynamic API does not have a suspense boundary.
+- Enable cacheComponents. This will opt all our async calls into request time calls, and also give us errors whenever a dynamic API does not have a suspense boundary. You can also use just useCache, but cacheComponents will help us make good decisions regarding loading states and caching.
 - Add "use cache" and cacheTag to the categories. Now it's fast on both about and home, we can remove this suspense boundary and skeleton. Worry less about millions of skeletons. Mark it as "cached".
 - One cache key linked to components, no hassle revalidating many different pages.
 - No longer page level static/dynamic.

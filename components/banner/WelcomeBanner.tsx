@@ -33,7 +33,7 @@ export default function WelcomeBanner({ loggedIn }: { loggedIn: boolean }) {
 }
 
 export function PersonalBanner({ loggedIn }: { loggedIn: boolean }) {
-  const { data, isLoading } = useSWR('/api/user-data', fetcher);
+  const { data, isLoading } = useSWR('/api/discount-data', fetcher);
 
   if (isLoading || !loggedIn) {
     return <GeneralBanner />;
