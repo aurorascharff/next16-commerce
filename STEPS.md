@@ -17,7 +17,7 @@
 - The first reported issue was with architecture and excessive prop drilling, making it hard to maintain and refactor features. Let's check out the home page.
 - I'm noticing some issues. Fetching auth state top level, passing down to components and using it for conditional rendering. This is a common problem, making our components less reusable and composable, and the code hard to read.
 - We don't need to fetch top level with server components. Maybe we tried to be smart and share this to make the page faster, but that's not necessary. We can fetch inside components, and then utilize react cache() to avoid duplicate calls.
-- Lot's of login deps. Refactor to fetch inside components, improve structure: PersonalizedSection, ProductsHeader, MembershipTile.
+- Lot's of login deps. Refactor to fetch inside components, improve structure: PersonalizedSection, MembershipTile.
 - If using fetch it's auto deduped.
 - What about client WelcomeBanner, WelcomeBanner? Always need this dep when using WelcomeBanner, forcing the parent to handle this dep, cant move this freely. This is a dep we will encounter forever into the future of our apps life. Passing it multiple levels down.
 - Let's utilize a smart pattern. Add authprovider. Let's not await this and block the root page, instead pass it as a promise down, keep it as a promise in the provider.

@@ -25,7 +25,7 @@ export default async function HomePage() {
       </div>
       <FeaturedCategories />
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <ProductsHeader />
+        <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Featured Products</h2>
         <Link href="/all" className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
           View All Products →
         </Link>
@@ -65,13 +65,6 @@ export default async function HomePage() {
   );
 }
 
-async function PersonalProductsHeader() {
-  const loggedIn = await getIsAuthenticated();
-  if (!loggedIn) return <GeneralProductsHeader />;
-
-  return <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">More Products</h2>;
-}
-
 async function PersonalMembershipTile() {
   const loggedIn = await getIsAuthenticated();
   if (!loggedIn) return <GeneralMembershipTile />;
@@ -83,16 +76,6 @@ async function PersonalMembershipTile() {
   );
 }
 
-function ProductsHeader() {
-  return (
-    <Suspense fallback={<GeneralProductsHeader />}>
-      <Boundary rendering="dynamic" hydration="server">
-        <PersonalProductsHeader />
-      </Boundary>
-    </Suspense>
-  );
-}
-
 function MembershipTile() {
   return (
     <Suspense fallback={<GeneralMembershipTile />}>
@@ -100,14 +83,6 @@ function MembershipTile() {
         <PersonalMembershipTile />
       </Boundary>
     </Suspense>
-  );
-}
-
-function GeneralProductsHeader() {
-  return (
-    <Boundary rendering="dynamic" hydration="server">
-      <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Featured Products</h2>
-    </Boundary>
   );
 }
 
