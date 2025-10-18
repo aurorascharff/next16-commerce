@@ -14,10 +14,6 @@ type Props = {
   children?: React.ReactNode;
 };
 
-export function preloadProductDetails(productId: number) {
-  void getProductDetails(productId);
-}
-
 export default async function ProductDetails({ productId, children }: Props) {
   const productDetails = await getProductDetails(productId);
   const setFeaturedForProduct = setFeaturedProduct.bind(null, productId);
