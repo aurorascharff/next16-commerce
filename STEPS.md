@@ -111,7 +111,7 @@
 
 ### Product page TODO
 
-- Try add use cache to the product page. It fails, exposing our dynamic API. Why? We have a dynamic dep. A pretty cool optimistic save product button. This is also useful for debugging btw. Instead of importing the dynamic dep, slot as children, we can still cache the productDetails itself! Donut pattern, but for caching. Cache gymnastics.
+- Try add use cache to the product page. It fails, exposing our dynamic API. Why? We have a dynamic dep. A pretty cool optimistic save product button. This is also useful for debugging btw. Instead of importing the dynamic dep, slot as children, and interleave it. We can still cache the productDetails itself! Children reference can change without affecting the cache entry. Donut pattern, but for caching. Cache gymnastics.
 - This is whats happening all over our app with pages and layouts. We could also cache the data, but this is a showcase.
 - And also use "use cache" to Product, mark cached, remove suspense.
 - Error on the dynamic SavedProducts, add the suspense there with Bookmark! Small chunk of dynamic content only, pushed the loading state all the way down.
