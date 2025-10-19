@@ -14,19 +14,6 @@
             "}"
         ],
     },
-    "quickPreview": {
-        "scope": "typescriptreact",
-        "prefix": "quickPreview",
-        "body": [
-            "if (enableQuickPreview) {",
-            "  return (",
-            "    <div className=\"group relative h-full\">",
-            "      {card}",
-            "    </div>",
-            "  );",
-            "}"
-        ]
-    },
     "generateStaticParams": {
         "scope": "typescriptreact",
         "prefix": "generateStaticParams",
@@ -35,5 +22,56 @@
             "  return [{ id: '1' }, { id: '2' }, { id: '3' }, { id: '4' }];",
             "}"
         ]
-    }
+    },
+    "bookmarkSuspense": {
+        "scope": "typescriptreact",
+        "prefix": "bookmarkSuspense",
+        "body": [
+            "<Suspense fallback={<Bookmark aria-hidden className=\"text-gray size-5\" />}>",
+
+        ]
+    },
+    "useAuth": {
+        "scope": "typescriptreact",
+        "prefix": "useAuth",
+        "body": [
+            "const { loggedIn: loggedInPromise } = useAuth()",
+        ]
+    },
+    "suspenseWithFallback": {
+        "scope": "typescriptreact",
+        "prefix": "suspenseWithFallback",
+        "body": [
+            "<Suspense fallback={<Skeleton />}>",
+            "  ${TM_SELECTED_TEXT}",
+            "</Suspense>"
+        ],
+        "description": "Wraps selected component with Suspense and duplicates the name for fallback Skeleton."
+    },
+    "isAuth": {
+        "scope": "typescriptreact",
+        "prefix": "isAuth",
+        "body": [
+            "const loggedIn = await getIsAuthenticated();",
+        ]
+    },
+    "getDiscountData": {
+        "scope": "typescriptreact",
+        "prefix": "getDiscountData",
+        "body": [
+            "const [account, discounts, savedProducts] = await Promise.all([",
+            "  getCurrentAccount(),",
+            "  getUserDiscounts(),",
+            "  getSavedProducts(),",
+            "]);",
+        ]
+    },
+        "bannerContainer": {
+            "scope": "typescriptreact",
+            "prefix": "bannerContainer",
+            "body": [
+                "export default function BannerContainer({children}: { children: React.ReactNode }) {",
+            ]
+        },
 }
+

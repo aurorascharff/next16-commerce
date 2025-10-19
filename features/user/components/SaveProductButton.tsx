@@ -23,7 +23,7 @@ export default function SaveProductButton({ productId, initialSaved }: Props) {
   };
 
   return (
-    <Boundary hydration="client">
+    <Boundary hydration="client" rendering="dynamic">
       <form action={handleToggleSave} className="mr-2 flex items-center gap-2">
         <button
           className={cn(

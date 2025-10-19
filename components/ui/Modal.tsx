@@ -25,16 +25,16 @@ export default function Modal({ open, setOpen, children, goBackOnClose = false, 
   };
 
   return (
-    <Boundary hydration="client">
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        backdrop={
-          <div className="fixed inset-0 bg-black/70 backdrop-blur-md dark:bg-white/20" style={{ zIndex: 9998 }} />
-        }
-        className="border-divider dark:border-divider-dark fixed top-1/2 left-1/2 w-[90%] max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-lg border bg-white p-0 shadow-xl dark:bg-black"
-        style={{ zIndex: 9999 }}
-      >
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      backdrop={
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-md dark:bg-white/20" style={{ zIndex: 9998 }} />
+      }
+      className="border-divider dark:border-divider-dark fixed top-1/2 left-1/2 w-[90%] max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-lg border bg-white p-0 shadow-xl dark:bg-black"
+      style={{ zIndex: 9999 }}
+    >
+      <Boundary hydration="client">
         <div className="flex w-full flex-col">
           {title && (
             <DialogHeading className="border-divider dark:border-divider-dark m-0 border-b px-5 py-4 text-lg font-semibold">
@@ -52,7 +52,7 @@ export default function Modal({ open, setOpen, children, goBackOnClose = false, 
             />
           </div>
         </div>
-      </Dialog>
-    </Boundary>
+      </Boundary>
+    </Dialog>
   );
 }

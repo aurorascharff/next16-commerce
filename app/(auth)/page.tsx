@@ -29,7 +29,7 @@ export default async function HomePage() {
         <FeaturedCategories />
       </Suspense>
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <ProductsHeader />
+        <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Featured Products</h2>
         <Link href="/all" className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
           View All Products →
         </Link>
@@ -45,7 +45,7 @@ export default async function HomePage() {
               Unlock exclusive perks like extra discounts, early product launches, and priority support. Sign in to
               access your dashboard and discover new offers!
             </p>
-            <PromoBanner />
+            <MembershipTile />
           </div>
           <div className="border-divider dark:border-divider-dark border bg-black/5 p-6 dark:bg-white/10">
             <h3 className="mb-2 text-xl font-bold tracking-tight uppercase">Trade-In Program</h3>
@@ -98,40 +98,9 @@ async function PersonalizedSection() {
   );
 }
 
-function ProductsHeader() {
-  return (
-    <Suspense fallback={<GeneralProductsHeader />}>
-      <Boundary rendering="dynamic">
-        <PersonalProductsHeader />
-      </Boundary>
-    </Suspense>
-  );
-}
-
-async function PersonalProductsHeader() {
+async function PersonalMembershipTile() {
   const loggedIn = await getIsAuthenticated();
-  if (!loggedIn) return <GeneralProductsHeader />;
-
-  return <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">More Products</h2>;
-}
-
-function GeneralProductsHeader() {
-  return <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Featured Products</h2>;
-}
-
-function PromoBanner() {
-  return (
-    <Suspense fallback={<GeneralPromoBanner />}>
-      <Boundary rendering="dynamic">
-        <PersonalPromoBanner />
-      </Boundary>
-    </Suspense>
-  );
-}
-
-async function PersonalPromoBanner() {
-  const loggedIn = await getIsAuthenticated();
-  if (!loggedIn) return <GeneralPromoBanner />;
+  if (!loggedIn) return <GeneralMembershipTile />;
 
   return (
     <LinkButton href="/user" variant="primary">
@@ -140,10 +109,22 @@ async function PersonalPromoBanner() {
   );
 }
 
-function GeneralPromoBanner() {
+function MembershipTile() {
   return (
-    <LinkButton href="/sign-in" variant="primary">
-      Sign In to Join
-    </LinkButton>
+    <Suspense fallback={<GeneralMembershipTile />}>
+      <Boundary rendering="dynamic" hydration="server">
+        <PersonalMembershipTile />
+      </Boundary>
+    </Suspense>
+  );
+}
+
+function GeneralMembershipTile() {
+  return (
+    <Boundary rendering="dynamic" hydration="server">
+      <LinkButton href="/sign-in" variant="primary">
+        Sign In to Join
+      </LinkButton>
+    </Boundary>
   );
 }

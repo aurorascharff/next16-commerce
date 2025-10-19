@@ -1,6 +1,6 @@
 import { User } from 'lucide-react';
 import Link from 'next/link';
-import React, { Suspense } from 'react';
+import React from 'react';
 import Boundary from '@/components/internal/Boundary';
 import { getCurrentAccount } from '@/features/auth/auth-queries';
 import LoginButton from '@/features/auth/components/LoginButton';
@@ -13,9 +13,7 @@ export default async function UserProfile() {
       <div className="flex items-center gap-2">
         <div className="flex flex-col items-end gap-1">
           {account && <span className="text-sm font-medium tracking-wide">{account.name}</span>}
-          <Suspense>
-            <LoginButton />
-          </Suspense>
+          <LoginButton />
         </div>
         {account ? (
           <Link href="/user">
