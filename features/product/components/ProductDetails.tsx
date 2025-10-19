@@ -64,7 +64,7 @@ export async function SavedProduct({ productId }: { productId: number }) {
   if (!loggedIn) {
     return (
       <Boundary rendering="dynamic">
-        <SaveProductButton productId={productId} initialSaved={false} />;
+        <SaveProductButton productId={productId} initialSaved={false} />
       </Boundary>
     );
   }
