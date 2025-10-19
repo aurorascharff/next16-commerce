@@ -71,12 +71,9 @@ export default function Boundary({ children, rendering, hydration, label, showLa
   }
 
   return (
-    <div
-      className={cn('relative rounded-md border-2 border-dashed', colorClasses)}
-      style={{ padding: '2px 2px 2px 2px', paddingTop: '24px' }}
-    >
+    <div className={cn('relative rounded-md border-2 border-dashed', colorClasses)}>
       {showLabel && labelText && (
-        <div className="absolute -top-2 left-2 flex gap-2">
+        <div className="absolute -top-2 left-2 z-10 flex gap-2">
           <div
             className={cn(
               'rounded border bg-white px-2 py-0.5 font-mono text-xs font-normal lowercase shadow-sm dark:bg-black',
@@ -92,9 +89,7 @@ export default function Boundary({ children, rendering, hydration, label, showLa
           )}
         </div>
       )}
-      <div className="contents" style={{ margin: '-2px -2px -2px -2px', marginTop: '-24px' }}>
-        {children}
-      </div>
+      {children}
     </div>
   );
 }

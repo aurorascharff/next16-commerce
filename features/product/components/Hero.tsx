@@ -28,6 +28,9 @@ export default async function Hero() {
               href={heroProduct ? (`/product/${heroProduct.id}` as Route) : ('/product/1' as Route)}
               variant="primary"
             >
+              {heroProduct ? 'View Product' : 'Shop Now'}
+            </LinkButton>
+            <LinkButton href={'/all' as Route} variant="secondary">
               Browse All
             </LinkButton>
           </div>

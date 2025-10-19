@@ -12,10 +12,6 @@ type Props = {
   loggedIn: boolean;
 };
 
-export function preloadProductDetails(productId: number) {
-  void getProductDetails(productId);
-}
-
 export default async function ProductDetails({ productId, loggedIn }: Props) {
   const productDetails = await getProductDetails(productId);
   const setFeaturedForProduct = setFeaturedProduct.bind(null, productId);
@@ -52,9 +48,7 @@ export default async function ProductDetails({ productId, loggedIn }: Props) {
         <div className="mt-6">
           <Divider variant="dotted" className="mb-4" />
           <div className="flex flex-wrap gap-4">
-            <Boundary rendering="static">
-              <SavedProduct productId={productId} loggedIn={loggedIn} />
-            </Boundary>
+            <SavedProduct productId={productId} loggedIn={loggedIn} />
           </div>
         </div>
       </div>

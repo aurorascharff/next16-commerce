@@ -2,6 +2,7 @@
 
 import { Bookmark } from 'lucide-react';
 import useSWR from 'swr';
+import Boundary from '@/components/internal/Boundary';
 import SaveProductButton from '@/features/user/components/SaveProductButton';
 import { fetcher } from '@/utils/fetcher';
 
@@ -20,5 +21,9 @@ export default function SavedProduct({ productId, loggedIn }: Props) {
     return <Bookmark aria-hidden className="text-gray size-5" />;
   }
 
-  return <SaveProductButton productId={productId} initialSaved={loggedIn ? productIsSaved : false} />;
+  return (
+    <Boundary rendering="static">
+      <SaveProductButton productId={productId} initialSaved={loggedIn ? productIsSaved : false} />
+    </Boundary>
+  );
 }

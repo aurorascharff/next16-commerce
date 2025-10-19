@@ -3,7 +3,6 @@ import { Suspense } from 'react';
 import { getCurrentAccount } from '@/features/auth/auth-queries';
 import { getSavedProducts } from '@/features/product/product-queries';
 import { getUserDiscounts } from '@/features/user/user-queries';
-import { slow } from '@/utils/slow';
 import Boundary from '../internal/Boundary';
 import { MotionDiv } from '../ui/MotionWrappers';
 import { BannerContainer } from './BannerContainer';
@@ -19,7 +18,6 @@ export default function WelcomeBanner({ loggedIn }: { loggedIn: boolean }) {
 }
 
 export async function PersonalBanner({ loggedIn }: { loggedIn: boolean }) {
-  await slow();
   if (!loggedIn) return <GeneralBanner />;
 
   const [account, discounts, savedProducts] = await Promise.all([
