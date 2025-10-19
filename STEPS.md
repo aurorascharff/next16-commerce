@@ -7,7 +7,8 @@
 - I have all my pages here. I'm using feature slicing to keep the app router folder clean and easy to read. Services and queries talking to my db.
 - Purposefully added slowness to my data fetching.
 - This is a regular next.js codebase, nothing fancy, however, keep in mind we have a good mix of static and dynamic content because of our user dependent features.
-- Let's say the team here has reported issues with architecture and prop drilling, excessive client side JS, and need help utilizing static generation and caching.
+- Let's say the team here has reported issues with architecture and prop drilling, excessive client side JS, and lack of static rendering strategies leading to additional server costs and degraded performance.
+
 - The goal here is to improve this regular Next.js codebase and enhance it with modern patterns, regarding architecture, composition, and caching capabilities, to make it faster, more scalable, and easier to maintain.
 - (Improvements based on my exp building with server comp also and other codebases I have seen, and what devs commonly do wrong or struggle to find solutions for).
 
@@ -117,13 +118,13 @@
 - Add use cache to the Reviews, with cacheLife seconds. Keep the suspense. Mark cached.
 - We will still see this params resolve in the deployment, it's inside params, so it can't be static. In build, we won't be able to cache it inside dynamic APIs. But, we can still use generateStaticParams. Add an example generateStaticParams. Now it will be cached.
 - Our authProvider does not make it dynamic as long as the components using it are suspended, just like searchParams!
-- For incrementally adopting, we would need to start high up with a dep, then build down and refactor out our dynamic APIs.
-- Done with the codebase refactor. My route tree is primarily the same. Just following RSC best practices and adding caching. And doing some RSC if I want to optimize, but thats totally voluntary, and depends on your use cases.
-- We could continue this across the whole app, not changing anything in our component tree and structure.
+- For incrementally adopting cacheComponents, we would need to start high up with a dep, then build down and refactor out our dynamic APIs.
+- Done with the codebase refactor. My route tree is primarily the same. Just changing a few things to better follow RSC best practice and optimization and adding caching.
+- We could continue this caching across the whole app, not changing anything in our component tree and structure.
 
 ## Final demo
 
-- Go to deployed version. I added cache here to all components cachable.
+- I already did tha in this deployed version. I added cache here to all components cachable.
 - See the initial page loads. Almost my entire page is already available. So fast.
 - See all boundaries,client stuff, cached stuff.
 - Again, every cached segment will be a part of the statically generated shell from Partial Prerendering.
