@@ -3,9 +3,8 @@
 ## Setup and problem
 
 - This is a e commerce demo app. The setup is the Next.js App Router, Prisma ORM and an Prisma Postgres DB, Tailwind CSS.
-- Demo app. Ecommerce mimic. Everything here looks pretty decent. Home page, browse page, about page, login page, profile page. But too many loading states for an ecommerce app.
+- Demo app. Ecommerce mimic. Everything here looks pretty decent. Home page, browse page, about page, product page, login page, profile page. But too many loading states for an ecommerce app. Purposefully added slowness to my data fetching.
 - I have all my pages here. I'm using feature slicing to keep the app router folder clean and easy to read. Services and queries talking to my db.
-- Purposefully added slowness to my data fetching.
 - This is a regular next.js codebase, nothing fancy, however, keep in mind we have a good mix of static and dynamic content because of our user dependent features.
 - Let's say the team here has reported issues with architecture and prop drilling, excessive client side JS, and lack of static rendering strategies leading to additional server costs and degraded performance.
 - The goal here is to improve this regular Next.js codebase and enhance it with modern patterns, regarding architecture, composition, and caching capabilities, to make it faster, more scalable, and easier to maintain.
@@ -16,13 +15,13 @@
 - The first reported issue was with architecture and excessive prop drilling, making it hard to maintain and refactor features. Let's check out the home page.
 - I'm noticing some issues. Fetching auth state top level, passing down to components and using it for conditional rendering. This is a common problem, making our components less reusable and composable, and the code hard to read.
 - We don't need to fetch top level with server components. Maybe we tried to improve performance and share this to make the page faster, but that's not necessary, and we are blocking the initial load too. We can fetch inside components, and then utilize react cache() to avoid duplicate calls.
-- Refactor to add reach cache, fetch inside components, improve structure: PersonalizedSection suspend, MembershipTile suspend general.
-- If using fetch it's auto deduped.
+- Refactor to add reach cache to deduplicate multiple calls to this per page load, if using fetch it's auto deduped. Fetch inside components, improve structure: PersonalizedSection suspend.
 - What about client WelcomeBanner, WelcomeBanner? Cant use my await isAuth. Always need this dep when using WelcomeBanner, forcing the parent to handle this dep, cant move this freely. This is a dep we will encounter forever into the future of our apps life. Passing it multiple levels down.
 - Let's utilize a smart pattern. Add authprovider. Let's not await this and block the root page, instead pass it as a promise down, keep it as a promise in the client provider.
 - Welcomebanner: Remove prop all the way down, rather read it with use() inside PersonalBanner. Now we need to suspend Personalbanner with GeneralBanner, ensuring we have a proper fallback and avoiding CLS, while promise resolves with use(). WelcomeBanner is now composable again.
 - Same problem in our user profile, getting the logged in state of a user on the server and passing it to the client. Do the same refactor here, login button composable and easily reused somewhere else in the future.
-- Let's see another example of prop drilling, this all products page.
+- MembershipTile suspend general, same pattern as with our banner.
+- Let's see another example of problematic prop drilling, this all products page.
 - Here, tried to be efficient to avoid duplicate calls for my responsive view. But now, getCategories are tied to this page, and the loading state responsibility is on the page with loading.tsx.
 - Big skeleton code, reusable skeletons but still, no content shown. Plus, categoryFilters has a redundant dependency, less composable.
 - Call getCategories inside the CategoryFilters component, uses react cache() deduping, not a problem.
@@ -39,13 +38,13 @@
 - Replace with LinkStatus. A rather new nextjs feature, useLinkStatus. Like useFormStatus, avoid lack of feedback on stale navigation while waiting for the search param. See local pending state, using this also on the category links in the bottom here and the sort. Very small amount of client JS added, only what is needed for interactivity.
 - Revisit the WelcomeBanner. It's dismissing this with a useState(), and it has a motion.div animation. Switched to client side fetching with useSWR just to make this interactive, multiple ways to fetch now with API layer, no types.
 - Also, we break separation of concerns by involving UI logic with data. Instead, let's extract a client component wrapper, and use whats referred to as the donut pattern. Cut all except top line of comp. New file bannerContainer: use client here, rename, children, wrapper. We won't covert the content of this to client because it's a prop, could be any prop. It's a reference to server-rendered content.
-- PersonalBanner remove use client and switch to server fetching getDiscountData, isAuth and return general, and Delete API layer, no longer needed. Export WelcomeBanner client wrapper with suspense.
+- PersonalBanner remove use client and switch to server fetching getDiscountData, isAuth and return general, and delete API layer, no longer needed. Export WelcomeBanner client wrapper with suspense. Type safe also.
 - Still have an error. For the motion.div, this simple animation might still be forcing the entire banner to be client. Let's move this to a MotionWrapper component, that can be reused for other animations. Could also switch to a react view transition! Back to server components now.
-- By the way, using this client wrapper pattern with a boundary provider. Turn on hydration mode, marking my components. Mark the boundary in Welcomebanner so we can mark this as client. Mark Container client, see the donut pattern visual. Notice other boundaries, like client side search, and these server side categories.
+- By the way, using this client wrapper pattern with a boundary UI helper. Turn on hydration mode, marking my components. Mark the boundary in Welcomebanner so we can mark this as client. Mark Container client, see the donut pattern visual. Notice other boundaries, like client side search, and these server side categories.
 - I want to hide the excess categories if theres many. Notice the individual server components here. Let's do some RSC gymnastics. Replace div with ShowMore client wrapper and React.Children to maintain our separation of concerns, and reusability of the Categories component. Now, we have this interactive showmore wrapper. Notice the boundaries client and server, donut pattern again.
-- The compositional power of server components, Categories is passed into this ShowMore, handles its own data. Both can be used all over the app. Not tied to only the ShowMore version.
+- The compositional power of server components, Categories is passed into this ShowMore, handles its own data. Both can be used freely all over the app.
 - Donut pattern can be used for anything like this, i.e Carousels and more. Also using it for the modal, showcase modal boundary donut pattern again.
-- Now we have a pretty good architecture and best practice RSC.
+- Now we have a pretty good architecture and best practice RSC patterns.
 
 ## Discuss dynamic issues
 
