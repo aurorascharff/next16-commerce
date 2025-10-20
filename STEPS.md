@@ -48,7 +48,7 @@
 
 ## Discuss dynamic issues
 
-- The last reported issue was a lack of static rendering strategies leading to additional server costs and degraded performance.
+- The last reported issue was a lack of static rendering strategies leading to additional server costs and degraded performance. Demo again the problems.
 - See build output: The entire app is entirely dynamic, problem is clear. Every page has a dynamic API dependency.
 - This is preventing us from using static rendering and for example ISR, even though so much of the app is static.
 - Wasting server resources constantly, quickly gets expensive. Crawlers will wait for content and it can be indexed, and the QWV is not terrible, but it's slower than it needs to be and redundant. Why is this happening?

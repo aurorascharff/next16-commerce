@@ -136,7 +136,7 @@ export const getSavedProducts = cache(async () => {
 });
 
 export const getFeaturedProducts = cache(async (limit = 4) => {
-  await slow();
+  await slow(2000);
 
   const featuredProducts = await prisma.product.findMany({
     orderBy: { updatedAt: 'desc' },
