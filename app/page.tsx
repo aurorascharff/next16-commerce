@@ -100,6 +100,7 @@ async function PersonalizedSection() {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function PersonalMembershipTile() {
   const loggedIn = await getIsAuthenticated();
   if (!loggedIn) return <GeneralMembershipTile />;
@@ -111,23 +112,10 @@ async function PersonalMembershipTile() {
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function MembershipTile() {
-  return (
-    <Suspense fallback={<GeneralMembershipTile />}>
-      <Boundary rendering="dynamic" hydration="server">
-        <PersonalMembershipTile />
-      </Boundary>
-    </Suspense>
-  );
-}
-
 function GeneralMembershipTile() {
   return (
-    <Boundary rendering="dynamic" hydration="server">
-      <LinkButton href="/sign-in" variant="primary">
-        Sign In to Join
-      </LinkButton>
-    </Boundary>
+    <LinkButton href="/sign-in" variant="primary">
+      Sign In to Join
+    </LinkButton>
   );
 }
