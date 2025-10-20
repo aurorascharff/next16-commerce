@@ -2,10 +2,10 @@
 
 ## Setup and problem
 
-- This is a e commerce demo app. The setup is the Next.js App Router, Prisma ORM and an Prisma Postgres DB, Tailwind CSS.
-- Demo app. Ecommerce mimic. Home page user dep, browse page, product page user dep, about page, login page, profile page.  Everything here looks pretty decent, but too many loading states for an ecommerce app. Purposefully added slowness to my data fetching.
-- This is a regular app, nothing fancy, however, keep in mind we have a good mix of static and dynamic content because of our user dependent features.
-- I have all my pages here. I'm using feature slicing to keep the app router folder clean and easy to read. Services and queries talking to my db.
+- This is a simple app mimicking e commerce platform.
+- Show app. Home page user dep, browse page, product page user dep, about page, login page, profile page. We have a good mix of static and dynamic content because of our user dependent features. Everything here looks pretty decent, but there's certainly too many loading states for an ecommerce app.
+- Let's see the code. The setup is the Next.js App Router, Prisma ORM and an Prisma Postgres DB, Tailwind CSS.
+- I have all my pages here. I'm using feature slicing to keep the app router folder clean and easy to read. Services and queries talking to my db. Purposefully added slowness to my data fetching.
 - Let's again say the team here has reported issues with architecture and prop drilling, excessive client side JS, and lack of static rendering strategies leading to additional server costs and degraded performance.
 - The goal here is to improve this regular Next.js codebase and enhance it with modern patterns on architecture, composition, and caching capabilities, to make it faster, more scalable, and easier to maintain.
 - (Improvements based on my exp building with server comp also and other codebases I have seen, and what devs commonly do wrong or struggle to find solutions for).
@@ -92,7 +92,7 @@
 - Now, everything here that's marked as hybrid can be cached. It's async and fetching something, but it does not depend on request time information like cookies, so we can share it across multiple users. Notice how right now its loading on every request.
 - Enable cacheComponents. This will opt all our async calls into request time calls, and also give us errors whenever a dynamic API does not have a suspense boundary above it, and allow us to use the new 'use cache' directive to mark components, functions, or pages as cachable.
 - Try "use cache" Home page, see the error. Dynamic components imported here.
-- Add "use cache" to the Hero to cache this. Now it's non longer running on the server. (Add cacheTag for reval). Mark it as "cached". We can remove this suspense boundary and skeleton. Worry less about millions of skeletons. See it's no longer loading.
+- Add "use cache" to the Hero to cache this. Now it's non longer running on the server. Add cacheTag for reval. Mark it as "cached". We can remove this suspense boundary and skeleton. Worry less about millions of skeletons. See it's no longer loading.
 - (One cache key linked to components, no hassle revalidating many different pages).
 - We are no longer bound to page level static/dynamic rendering.
 - Do the same for the FeaturedCategories and FeaturedProducts: use cache and mark, remove suspense. Now they're all cached, no longer loading on every request. Only thing that loads is the personalized content.
