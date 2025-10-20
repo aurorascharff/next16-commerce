@@ -60,6 +60,7 @@
         "scope": "typescriptreact",
         "prefix": "getDiscountData",
         "body": [
+            "await slow();",
             "const [account, discounts, savedProducts] = await Promise.all([",
             "  getCurrentAccount(),",
             "  getUserDiscounts(),",
