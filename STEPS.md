@@ -62,7 +62,7 @@
 - Could make a route group. Move all static pages out, simple auth layout. Create AppLayout and pass it data from the auth layout.
 - Show cache HIT about page. Good for apps with very clear static/dynamic page boundaries.
 - Now we have additional layouts and deps to remember, and more complexity.
-- And still, the home page is dynamic because of the recommendations and banner loggedIn, and product page due to this save feature and dynamic reviews. These are important pages. What else can we try?
+- And still, the home page is dynamic because of the recommendations and banner loggedIn, and product page due to this save feature and dynamic reviews. Route groups is not a good solution for this app. These are important pages. What else can we try?
 
 ### Request context
 
@@ -90,14 +90,14 @@
 ### Home page
 
 - Now, everything here that's marked as hybrid can be cached. It's async and fetching something, but it does not depend on request time information like cookies, so we can share it across multiple users. Notice how right now its loading on every request.
-- Enable cacheComponents. This will opt all our async calls into request time calls, and also give us errors whenever a dynamic API does not have a suspense boundary above it, and allow us to use the new 'use cache' directive to mark components, functions, or pages as cachable.
-- Try "use cache" Home page, see the error. Dynamic components imported here.
-- Add "use cache" to the Hero to cache this. Now it's non longer running on the server. Add cacheTag for reval. Mark it as "cached". We can remove this suspense boundary and skeleton. Worry less about millions of skeletons. See it's no longer loading.
+- Enable cacheComponents. This will opt all our async calls into dynamic, and also give us errors whenever an async call does not have a suspense boundary above it, and allow us to use the new 'use cache' directive to mark components, functions, or pages as cachable.
+- Try "use cache" Home page, see the error. Dynamic components imported here, luckily I already did a decent refactor of this page.
+- Add "use cache" to the Hero to cache this. Now it's non longer running on the server. Add cacheTag for revalidation with revalidateTag. Showcase cacheLife. Mark it as "cached". We can remove this suspense boundary and skeleton. Worry less about millions of skeletons. See it's no longer loading.
 - (One cache key linked to components, no hassle revalidating many different pages).
 - We are no longer bound to page level static/dynamic rendering.
-- Do the same for the FeaturedCategories and FeaturedProducts: use cache and mark, remove suspense. Now they're all cached, no longer loading on every request. Only thing that loads is the personalized content.
-- And every cached segment will included in the statically generated shell from Partial Prerendering, cached on the CDN. PPR goes down as far as the cache goes, until it meets a dynamic API, like the WelcomeBanner or the PersonalizedSection.
-- If I had this auth dep here, PPR would not be able to include anything in the static shell. That's why my pattern of resolving promises deeper s good for both composition and caching.
+- And every cached segment will included in the statically generated shell from Partial Prerendering, cached on the CDN. PPR goes down as far as the cache goes, until it meets a dynamic API, like the WelcomeBanner or the PersonalizedSection. Our Hero can be included in the static shell.
+- Do the same for the FeaturedCategories and FeaturedProducts: use cache and mark, remove suspense. Now they're all cached, no longer loading on every request. Only thing that loads is the personalized content. Less stress with skeletons.
+- If I had this auth dep here, PPR would not be able to include anything in the static shell. That's why my pattern of resolving promises deeper is good for both composition and caching.
 
 ### All page
 
