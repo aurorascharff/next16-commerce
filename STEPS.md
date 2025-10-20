@@ -13,7 +13,7 @@
 ## Excessive prop drilling -> component level fetching and authProvider: app/page.tsx
 
 - The first reported issue was with architecture and excessive prop drilling, making it hard to maintain and refactor features. Let's check out the home page.
-- I'm noticing some issues. Fetching auth state top level, passing down to components and using it for conditional rendering. This is a common problem, making our components less reusable and composable, and the code hard to read.
+- I'm noticing some issues. Fetching auth state top level, passing down to components and using it for conditional rendering, multiple levels down. This is a common problem, making our components less reusable and composable, and the code hard to read.
 - We don't need to fetch top level with server components. Maybe we tried to improve performance and share this to make the page faster, but that's not necessary, and we are blocking the initial load too. Utilize react cache() to avoid duplicate calls. Then fetch inside components. Best practice is to push promises to resolve deeper down, for many reasons.
 - Refactor to add reach cache to deduplicate multiple calls to this per page load. If using fetch it's auto deduped. Fetch inside components, improve structure: PersonalizedSection suspend.
 - MembershipTile, suspend the personalized for the general, ensuring we have a proper fallback and avoiding CLS.
@@ -27,7 +27,7 @@
 - Call getCategories inside the CategoryFilters component, add react cache() deduping, not a problem.
 - Delete loading.tsx since no data fetch here anymore. Refactor the /all page to use individual skeletons inside page.tsx for the categoryFilters, reveal the search from the start.
 - Notice blocking in the network tab. The entire page is blocked on something. It's really hard to know where the blocking is coming from. This is a common problem. Turns out, its the ProductList data fetch, suspend this also.
-- See the streaming in network tab and improved perceived performance as well as actual performance. Also our search is now accessible. We fixed it, but it's really hard to know where the blocking was coming from. Let's see later how we can get help with this.
+- (See the streaming in network tab and improved perceived performance as well as actual performance). Also our search is now accessible. We fixed it, but it's really hard to know where the blocking was coming from. Let's see later how we can get help with this.
 - Since our welcomebanner is composable again, let's add it here.
 - Through that refactor, by fetching inside components and utilizing cache() and use() we can now maintain good component architecture. Reusable and composable.
 
@@ -41,7 +41,7 @@
 - PersonalBanner remove use client and switch to server fetching getDiscountData, isAuth and return general, and delete API layer, no longer needed. Export WelcomeBanner client wrapper with suspense. Type safe also.
 - Still have an error. For the motion.div, this simple animation might still be forcing the entire banner to be client. Let's move this to a MotionWrapper component, that can be reused for other animations. Could also switch to a react view transition! Back to server components now. Delete API layer.
 - Mark the boundary in Welcomebanner so we can mark this as client. Mark Container client, see the donut pattern visual. Using this client wrapper pattern with a boundary UI helper. Turn on hydration mode, marking my components. Notice other boundaries, like client side search, and these server side categories.
-- I want to hide the some categories if theres many. Notice the individual server components here. We again want to avoid excessive client side JS, so avoid creating API endpoints and converting everything. Replace div with ShowMore client wrapper and React.Children to maintain our separation of concerns. Now, we have this reusable and interactive ShowMore wrapper, and reusable categories. Notice the boundaries client and server, donut pattern again.
+- Since we learned the donut pattern, let's use it for something else as well. I want to hide the some categories if theres many. Notice the individual server components here. We again want to avoid excessive client side JS, so avoid creating API endpoints and converting everything. Replace div with ShowMore client wrapper and React.Children to maintain our separation of concerns. Now, we have this reusable and interactive ShowMore wrapper, and reusable categories. Notice the boundaries client and server, donut pattern again.
 - The compositional power of server components, Categories is passed into this ShowMore, handles its own data. Both can be used freely all over the app.
 - Donut pattern can be used for anything, like carousels and modals more. Actually using it for the modal, showcase modal boundary donut pattern again.
 - Now we have a pretty good architecture and best practice RSC patterns, which means we can move further to the last issue, the most fun part.
