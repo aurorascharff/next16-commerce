@@ -82,32 +82,33 @@
 - What if we could avoid all of these smart workarounds? Go back to real vscode.
 - First', let's review the state of our app. Let's go back to our banner on the Home page.
 - Mixing static and dynamic rendering here, nice pattern to avoid CLS. Mark them both. Toggle the rendering boundary, see the dynamic static, user profile dynamic too.
-- What about these other ones? Hero, FeaturedCategories, FeaturedProducts.
-- Hero.tsx is async, but doesn't depend on dynamic APIs. In a dynamic route, its slow. In a static, its fast. Mark hybrid, also notice mark on FeaturedCategories, FeaturedProducts.
+- What about these other ones? For example Hero.
+- Hero.tsx is async, but doesn't depend on dynamic APIs. In this dynamic route, its slow. In a static, would be fast. Mark hybrid, also notice mark on FeaturedCategories, FeaturedProducts, not depending on dynamic APIs either.
 
 ## Excessive dynamic rendering -> Composable caching with 'use cache'
 
 ### Home page
 
 - Now, everything here that's marked as hybrid can be cached. It's async and fetching something, but it does not depend on request time information like cookies, so we can share it across multiple users. Notice how right now its loading on every request.
-- Enable cacheComponents. This will opt all our async calls into request time calls, and also give us errors whenever a dynamic API does not have a suspense boundary above it.
+- Enable cacheComponents. This will opt all our async calls into request time calls, and also give us errors whenever a dynamic API does not have a suspense boundary above it, and allow us to use the new 'use cache' directive to mark components, functions, or pages as cachable.
+- Try "use cache" Home page, see the error. Dynamic components imported here.
 - Add "use cache" to the Hero to cache this. Now it's non longer running on the server. (Add cacheTag for reval). Mark it as "cached". We can remove this suspense boundary and skeleton. Worry less about millions of skeletons. See it's no longer loading.
 - (One cache key linked to components, no hassle revalidating many different pages).
 - We are no longer bound to page level static/dynamic rendering.
-- Do the same for the FeaturedProducts and FeaturedCategories: use cache and mark, remove suspense. Now they're all cached, no longer loading on every request. Only thing that loads is the personalized content.
+- Do the same for the FeaturedCategories and FeaturedProducts: use cache and mark, remove suspense. Now they're all cached, no longer loading on every request. Only thing that loads is the personalized content.
 - That's why my pattern in the home page is good for both composition and caching. I already refactored it alot, and it's making it alot easier for me, letting me cache bigger chunks here.
 - And every cached segment will included in the statically generated shell from Partial Prerendering, cached on the CDN. PPR goes down as far as the cache goes, until it meets a dynamic API, like the WelcomeBanner or the PersonalizedSection.
 
 ### All page
 
 - See the rest of the boundaries pre-marked on other pages: all products. Categories and products. We can cache this too.
-- On reload though, error from nextjs, search params doesn't have a suspense above it, remember it's a dynamic API. I can either add back the loading.tsx from before, or shift this page more towards static.
-- Dynamic is a scale, and it's up to us to decide how much static we want.
-- Refactor to resolve deeper down. Now I have a bigger static shell, because the searchparams dont prevent this content from being statically generated anymore. Error gone, suspended by the product list.
+- On reload though, error from nextjs, search params doesn't have a suspense above it, remember it's a dynamic API. CacheComponents tells us we should either cache or suspend this. I can either add back the loading.tsx from before, or shift this page more towards static.
+- In modern Next.js, dynamic is like a scale, and it's up to us to decide how much static we want.
+- Refactor to resolve deeper down, error gone. Now I have a bigger static shell, because the searchparams dont prevent this content from being statically generated anymore. Error gone, suspended by the product list.
 - Also, we are getting help identifying blocking calls, which is often a problem in large codebases not already following best practises.
+- Add use cache to the CategoryFilters, mark cached, remove suspense, no longer loading on every request.
 - Keep my Products hybrid, because I want them fresh.
-- Add use cache to the CategoryFilters, remove suspense, mark cached.
-- Add use cache to the Categories, remove suspense, mark cached.
+- Add use cache to the Categories, mark cached, remove suspense, no longer loading on every request.
 - Can only use cache async functions, but since we already use the donut here it’s not a problem for the ShowMore, allowing us to cache more content as well as getting compositional benefits.
 - See initial load, big static shell, only product list loads.
 
@@ -115,10 +116,11 @@
 
 - Let's finally tackle the product page, also pre-marked with boundaries.
 - Add "use cache" to Product, mark cached, remove suspense, it's no longer loading on every request.
-- Try add use cache to the product page. It fails, exposing our dynamic API. Why? We have a dynamic dep. A pretty cool optimistic save product button, showing the saved state of that product for the user. This is also useful for debugging btw. Instead of importing the dynamic dep, slot as children, and interleave it. We can still cache the productDetails itself! Children reference can change without affecting the cache entry. Donut pattern, but for caching. Cache gymnastics. We could also cache the data, but this is a showcase.
+- Try add use cache to the product page. It fails, exposing our dynamic API. Why? We have a dynamic dep. A pretty cool optimistic save product button, showing the saved state of that product for the user. Instead of importing the dynamic dep, slot as children, and interleave it, like the donut pattern again. We can still cache the productDetails itself! Children reference can change without affecting the cache entry. Donut pattern, but for caching.  Now, we can cache the ProductDetails, mark cached. We could also just cache the data.
 - Remove details suspense, add the suspense there with Bookmark!
-- Now, we can cache the ProductDetails, no longer loading on every request. Small chunk of dynamic content only, pushed the loading state all the way down.
 - Keep the Reviews hybrid, want them fresh.
+- See the cache boundaries again.
+- No longer loading on every request. Small chunk of dynamic content only, pushed the loading state all the way down.
 - Final error in product page, no cache above params. We will still see this params resolve in the deployment, it's inside params, so it can't be static. Either we add a loading.tsx, or we can use generateStaticParams. Add an example generateStaticParams for a few products. Now it will ready for those, then cached as it's generated by users. The error is gone. Pick what is best for your use case and data set.
 - For incrementally adopting cacheComponents, we would need to start high up with a dep, then build down and refactor out our dynamic APIs.
 - Done with the codebase refactor. My route tree is primarily the same. Just changing a few things to better follow RSC best practice and optimization and adding caching.
@@ -128,8 +130,8 @@
 - I added cache here to all components cachable.
 - See the initial page loads. Almost my entire home page is already available. Only the personalized section and banner load. Navigate to the all products page, then the product page.
 - Again, every cached segment will be a part of the statically generated shell from Partial Prerendering, giving us this extreme performance.
-- In prod, in client side navs, shell can also be prefetched for even faster navigations, i.e categories. Params are already known for all links on the page.
-- We don't see the params of the product on client side navs, because they're already known. And for full page, they're cached at the CDN edge after first generation.
+- In prod, in client side navs, with improved client side nav from next 16, shell can also be prefetched for even faster navigations, i.e categories. Params are already known for all links on the page.
+- We don't see the params of the catgories on client side navs. And for products page, they're cached at the CDN edge after first generation.
 - Remember i have purposefully added slows, and i didn't optimize my db. With just a few code changes and smart patterns, we improved performance drastically, reduced server costs by caching much more content, and improved maintainability with better architecture and less prop drilling.
-- There is no reason to be avoiding dynamic APIs anymore. There is not static and dynamic pages. No weird hacks or workarounds or multiple data fetching strategies or client fetching. Every data fetch is server components!
+- There is no reason to be avoiding dynamic APIs anymore. There is not static and dynamic pages. No weird hacks or workarounds or multiple data fetching strategies or client fetching. Every data fetch is server components! No compromising dynamic content or developer experience.
 - In modern Next.js, we can have one paradigm and one mental model, performant and composable by default.

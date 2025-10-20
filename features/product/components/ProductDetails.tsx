@@ -29,28 +29,17 @@ export default async function ProductDetails({ productId }: Props) {
             </Button>
           </form>
         </div>
-        <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
-          <p>
-            <span className="font-medium">Brand:</span> {productDetails?.brand || 'N/A'}
-          </p>
-          <p>
-            <span className="font-medium">SKU:</span> {productDetails?.sku || 'N/A'}
-          </p>
-          <p>
-            <span className="font-medium">In Stock:</span> {productDetails?.stockCount || 0} units
-          </p>
-          <p>
-            <span className="font-medium">Weight:</span>{' '}
-            {productDetails?.weight ? `${productDetails.weight} kg` : 'N/A'}
-          </p>
-          <p>
-            <span className="font-medium">Warranty:</span> {productDetails?.warrantyInfo || 'No warranty information'}
-          </p>
-          <div className="mt-6">
-            <Divider variant="dotted" className="mb-4" />
-            <div className="flex flex-wrap gap-4">
-              <SavedProduct productId={productId} />
-            </div>
+        <ProductDetailFields
+          brand={productDetails?.brand}
+          sku={productDetails?.sku}
+          stockCount={productDetails?.stockCount}
+          warrantyInfo={productDetails?.warrantyInfo}
+          weight={productDetails?.weight}
+        />
+        <div className="mt-6">
+          <Divider variant="dotted" className="mb-4" />
+          <div className="flex flex-wrap gap-4">
+            <SavedProduct productId={productId} />
           </div>
         </div>
       </div>
@@ -83,6 +72,36 @@ export function ProductDetailsSkeleton() {
         <Divider variant="dotted" className="mb-4" />
         <Bookmark aria-hidden className="text-gray size-5" />
       </div>
+    </div>
+  );
+}
+
+type ProductDetailFieldsProps = {
+  brand?: string | null;
+  sku?: string | null;
+  stockCount?: number | null;
+  warrantyInfo?: string | null;
+  weight?: number | null;
+};
+
+function ProductDetailFields({ brand, sku, stockCount, warrantyInfo, weight }: ProductDetailFieldsProps) {
+  return (
+    <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
+      <p>
+        <span className="font-medium">Brand:</span> {brand || 'N/A'}
+      </p>
+      <p>
+        <span className="font-medium">SKU:</span> {sku || 'N/A'}
+      </p>
+      <p>
+        <span className="font-medium">In Stock:</span> {stockCount || 0} units
+      </p>
+      <p>
+        <span className="font-medium">Weight:</span> {weight ? `${weight} kg` : 'N/A'}
+      </p>
+      <p>
+        <span className="font-medium">Warranty:</span> {warrantyInfo || 'No warranty information'}
+      </p>
     </div>
   );
 }

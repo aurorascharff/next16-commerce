@@ -8,7 +8,7 @@ export default async function Categories() {
 
   return categories.map(category => {
     return (
-      <Boundary key={category} hydration="server">
+      <Boundary key={category} hydration="server" rendering="hybrid">
         <Link
           href={{
             pathname: '/all',
