@@ -22,7 +22,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
     <html lang="en">
       <body className={GeistSans.className}>
         <BoundaryProvider>
-          <Boundary rendering="static">
+          <Boundary rendering="static" hydration="server">
             <div className="flex min-h-screen flex-col">
               <Header />
               <main className="3xl:px-60 mb-4 flex flex-1 flex-col gap-6 p-4 sm:mb-8 sm:gap-10 sm:p-10 lg:mb-10 2xl:px-40">
