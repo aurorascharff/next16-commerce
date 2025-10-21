@@ -3,7 +3,6 @@ import { Suspense } from 'react';
 import { getCurrentAccount, getIsAuthenticated } from '@/features/auth/auth-queries';
 import { getSavedProducts } from '@/features/product/product-queries';
 import { getUserDiscounts } from '@/features/user/user-queries';
-
 import Boundary from '../internal/Boundary';
 import { MotionDiv } from '../ui/MotionWrappers';
 import { BannerContainer } from './BannerContainer';

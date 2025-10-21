@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 export type BoundaryMode = 'off' | 'rendering' | 'hydration';
 
@@ -11,14 +11,23 @@ type BoundaryContextType = {
 
 const BoundaryContext = createContext<BoundaryContextType | null>(null);
 
+const BOUNDARY_MODE_KEY = 'boundaryMode';
+
 export function BoundaryProvider({ children }: { children: React.ReactNode }) {
   const [mode, setMode] = useState<BoundaryMode>('off');
 
+  useEffect(() => {
+    const savedMode = localStorage.getItem(BOUNDARY_MODE_KEY) as BoundaryMode;
+    if (savedMode && ['off', 'rendering', 'hydration'].includes(savedMode)) {
+      setMode(savedMode);
+    }
+  }, []);
+
   const toggleMode = () => {
     setMode(prev => {
-      if (prev === 'off') return 'hydration';
-      if (prev === 'hydration') return 'rendering';
-      return 'off';
+      const newMode = prev === 'off' ? 'hydration' : prev === 'hydration' ? 'rendering' : 'off';
+      localStorage.setItem(BOUNDARY_MODE_KEY, newMode);
+      return newMode;
     });
   };
 
