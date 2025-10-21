@@ -124,7 +124,7 @@
 
 - Head over to a deployed version.
 - See the initial page loads. Almost my entire home page is already available. Only the personalized section and banner load. Navigate to the all products page, then the product page.
-- Again, every cached segment will be a part of the statically generated shell from Partial Prerendering, giving us this extreme performance.
+- See the boundary: again, every cached segment will be a part of the statically generated shell from Partial Prerendering, giving us this extreme performance.
 - In prod, within client side navs, with improved client side router from next 16, shell can also be prefetched for even faster navigations, i.e categories. Params are already known for all links on the page. And for products page, they're cached at the CDN edge after first generation.
 - Remember i have purposefully added a lot of slows to this app, but with just a few code changes and smart patterns, we improved performance drastically, reduced server costs by caching much more content, and improved maintainability with better architecture and less prop drilling.
 - To summarize, there is no reason to be avoiding dynamic APIs anymore. There is not static and dynamic pages. No need for weird hacks or workarounds or multiple data fetching strategies, don't need to compromise dynamic content or developer experience.
