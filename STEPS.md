@@ -14,11 +14,11 @@
 
 - The first issue is with architecture and excessive prop drilling.
 - I'm noticing some issues. Fetching auth state top level, passing down to components and using it for conditional rendering, multiple levels down. This is a common problem, making our components less reusable and composable, and the code hard to read.
-- We don't need to fetch top level with server components. Maybe we tried to improve performance and share this to make the page faster, but that's not necessary, and we are blocking the initial load too. Utilize react cache() to avoid duplicate calls. Then fetch inside components. Best practice is to push promises to resolve deeper down, for many reasons.
+- Maybe we tried to improve performance and share this to make the page faster, but we are blocking the initial load. We don't need to fetch top level with server components. Utilize react cache() to avoid duplicate calls. Then fetch inside components. Best practice is to push promises to resolve deeper down, for many reasons.
 - Refactor to add reach cache to deduplicate multiple calls to this per page load. If using fetch it's auto deduped. Fetch inside components, improve structure: PersonalizedSection suspend.
 - (MembershipTile, suspend the personalized for the general, ensuring we have a proper fallback and avoiding CLS).
 - What about client WelcomeBanner, WelcomeBanner? Cant use my await isAuth. Always need this dep when using WelcomeBanner, passing it multiple levels down, forcing the parent to handle this dep, cant move this freely. This loggedIn a dep we will encounter forever into the future of our apps life.
-- We could pass it down as a promise, but probably this loggedIn dep will be encountered often. Let's instead utilize a smart pattern. Add authprovider. Let's not await this and block the root page, instead pass it as a promise down, keep it as a promise in the client provider.
+- (We could pass it down as a promise, but probably this loggedIn dep will be encountered often). Let's instead utilize a smart pattern. Add authprovider. Let's not await this and block the root page, instead pass it as a promise down, keep it as a promise in the client provider.
 - Welcomebanner: Remove prop all the way down, rather read it with use() inside PersonalBanner. Now we need to suspend Personalbanner with GeneralBanner, same pattern as before to avoid CLS and provide something useful, while promise resolves with use(). WelcomeBanner is now composable again.
 - Any time we need the logged in variable, with is a lot, we can fetch it locally either with async functions or this auth provider, avoiding a lot of future prop drilling.
 - (Same problem in our user profile, getting the logged in state of a user on the server and passing it to the client. Do the same refactor here, login button composable and easily reused somewhere else in the future).
@@ -37,14 +37,14 @@
 - The next issue is excessive client side JS.
 - (Check out this client-side Pagination using search params. Client side due to nav status with a transition. Preventing default. There are some new tools we can use to handle this very common use case better. Remove all client side code here and isPending. Lost interactivity).
 - (Replace with LinkStatus. A rather new nextjs feature, useLinkStatus. Like useFormStatus, avoid lack of feedback on stale navigation while waiting for the search param. See local pending state, using this also on the category links in the bottom here and the sort. Very small amount of client JS added, only what is needed for interactivity).
-- Revisit the WelcomeBanner. It's dismissing this with a useState(). Switched to client side fetching with useSWR just to make this dismissable and animated, multiple ways to fetch now with API layer, no types.
+- Revisit the WelcomeBanner. It's dismissing this with a useState(). Switched to client side fetching with useSWR just to make this dismissable, multiple ways to fetch now with API layer, no types.
 - Also, we break separation of concerns by involving UI logic with data. Instead, let's extract a client component wrapper, and use whats referred to as the donut pattern. Cut all except top line of comp. New file bannerContainer: use client here, rename, children, wrapper. We won't covert the content of this to client because it's a prop, could be any prop. It's a reference to server-rendered content.
 - PersonalBanner remove use client and switch to server fetching getDiscountData, isAuth and return general, and delete API layer, no longer needed. Export WelcomeBanner client wrapper with suspense. Type safe also.
 - Still have an error. For the motion.div, this simple animation might still be forcing the entire banner to be client. Let's move this to a MotionWrapper component, that can be reused for other animations. Could also switch to a react view transition! Back to server components now. Delete API layer.
 - Using this client wrapper pattern with a boundary UI helper. Turn on hydration mode, marking my components. See the donut pattern visual. Notice other boundaries, like client side search, and these server side categories.
 - Since we learned the donut pattern, let's use it for something else as well. I want to hide the some categories if theres many. Notice the individual server components here. We again want to avoid excessive client side JS, so avoid creating API endpoints and converting everything. Replace div with ShowMore client wrapper and React.Children to maintain our separation of concerns. Now, we have this reusable and interactive ShowMore wrapper, and reusable categories. Notice the boundaries client and server, donut pattern again.
 - The compositional power of server components, Categories is passed into this ShowMore, handles its own data. Both can be used freely all over the app.
-- Donut pattern can be used for anything, like carousels and modals more. Actually using it for the modal, showcase modal boundary donut pattern again.
+- Donut pattern can be used for anything, like carousels and modals more. Actually using it for this quick preview modal, showcase modal boundary donut pattern again.
 - Now we have a pretty good architecture, best practice RSC patterns, utilizing composition, which means we can move further to the last issue, the most fun. Remove boundary UI.
 
 ## Discuss dynamic issues
@@ -62,19 +62,19 @@
 
 - Open new vs code branch and web browser deployed branch.
 - Could make a route group. Move all static pages out, simple auth layout. Create AppLayout and pass it data from the auth layout.
-- Show cache HIT about page. Good for apps with very clear static/dynamic page boundaries.
+- Show build output about page. Good for apps with very clear static/dynamic page boundaries.
 - Now we have additional layouts and deps to remember, and more complexity.
 - And still, the home page is dynamic because of the recommendations and banner loggedIn, and product page due to this save feature and dynamic reviews. Route groups is not a good solution for this app. These are important pages. What else can we try?
 
 ### Request context
 
-- Open next vs code branch and web browser deployed branch. Here, I created a request context hidden URL param, that is being set in middleware, now called proxy. Encoded request context in the URL.
+- Open next vs code branch and web browser deployed branch. Here, I created a request context URL param, that is being set in middleware, now called proxy. Encoded request context in the URL.
 - We can generateStaticParams the different variants of loggedIn/nonLoggedIn state.
 - Call this function instead of isAuthenticated now. Avoiding doing auth check in the components themselves.
 - This is actually a common pattern, and is also recommended by the vercel flags sdk using a precompute function. And used by i18n libraries.
 - But to be able to cache this product page, I need to client side fetch with useSWR the user specific stuff on the product page, and the reviews because we want them fresh. All to get this cache HIT!
-- Passing lot's of props now from the server side params, losing compositional benefits. And it's even more complex.
-- And, hassle API endpoints, multiple data fetching strategies again. Pages routes flashbacks.
+- (Passing lot's of props now from the server side params, losing compositional benefits.)
+- It's even more complex, hassle API endpoints, multiple data fetching strategies again. Pages routes flashbacks.
 - (And we're even breaking the sweet new feature typed routes! Need this as Route everywhere.)
 - And what about the home page, do we need to client side fetch everything user specific here too?
 - This is a viable pattern, and useful for many regardless etc, but let's say we are actually not interested in rewriting our app.
@@ -114,7 +114,7 @@
 
 ### Product page
 
-- Let's finally tackle the product page, arguably the hardest, also pre-marked with boundaries.
+- Let's finally tackle the product page, also pre-marked with boundaries.
 - Add "use cache" to Product, mark cached, remove suspense, it's no longer loading on every request.
 - Try add use cache to the product details. It fails, exposing our dynamic API. Why? We have a dynamic dep. A pretty cool optimistic save product button, showing the saved state of that product for the user. Instead of importing the dynamic dep, slot as children, and interleave it. Composable caching! Children reference can change without affecting the cache entry. Donut pattern, but for caching. Now, we can cache the ProductDetails, mark cached.
 - Remove details suspense, add the suspense there with Bookmark! Interactive user specific content still works.
@@ -122,14 +122,14 @@
 - No longer loading on every request. Small chunk of dynamic content only, pushed the loading state all the way down.
 - Error in product page, no cache above params. We will still see this params resolve in the deployment, it's inside params, so it can't be static. Either we add a loading.tsx, or we can use generateStaticParams. Add an example generateStaticParams for a few products. Now it will ready for those, then cached as it's generated by users. The error is gone. Pick what is best for your use case and data set.
 - (For incrementally adopting cacheComponents, we would need to start high up with a dep, then build down and refactor out our dynamic APIs).
-- Done with the codebase refactor.
+- Done with the codebase refactor. Head over to a deployed version.
 
 ## Final demo
 
-- Head over to a deployed version. Remember i have purposefully added a lot of slows to this app.
+- Remember i have purposefully added a lot of slows to this app.
 - See the initial page loads. Almost my entire home page is already available. Only the personalized section and banner load. Navigate to the all products page, then the product page.
 - See the boundary: again, every cached segment will be a part of the statically generated shell from Partial Prerendering, and in prod, improved prefetching new client side router from next 16, shell is prefetched for even faster navigations.
 - (Params are already known for all links on the page. Clicking categories within the app already resolved search params, so the shell is already there. Only on reload can we see it resolve here).
-- With just a few code changes and smart patterns, we improved components architecture, removed redundant client js and allowed for more component reuse, and by caching more content we increased performance drastically and reduced server costs.
-- To summarize, there is not static OR dynamic pages. We don't need to be avoiding dynamic APIs anymore, or compromise dynamic content. Skip creating complex hacks or workarounds or add multiple data fetching strategies, and make the developer experience worse, just for that cache HIT.
+- With just a few code changes and smart patterns, we improved components architecture, removed redundant client js and allowed for more component reuse, and by caching more content we increased performance drastically and reduce server costs.
+- To summarize, there is no static OR dynamic pages. We don't need to be avoiding dynamic APIs anymore, or compromise dynamic content. Skip creating complex hacks or workarounds or add multiple data fetching strategies, and make the developer experience worse, just for that cache HIT.
 - In modern Next.js with cacheComponents, dynamic vs static is a scale, and we decide how much static we want in our apps. We can use this one mental model, performant, composable and salable by default.
