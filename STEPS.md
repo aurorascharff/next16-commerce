@@ -3,16 +3,16 @@
 ## Setup and problem
 
 - This is a simple app mimicking e commerce platform.
-- Show app. Home page user dep, browse page, product page user dep, about page, login page, profile page. We have a good mix of static and dynamic content because of our user dependent features. Everything here looks pretty decent, but there's certainly too many loading states for an ecommerce app.
+- Show app. Home page user dep, browse page, product about page, login page, page user dep page. We have a good mix of static and dynamic content because of our user dependent features. Everything here looks pretty decent, but there's certainly too many loading states for an ecommerce app.
 - Let's see the code.
 - App router, I have all my pages here. I'm using feature slicing to keep the app router folder clean and easy to read. Services and queries talking to my db which is using Prisma ORM. Purposefully added slowness to my data fetching.
-- Let's say the team here has reported issues with architecture and prop drilling, excessive client side JS, and lack of static rendering strategies leading to additional server costs and degraded performance.
+- App actually has issues with architecture and prop drilling, excessive client side JS, and lack of static rendering strategies leading to additional server costs and degraded performance. Common issues.
 - The goal here is to improve this regular Next.js codebase and enhance it with modern patterns on architecture, composition, and caching capabilities, to make it faster, more scalable, and easier to maintain.
 - (Improvements based on my exp building with server comp also and other codebases I have seen, and what devs commonly do wrong or struggle to find solutions for).
 
 ## Excessive prop drilling -> component level fetching and authProvider: app/page.tsx
 
-- The first reported issue was with architecture and excessive prop drilling, making it hard to maintain and refactor features. Let's check out the home page.
+- The first issue is with architecture and excessive prop drilling, making it hard to maintain and refactor features. Let's check out the home page.
 - I'm noticing some issues. Fetching auth state top level, passing down to components and using it for conditional rendering, multiple levels down. This is a common problem, making our components less reusable and composable, and the code hard to read.
 - We don't need to fetch top level with server components. Maybe we tried to improve performance and share this to make the page faster, but that's not necessary, and we are blocking the initial load too. Utilize react cache() to avoid duplicate calls. Then fetch inside components. Best practice is to push promises to resolve deeper down, for many reasons.
 - Refactor to add reach cache to deduplicate multiple calls to this per page load. If using fetch it's auto deduped. Fetch inside components, improve structure: PersonalizedSection suspend.
@@ -33,7 +33,7 @@
 
 ## Excessive client JS -> Client/Server composition: WelcomeBanner
 
-- The next reported issue was excessive client side JS.
+- The next issue is excessive client side JS.
 - Check out this client-side Pagination using search params. Client side due to nav status with a transition. Preventing default. There are some new tools we can use to handle this very common use case better. Remove all client side code here and isPending. Lost interactivity.
 - Replace with LinkStatus. A rather new nextjs feature, useLinkStatus. Like useFormStatus, avoid lack of feedback on stale navigation while waiting for the search param. See local pending state, using this also on the category links in the bottom here and the sort. Very small amount of client JS added, only what is needed for interactivity.
 - Revisit the WelcomeBanner. It's dismissing this with a useState(). Switched to client side fetching with useSWR just to make this dismissable and animated, multiple ways to fetch now with API layer, no types.
@@ -44,13 +44,13 @@
 - Since we learned the donut pattern, let's use it for something else as well. I want to hide the some categories if theres many. Notice the individual server components here. We again want to avoid excessive client side JS, so avoid creating API endpoints and converting everything. Replace div with ShowMore client wrapper and React.Children to maintain our separation of concerns. Now, we have this reusable and interactive ShowMore wrapper, and reusable categories. Notice the boundaries client and server, donut pattern again.
 - The compositional power of server components, Categories is passed into this ShowMore, handles its own data. Both can be used freely all over the app.
 - Donut pattern can be used for anything, like carousels and modals more. Actually using it for the modal, showcase modal boundary donut pattern again.
-- Now we have a pretty good architecture and best practice RSC patterns, which means we can move further to the last issue, the most fun part.
+- Now we have a pretty good architecture and best practice RSC patterns, which means we can move further to the last issue.
 
 ## Discuss dynamic issues
 
-- The last reported issue was a lack of static rendering strategies leading to additional server costs and degraded performance. Demo again the problems.
+- The last issue is a lack of static rendering strategies leading to additional server costs and degraded performance. Demo again the problems.
 - See build output: The entire app is entirely dynamic, problem is clear. Every page has a dynamic API dependency.
-- This is preventing us from using static rendering and for example ISR, even though so much of the app is static.
+- This is preventing us from using static rendering benefits and for example using ISR, even though so much of the app is static.
 - Wasting server resources constantly, quickly gets expensive. Crawlers will wait for content and it can be indexed, and the QWV is not terrible, but it's slower than it needs to be and redundant. Why is this happening?
 - The main culprit is actually this auth check in my layout. My header is hiding my user profile, which is using cookies, which is forcing dynamic rendering. Auth check in layout, which I definitely need. Classic mistake. Everything I do is now dynamically being run on the server.
 - Even my non-user personalized content on my home screen like the featured product, I need to suspend too to avoid blocking the page, and even my about page which doesn't even have a dynamic API dep! Because remember, my pages are either be static OR dynamic.
@@ -88,8 +88,8 @@
 - Hero.tsx is async, but doesn't depend on dynamic APIs. In this dynamic route, its slow. In a static, would be fast. Marked hybrid, also notice mark on FeaturedCategories, FeaturedProducts, not depending on dynamic APIs either.
 - Now, everything here that's marked as hybrid can be cached. It's async and fetching something, but it does not depend on request time information like cookies, so we can share it across multiple users. Notice how right now its loading on every request.
 - Enable cacheComponents. This will opt all our async calls into dynamic, and also give us errors whenever an async call does not have a suspense boundary above it, and allow us to use the new 'use cache' directive to mark components, functions, or pages as cachable.
-- Try "use cache" Home page, see the error. Dynamic components imported here, luckily I already did a decent refactor of this page.
-- Add "use cache" to the Hero to cache this. Now it's non longer running on the server. Add cacheTag for fine grained revalidation with revalidateTag. Showcase cacheLife. Mark it as "cached". We can remove this suspense boundary and skeleton. Worry less about millions of skeletons. See it's no longer loading.
+- Try "use cache" Home page, see the error. Dynamic components imported here.
+- Add "use cache" to the Hero to cache this. Now it's non longer running on the server. Add cacheTag for fine grained revalidation with revalidateTag. Showcase cacheLife. Mark it as "cached". We can remove this suspense boundary and skeleton. See it's no longer loading.
 - (One cache key linked to components, no hassle revalidating many different pages).
 - We are no longer bound to page level static/dynamic rendering.
 - And every cached segment will included in the statically generated shell from Partial Prerendering, cached on the CDN. PPR goes down as far as the cache goes, until it meets a dynamic API, like the WelcomeBanner or the PersonalizedSection. Our Hero can be included in the static shell.
@@ -105,7 +105,7 @@
 - Also, we are getting help identifying blocking calls, which is common problem, which we just experienced earlier before adding this suspense. Remove it and show cacheComponents would have identified this blocking call for us, ensuring we don't create slow apps.
 - Add use cache to the CategoryFilters, mark cached, remove suspense.
 - Keep my Products hybrid, because I want them fresh.
-- Footer -> Categories: Can only use cache async functions, but since we already use the donut here it’s not a problem for the ShowMore, allowing us to cache more content as well as getting compositional benefits. It's all connected. Mark cached, remove suspense.
+- Footer -> Categories: Can only use cache async functions, but since we already use the donut here it’s not a problem for the ShowMore, allowing us to cache more content as well as getting compositional benefits. It's all connected. Remove suspense.
 - See initial load, big static shell, only product list loads.
 
 ### Product page
@@ -125,7 +125,7 @@
 - Head over to a deployed version.
 - See the initial page loads. Almost my entire home page is already available. Only the personalized section and banner load. Navigate to the all products page, then the product page.
 - See the boundary: again, every cached segment will be a part of the statically generated shell from Partial Prerendering, giving us this extreme performance.
-- In prod, within client side navs, with improved client side router from next 16, shell can also be prefetched for even faster navigations, i.e categories. Params are already known for all links on the page. And for products page, they're cached at the CDN edge after first generation.
-- Remember i have purposefully added a lot of slows to this app, but with just a few code changes and smart patterns, we improved performance drastically, reduced server costs by caching much more content, and improved maintainability with better architecture and less prop drilling.
-- To summarize, there is no reason to be avoiding dynamic APIs anymore. There is not static and dynamic pages. No need for weird hacks or workarounds or multiple data fetching strategies, don't need to compromise dynamic content or developer experience.
-- In modern Next.js, dynamic vs static is a scale, and we decide how much static we want in apps. We can have one paradigm and one mental model, performant and scalable by default.
+- In prod, within client side navs, with improved client side router from next 16, shell can also be prefetched for even faster navigations. Params are already known for all links on the page. Clicking categories within the app already resolved search params, so the shell is already there. Only on reload can we see it resolve here.
+- Remember i have purposefully added a lot of slows to this app, but with just a few code changes and smart patterns, we increased maintainability with better architecture and less prop drilling, reduced redundant client js and allowed for more component reuse, and improved performance drastically and reduced server costs by caching much more content.
+- To summarize, there is no reason to be avoiding dynamic APIs anymore. There is not static and dynamic pages. No need for weird hacks or workarounds or multiple data fetching strategies. Don't need to compromise dynamic content or developer experience.
+- In modern Next.js, dynamic vs static is a scale, and we decide how much static we want in apps. We can have one mental model, performant and scalable by default.

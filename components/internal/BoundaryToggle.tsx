@@ -14,7 +14,7 @@ export default function BoundaryToggle() {
   const { mode, setMode } = useBoundaryMode();
 
   return (
-    <div className="fixed right-4 bottom-4 z-50">
+    <div className="fixed right-8 bottom-4 z-50">
       <div className="bg-card dark:bg-card-dark flex gap-1 rounded-md p-1 shadow-lg">
         {modes.map(({ icon, label, mode: modeOption }) => {
           const isActive = mode === modeOption;

@@ -19,7 +19,7 @@ export default function LinkStatus({ className, width = 20, height = 20, variant
 
   if (variant === 'spinner') {
     return (
-      <Boundary>
+      <Boundary hydration="client">
         {pending ? (
           <div className="flex items-center gap-2">
             {children}

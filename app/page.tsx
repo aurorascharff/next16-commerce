@@ -101,18 +101,18 @@ async function PersonalMembershipTile() {
   if (!loggedIn) return <GeneralMembershipTile />;
 
   return (
-    <LinkButton href="/user" variant="primary">
-      Go to Dashboard
-    </LinkButton>
+    <Boundary rendering="dynamic">
+      <LinkButton href="/user" variant="primary">
+        Go to Dashboard
+      </LinkButton>
+    </Boundary>
   );
 }
 
 function GeneralMembershipTile() {
   return (
-    <Boundary rendering="dynamic" hydration="server">
-      <LinkButton href="/sign-in" variant="primary">
-        Sign In to Join
-      </LinkButton>
-    </Boundary>
+    <LinkButton href="/sign-in" variant="primary">
+      Sign In to Join
+    </LinkButton>
   );
 }
