@@ -78,11 +78,10 @@
 - (And we're even breaking the sweet new feature typed routes! Need this as Route everywhere.)
 - And what about the home page, do we need to client side fetch everything user specific here too?
 - This is a viable pattern, and useful for many regardless etc, but let's say we are actually not interested in rewriting our app.
+- What if we could avoid all of these smart workarounds? What if there was a simpler way?
+- Go back to real vscode.
 
 ## Excessive dynamic rendering -> Composable caching with 'use cache'
-
-- Go back to real vscode.
-- What if we could avoid all of these smart workarounds? What if there was a simpler way?
 
 ### Home page
 
@@ -96,7 +95,7 @@
 - Add "use cache" to the Hero to cache this. Add cacheTag for fine grained revalidation with revalidateTag. Showcase cacheLife. Mark it as "cached". We can remove this suspense boundary and skeleton. See it's no longer loading.
 - (One cache key linked to components, no hassle revalidating many different pages).
 - And every cached segment will included in the statically generated shell from Partial Prerendering, cached on the CDN. PPR goes down as far as the cache goes, until it meets a dynamic API, like the WelcomeBanner or the PersonalizedSection. Our Hero can be included in the static shell.
-- Do the same for the FeaturedCategories and FeaturedProducts: use cache and mark, remove suspense. Less stress with skeletons.
+- Do the same for the FeaturedCategories and FeaturedProducts: use cache and mark, remove suspense. Less stress with skeletons and CLS.
 - If I had this auth dep here, PPR would not be able to include anything in the static shell. That's why my pattern of resolving promises deeper is good for both composition and caching.
 - Now they're all cached, no longer loading on every request. Only thing that loads is the personalized content. We are no longer bound to page level static/dynamic rendering.
 
