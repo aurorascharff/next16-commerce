@@ -44,7 +44,7 @@ export function PersonalBanner({ loggedIn }: { loggedIn: boolean }) {
   const firstName = account?.firstName || account?.name.split(' ')[0];
 
   return (
-    <Boundary hydration="client" rendering="dynamic">
+    <Boundary hydration="server" rendering="dynamic">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: [0, 0.3, 1, 0.8, 1] }}

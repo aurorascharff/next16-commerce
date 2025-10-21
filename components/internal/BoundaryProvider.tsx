@@ -2,11 +2,12 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-export type BoundaryMode = 'off' | 'rendering' | 'hydration';
+export type BoundaryMode = 'off' | 'hydration' | 'rendering';
 
 type BoundaryContextType = {
   mode: BoundaryMode;
   toggleMode: () => void;
+  setMode: (mode: BoundaryMode) => void;
 };
 
 const BoundaryContext = createContext<BoundaryContextType | null>(null);
@@ -25,13 +26,20 @@ export function BoundaryProvider({ children }: { children: React.ReactNode }) {
 
   const toggleMode = () => {
     setMode(prev => {
-      const newMode = prev === 'off' ? 'hydration' : prev === 'hydration' ? 'rendering' : 'off';
+      const newMode = prev === 'off' ? 'hydration' : 'off';
       localStorage.setItem(BOUNDARY_MODE_KEY, newMode);
       return newMode;
     });
   };
 
-  return <BoundaryContext.Provider value={{ mode, toggleMode }}>{children}</BoundaryContext.Provider>;
+  const updateMode = (newMode: BoundaryMode) => {
+    setMode(newMode);
+    localStorage.setItem(BOUNDARY_MODE_KEY, newMode);
+  };
+
+  return (
+    <BoundaryContext.Provider value={{ mode, setMode: updateMode, toggleMode }}>{children}</BoundaryContext.Provider>
+  );
 }
 
 export function useBoundaryMode() {
