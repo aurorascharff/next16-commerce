@@ -13,8 +13,8 @@ import type { Metadata } from 'next';
 const GeistSans = Geist({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  description: 'Next.js 15 App Router Commerce',
-  title: 'Next 15 Commerce',
+  description: 'Next.js 16 App Router Commerce',
+  title: 'Next 16 Commerce',
 };
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
