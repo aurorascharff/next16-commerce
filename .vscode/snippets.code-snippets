@@ -84,5 +84,21 @@
             "export default function BannerContainer({children}: { children: React.ReactNode }) {",
         ]
     },
+    "uc": {
+        "scope": "typescriptreact",
+        "prefix": "uc",
+        "body": [
+            "\"use cache\"",
+        ]
+    },
+    "cacheApis": {
+        "scope": "typescriptreact",
+        "prefix": "cacheApis",
+        "body": [
+            "cacheTag('featured-product')",
+            "revalidateTag('featured-product')",
+            "cacheLife('days')"
+        ]
+    },
 }
 
