@@ -2,16 +2,15 @@
 import Link from 'next/link';
 import React, { Suspense } from 'react';
 import Categories, { CategoriesSkeleton } from '@/features/category/components/Categories';
-import ShowMore from './ui/ShowMore';
 
 export default async function Footer() {
   return (
     <footer className="bg-white dark:bg-black">
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-10">
         <Suspense fallback={<CategoriesSkeleton />}>
-          <ShowMore className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
             <Categories />
-          </ShowMore>
+          </div>
         </Suspense>
         <div className="border-divider dark:border-divider-dark my-6 border-b" />
         <div className="text-gray dark:text-gray text-center text-sm">
