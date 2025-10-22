@@ -14,7 +14,7 @@
 
 - Let's start simple, the first issue is with architecture and deep prop drilling.
 - I'm noticing some issues. Fetching auth state top level, passing to components multiple levels down. This is a common problem, making our components less reusable and composable, and the code hard to read.
-- But we are blocking the initial load, might be hard to know. We don't need to fetch top level with server components. Best practice is to push promises to resolve deeper down. We will see later how we can get help with this though.
+- But we are blocking the initial load, might be hard to know. We don't need to fetch top level with server components. Best practice is to push promises to resolve deeper down. We will see later how we can get help with this though. Co-locate data fetching with UI.
 - Refactor to add reach cache to deduplicate multiple calls to this per page load. If using fetch it's auto deduped. Fetch inside components, improve structure: PersonalizedSection suspend.
 - (MembershipTile, suspend the personalized for the general, ensuring we have a proper fallback and avoiding CLS).
 - What about client WelcomeBanner, WelcomeBanner? Cant use my await isAuth. Always need this dep when using WelcomeBanner, passing it multiple levels down, forcing the parent to handle this dep, cant move this freely. This loggedIn a dep we will encounter forever into the future of our apps life.
