@@ -99,7 +99,7 @@
 - We are getting help identifying blocking calls, which is common problem. CacheComponents will help us avoid performance issues. CacheComponents tells us we should either cache or suspend this. Make a choice: I can either a loading.tsx, or cache the data fetch.
 - Simple solution, add huge loading.tsx skeleton code. That works, not useful loading UI though, cant interact with anything.
 - However, with cacheComponents, dynamic is like a scale, and it's up to us to decide how much static we want. Let's shift the page more towards static, and create a bigger static shell here. Delete loading.tsx.
-- Use pattern we learned in the beginning, resolve getCategories deeper down, inside the CategoryFilters component, add react cache() deduping, not a problem for my responsive view. Use individual skeletons inside page.tsx for the categoryFilters, or, add use cache to this, and mark it as cached.
+- Use pattern we learned in the beginning, resolve getCategories deeper down, inside the CategoryFilters component twice for my responsive view, add react cache() deduping, not a problem for my responsive view. Use individual skeletons inside page.tsx for the categoryFilters, or, add use cache to this, and mark it as cached.
 - Still error on searchparams, dynamic API, cant cache this. Refactor to resolve deeper down. Now I have a bigger static shell. Error gone, suspended by the product list.
 - Loading state, search is now accessible from the start, and I can see my welcome banner and close this already.
 - As you can see, CacheComponents making sure we follow best practices for RSC, and actually helping us think about where we resolve our promises, improving component architecture.
