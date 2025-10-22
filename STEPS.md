@@ -122,7 +122,7 @@
 ## Final demo
 
 - Remember i have purposefully added a lot of slows to this app.
-- See the initial page loads. Almost my entire home page is already available. Only the personalized section and banner load. Navigate to the all products page, then the product page.
+- New tab: see the initial page loads. Almost my entire home page is already available. Only the personalized section and banner load. Navigate to the all products page, then the product page.
 - See the boundary: again, every cached segment will be a part of the statically generated shell from Partial Prerendering, and in prod, improved prefetching new client side router from next 16, shell is prefetched for even faster navigations.
 - (Params are already known for all links on the page. Clicking categories within the app already resolved search params, so the shell is already there. Only on reload can we see it resolve here).
 - (With just a few code changes and smart patterns, we improved components architecture, removed redundant client js and allowed for more component reuse, and by caching more content we increased performance drastically and reduce server costs.)
