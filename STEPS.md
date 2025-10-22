@@ -30,7 +30,7 @@
 - (Notice blocking in the network tab. The entire page is blocked on something. It's really hard to know where the blocking is coming from. This is a common problem. Turns out, its the ProductList data fetch, suspend this also).
 - (See the streaming in network tab and improved perceived performance as well as actual performance). Also our search is now accessible. We fixed it, but it's really hard to know where the blocking was coming from. Let's see later how we can get help with this.
 - Since our welcomebanner is composable again, let's add it here first.
-- Through that refactor, by fetching inside components and utilizing cache() and use() we can now maintain good component architecture. Reusable and composable.
+- (Through that refactor, by fetching inside components and utilizing cache() and use() we can now maintain good component architecture. Reusable and composable).
 
 ## Excessive client JS -> Client/Server composition: WelcomeBanner
 
@@ -46,7 +46,7 @@
 - (Notice, these categories in the footer are also utilizing the donut pattern! We have this reusable and interactive ShowMore wrapper, and reusable categories).
 - The compositional power of server components, Categories is passed into this ShowMore, handles its own data. Both can be used freely all over the app.
 - Donut pattern can be used for anything, like carousels and modals more. Actually using it for this quick preview modal, showcase modal boundary donut pattern again.
-- Now we have a pretty good architecture, best practice RSC patterns, utilizing composition, which means we can move further to the last issue, the most fun. Remove boundary UI.
+- (Now we have a pretty good architecture, best practice RSC patterns, utilizing composition, which means we can move further to the last issue, the most fun. Remove boundary UI).
 
 ## Discuss dynamic issues
 
