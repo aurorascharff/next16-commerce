@@ -3,13 +3,12 @@
 import { useRouter } from 'next/navigation';
 import React, { use, useTransition } from 'react';
 import Boundary from '@/components/internal/Boundary';
-import { useAuth } from '@/features/auth/components/AuthProvider';
+import { useAuth, useLoggedIn } from '@/features/auth/components/AuthProvider';
 import { logOut } from '../auth-actions';
 
 export default function LoginButton() {
   const [isPending, startTransition] = useTransition();
-  const { loggedIn: loggedInPromise } = useAuth();
-  const loggedIn = use(loggedInPromise);
+  const loggedIn = useLoggedIn();
   const router = useRouter();
 
   return (
