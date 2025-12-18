@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
-    "build": "next build --turbo",
+    "dev": "next dev",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint .",
     "typegen": "next typegen .",
@@ -27,7 +27,7 @@
     "eslint": "9.38.0",
     "framer-motion": "^12.23.24",
     "lucide-react": "^0.546.0",
-    "next": "^16.1.0-canary.13",
+    "next": "^16.1.0",
     "postcss": "^8.5.6",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
@@ -43,7 +43,6 @@
     "@eslint/compat": "^1.4.0",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.38.0",
-    "prisma": "6.1.0",
     "@tailwindcss/typography": "^0.5.19",
     "@types/eslint": "^9.6.1",
     "@typescript-eslint/eslint-plugin": "^8.46.2",
@@ -54,6 +53,7 @@
     "eslint-plugin-sort-keys-fix": "^1.1.2",
     "globals": "^16.4.0",
     "prettier": "^3.6.2",
-    "prettier-plugin-tailwindcss": "^0.7.1"
+    "prettier-plugin-tailwindcss": "^0.7.1",
+    "prisma": "6.1.0"
   }
 }
