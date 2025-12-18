@@ -21,6 +21,7 @@
 - Let's utilize a smart pattern. Add authprovider. Let's not await this and block the root page, instead pass it as a promise down, keep it as a promise in the client provider.
 - Welcomebanner: Remove prop all the way down, rather read it with use() inside PersonalBanner. Now we need to suspend Personalbanner with GeneralBanner, same pattern as before to avoid CLS and provide something useful, while promise resolves with use(). WelcomeBanner is now composable again.
 - Any time we need the logged in variable, with is a lot, we can fetch it locally either with async functions or this auth provider, avoiding a lot of future prop drilling.
+- Bonus: Create a custom hook useLoggedIn to avoid using use() inside components. Showcase in Provider.
 - (Same problem in our user profile, getting the logged in state of a user on the server and passing it to the client. Do the same refactor here, login button composable and easily reused somewhere else in the future.)
 - Since our welcomebanner is composable again, we can add it to the all page easily.
 - Through those patterns, by fetching inside components and utilizing cache() and use() we can now maintain good component architecture. Reusable and composable.

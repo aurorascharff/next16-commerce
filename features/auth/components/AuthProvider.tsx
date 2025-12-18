@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext } from 'react';
+import { createContext, use, useContext } from 'react';
 import type { ReactNode } from 'react';
 
 type AuthContextType = {
@@ -20,3 +20,8 @@ export function useAuth(): AuthContextType {
 export function AuthProvider({ children, loggedIn }: { children: ReactNode; loggedIn: Promise<boolean> }) {
   return <AuthContext.Provider value={{ loggedIn }}>{children}</AuthContext.Provider>;
 }
+
+export const useLoggedIn = () => {
+  const { loggedIn } = useAuth();
+  return use(loggedIn)
+};
