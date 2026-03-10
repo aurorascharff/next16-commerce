@@ -1,0 +1,35 @@
+{
+  // SHARED SETTINGS
+  // ===============
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.folding": false,
+  "editor.glyphMargin": false,
+  "editor.lightbulb.enabled": "off",
+  "editor.minimap.enabled": false,
+  "editor.smoothScrolling": true,
+  "explorer.openEditors.visible": 0,
+
+  // VIDEO RECORDING SETTINGS
+  // ========================
+  // "window.zoomLevel": 0,
+  // "editor.fontSize": 12,
+  // "terminal.integrated.fontSize": 14,
+  "editor.scrollbar.verticalScrollbarSize": 8,
+  "editor.scrollbar.horizontalScrollbarSize": 8,
+
+  "breadcrumbs.enabled": false,
+  "debug.javascript.codelens.npmScripts": "never",
+  "editor.cursorBlinking": "solid",
+  "editor.lineNumbers": "off",
+  "editor.parameterHints.enabled": false,
+  "editor.quickSuggestions": {
+    "other": false,
+    "comments": false,
+    "strings": false
+  },
+  "editor.rulers": [],
+  "editor.suggestOnTriggerCharacters": false,
+  "scm.diffDecorations": "none",
+  "workbench.editor.showTabs": "none",
+  "workbench.sideBar.location": "left"
+}
