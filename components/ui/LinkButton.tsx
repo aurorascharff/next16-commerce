@@ -9,7 +9,13 @@ type Props = {
   children: React.ReactNode;
 };
 
-export default function LinkButton({ children, href, variant = 'default', className = '' }: Props & LinkProps<Route>) {
+export default function LinkButton({
+  children,
+  href,
+  variant = 'default',
+  className = '',
+  prefetch,
+}: Props & LinkProps<Route>) {
   const baseClasses = 'inline-flex items-center gap-2 text-sm font-bold tracking-wide uppercase';
 
   const variantClasses = {
@@ -22,7 +28,7 @@ export default function LinkButton({ children, href, variant = 'default', classN
   const combinedClasses = `${baseClasses} ${variantClasses[variant]} ${className}`.trim();
 
   return (
-    <Link href={href} className={combinedClasses}>
+    <Link href={href} prefetch={prefetch} className={combinedClasses}>
       {children}
     </Link>
   );

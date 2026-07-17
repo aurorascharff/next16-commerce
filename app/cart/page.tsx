@@ -39,6 +39,7 @@ export default function CartPage() {
               className="border-divider dark:border-divider-dark flex items-center gap-4 border-b p-4 last:border-b-0 dark:border-b-neutral-800"
             >
               <Link
+                prefetch={true}
                 href={`/product/${item.productId}`}
                 className="shrink-0 rounded focus:outline-none focus:ring-2 focus:ring-accent"
               >
@@ -46,6 +47,7 @@ export default function CartPage() {
               </Link>
               <div className="min-w-0 flex-1">
                 <Link
+                  prefetch={true}
                   href={`/product/${item.productId}`}
                   className="text-primary hover:text-primary-dark"
                 >

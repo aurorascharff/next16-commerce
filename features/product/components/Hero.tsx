@@ -30,6 +30,7 @@ export default async function Hero() {
           </p>
           <div className="flex flex-wrap gap-4">
             <LinkButton
+              prefetch={true}
               href={heroProduct ? (`/product/${heroProduct.id}` as Route) : ('/product/1' as Route)}
               variant="primary"
             >

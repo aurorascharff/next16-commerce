@@ -33,7 +33,7 @@ export default async function SavedProducts() {
             >
               <ImagePlaceholder variant="simple" className="size-12 flex-shrink-0" />
               <div className="min-w-0 flex-1">
-                <Link href={`/product/${product.id}`} className="block">
+                <Link prefetch={true} href={`/product/${product.id}`} className="block">
                   <h3 className="truncate text-sm font-semibold tracking-wide uppercase">{product.name}</h3>
                   <p className="text-primary text-sm font-medium">${product.price.toFixed(2)}</p>
                 </Link>

@@ -28,6 +28,7 @@ export default function ProductCard({
   const card =
     variant === 'compact' ? (
       <Link
+        prefetch={true}
         href={`/product/${id}`}
         className={`border-divider hover:border-accent dark:border-divider-dark dark:hover:border-accent flex border bg-white transition-all hover:shadow-md dark:bg-black ${className}`}
       >
@@ -48,6 +49,7 @@ export default function ProductCard({
       </Link>
     ) : (
       <Link
+        prefetch={true}
         href={`/product/${id}`}
         className={`border-divider dark:border-divider-dark dark:bg-card-dark group hover:border-accent flex h-full flex-col border bg-white ${className}`}
       >

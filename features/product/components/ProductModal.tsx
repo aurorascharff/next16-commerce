@@ -31,6 +31,7 @@ export default function ProductModal({ productId, children }: Props) {
         {children}
         <div className="mt-6 flex justify-center">
           <Link
+            prefetch={true}
             className="text-primary hover:text-primary-dark inline-flex items-center text-sm font-medium"
             href={`/product/${productId}`}
           >

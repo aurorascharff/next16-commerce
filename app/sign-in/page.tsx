@@ -28,7 +28,7 @@ export default async function SignInPage({ searchParams }: PageProps<'/sign-in'>
             name="password"
             type="password"
             disabled
-            defaultValue={Math.random().toString(36).slice(-12)}
+            defaultValue="jane.smith1234"
             required
           />
         </div>
