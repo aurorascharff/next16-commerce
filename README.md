@@ -9,20 +9,12 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 First, install the dependencies:
 
 ```bash
-npm install --force
-# or
-yarn install --force
-# or
-pnpm install --force
+pnpm install
 ```
 
 Then, run the development server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
 pnpm dev
 ```
 
@@ -41,25 +33,25 @@ Consider adding a `.env` file to the root of the project and use the environment
 When using sqlite, initialize the database with:
 
 ```bash
-npm run prisma.push
+pnpm prisma.push
 ```
 
 Seed prisma/seed.ts for initial data:
 
 ```sh
-npm run prisma.seed
+pnpm prisma.seed
 ```
 
 To view your data in the database, you can run:
 
 ```bash
-npm run prisma.studio
+pnpm prisma.studio
 ```
 
 When using a real database with for example postgresql or sqlserver, you need to migrate the database schema with:
 
 ```bash
-npm run prisma.migrate
+pnpm prisma.migrate
 ```
 
 ## Learn More

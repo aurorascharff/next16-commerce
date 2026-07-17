@@ -5,10 +5,7 @@ import Product, { ProductSkeleton } from '@/features/product/components/Product'
 import ProductDetails, { ProductDetailsSkeleton } from '@/features/product/components/ProductDetails';
 import Reviews, { ReviewsSkeleton } from '@/features/product/components/Reviews';
 
-export default async function ProductPage({ params }: PageProps<'/product/[id]'>) {
-  const { id } = await params;
-  const productId = Number(id);
-
+export default function ProductPage({ params }: PageProps<'/product/[id]'>) {
   return (
     <div className="flex flex-col gap-6">
       <BackButton />
@@ -22,20 +19,25 @@ export default async function ProductPage({ params }: PageProps<'/product/[id]'>
               </>
             }
           >
-            <Product
-              productId={productId}
-              details={
-                <Suspense key={productId} fallback={<ProductDetailsSkeleton />}>
-                  <ProductDetails key={productId} productId={productId} />
-                </Suspense>
-              }
-            />
+            {params.then(({ id }) => {
+              const productId = Number(id);
+              return (
+                <Product
+                  productId={productId}
+                  details={
+                    <Suspense key={productId} fallback={<ProductDetailsSkeleton />}>
+                      <ProductDetails key={productId} productId={productId} />
+                    </Suspense>
+                  }
+                />
+              );
+            })}
           </Suspense>
         </Card>
         <div>
           <h2 className="mb-4 text-xl font-semibold">Customer Reviews</h2>
           <Suspense fallback={<ReviewsSkeleton />}>
-            <Reviews productId={productId} />
+            {params.then(({ id }) => <Reviews productId={Number(id)} />)}
           </Suspense>
         </div>
       </div>
