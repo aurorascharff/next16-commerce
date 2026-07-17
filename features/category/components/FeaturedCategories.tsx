@@ -16,6 +16,7 @@ export default async function FeaturedCategories() {
           return (
             <Link
               key={category.name}
+              prefetch={true}
               href={`/all?category=${encodeURIComponent(category.name)}` as Route}
               className="border-divider dark:border-divider-dark dark:bg-card-dark group hover:border-accent block border bg-white"
             >

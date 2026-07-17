@@ -1,5 +1,6 @@
 import 'server-only';
 
+import { cacheLife, cacheTag } from 'next/cache';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { prisma } from '@/db';
@@ -41,6 +42,10 @@ export const getProductDetails = cache(async (productId: number) => {
 
 export const getProducts = cache(
   async (searchQuery?: string, sort?: 'asc' | 'desc', page = 1, limit = 9, category?: string) => {
+    'use cache';
+    cacheLife('minutes');
+    cacheTag('products');
+
     const skip = (page - 1) * limit;
 
     const whereClause: {

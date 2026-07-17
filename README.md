@@ -1,6 +1,6 @@
 # Next.js 16 Commerce
 
-A responsive and interactive e-commerce application built with Next.js 16 App Router, built with Prisma and TailwindCSS, utilizing `use cache` for performance optimization.
+A responsive and interactive e-commerce application built with Next.js 16 App Router, Prisma, and TailwindCSS, using Cache Components (`use cache`) and Partial Prefetching for instant navigation and performance.
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
