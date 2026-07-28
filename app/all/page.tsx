@@ -5,8 +5,6 @@ import WelcomeBanner from '@/components/banner/WelcomeBanner';
 import CategoryFilters from '@/features/category/components/CategoryFilters';
 import ProductList, { ProductListSkeleton } from '@/features/product/components/ProductList';
 
-export const prefetch = 'allow-runtime';
-
 export default async function AllPage({ searchParams }: PageProps<'/'>) {
   return (
     <>
