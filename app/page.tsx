@@ -19,14 +19,14 @@ export default async function HomePage() {
       </Suspense>
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Featured Categories</h2>
-        <Link href="/all" className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
+        <Link prefetch={true} href="/all" className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
           View All →
         </Link>
       </div>
       <FeaturedCategories />
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Featured Products</h2>
-        <Link href="/all" className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
+        <Link prefetch={true} href="/all" className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
           View All Products →
         </Link>
       </div>

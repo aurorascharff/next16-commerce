@@ -13,10 +13,7 @@ export default function CartPage() {
       <div className="mx-auto w-full max-w-2xl">
         <div className="border-divider dark:border-divider-dark flex flex-col items-center justify-center gap-4 border bg-white py-16 dark:bg-black">
           <p className="text-gray-600 dark:text-gray-400">Your cart is empty.</p>
-          <Link
-            href="/all"
-            className="text-primary hover:text-primary-dark"
-          >
+          <Link prefetch={true} href="/all" className="text-primary hover:text-primary-dark">
             Browse products
           </Link>
         </div>
@@ -29,7 +26,7 @@ export default function CartPage() {
   return (
     <div className="mx-auto w-full max-w-2xl">
       <div className="flex flex-col gap-6">
-        <h1 className="text-2xl font-bold uppercase tracking-tight">
+        <h1 className="text-2xl font-bold tracking-tight uppercase">
           Cart ({count} item{count === 1 ? '' : 's'})
         </h1>
         <div className="border-divider dark:border-divider-dark flex flex-col gap-4 border bg-white dark:bg-black">
@@ -41,7 +38,7 @@ export default function CartPage() {
               <Link
                 prefetch={true}
                 href={`/product/${item.productId}`}
-                className="shrink-0 rounded focus:outline-none focus:ring-2 focus:ring-accent"
+                className="focus:ring-accent shrink-0 rounded focus:ring-2 focus:outline-none"
               >
                 <ImagePlaceholder variant="simple" className="size-20 sm:size-24" />
               </Link>
@@ -66,9 +63,7 @@ export default function CartPage() {
                   >
                     <Minus className="size-4" />
                   </button>
-                  <span className="min-w-8 text-center text-sm font-medium tabular-nums">
-                    {item.quantity}
-                  </span>
+                  <span className="min-w-8 text-center text-sm font-medium tabular-nums">{item.quantity}</span>
                   <button
                     type="button"
                     onClick={() => updateQuantity(item.productId, Math.min(10, item.quantity + 1))}
@@ -82,15 +77,13 @@ export default function CartPage() {
                 <button
                   type="button"
                   onClick={() => removeItem(item.productId)}
-                  className="text-gray-500 hover:text-danger p-2"
+                  className="hover:text-danger p-2 text-gray-500"
                   aria-label={`Remove ${item.name} from cart`}
                 >
                   <Trash2 className="size-5" />
                 </button>
               </div>
-              <p className="text-accent w-20 text-right font-bold">
-                ${(item.price * item.quantity).toFixed(2)}
-              </p>
+              <p className="text-accent w-20 text-right font-bold">${(item.price * item.quantity).toFixed(2)}</p>
             </div>
           ))}
         </div>

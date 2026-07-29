@@ -76,7 +76,7 @@ export default function AboutPage() {
             Quality products, exceptional service, and customer satisfaction are the pillars of our business.
           </p>
           <div className="flex flex-col gap-4 sm:flex-row">
-            <LinkButton href="/all" variant="primary">
+            <LinkButton prefetch={true} href="/all" variant="primary">
               Browse Products
             </LinkButton>
             <LinkButton href="/user" variant="secondary">

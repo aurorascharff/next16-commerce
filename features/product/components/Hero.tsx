@@ -36,7 +36,7 @@ export default async function Hero() {
             >
               {heroProduct ? 'View Product' : 'Shop Now'}
             </LinkButton>
-            <LinkButton href="/all" variant="secondary">
+            <LinkButton prefetch={true} href="/all" variant="secondary">
               Browse All
             </LinkButton>
           </div>

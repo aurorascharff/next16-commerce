@@ -77,7 +77,11 @@ export async function PersonalBanner() {
             </Link>
           )}
           {!featuredDiscount && savedProducts.length === 0 && (
-            <Link href="/all" className="inline-flex items-center text-xs font-semibold tracking-wide uppercase">
+            <Link
+              prefetch={true}
+              href="/all"
+              className="inline-flex items-center text-xs font-semibold tracking-wide uppercase"
+            >
               Start Shopping →
             </Link>
           )}
