@@ -5,9 +5,6 @@ const nextConfig: NextConfig = {
   partialPrefetching: true,
   experimental: {
     inlineCss: true,
-    staleTimes: {
-      dynamic: 30,
-    },
   },
   reactCompiler: true,
   typedRoutes: true,
