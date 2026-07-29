@@ -18,7 +18,7 @@ export default function CategoryFilterButton({ category, children }: Props) {
   const href = category ? { pathname: '/all', query: { category } } : { pathname: '/all' };
 
   return (
-    <Link prefetch={true} scroll={false} href={href} className={cn('text-xs font-bold tracking-wide uppercase md:block')}>
+    <Link scroll={false} href={href} className={cn('text-xs font-bold tracking-wide uppercase md:block')}>
       <LinkStatus variant="spinner">
         <div
           className={cn(
