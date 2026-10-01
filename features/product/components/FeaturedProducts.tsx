@@ -1,4 +1,4 @@
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
+import { cacheTag } from 'next/cache';
 import Boundary from '@/components/internal/Boundary';
 import ProductCard from '@/components/ui/ProductCard';
 import { getFeaturedProducts } from '../product-queries';

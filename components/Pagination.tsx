@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import Boundary from './internal/Boundary';
 import LinkStatus from './ui/LinkStatus';
-import type { SearchParams } from 'next/dist/server/request/search-params';
+
+type SearchParams = Record<string, string | string[] | undefined>;
 
 export default function Pagination({
   currentPage,

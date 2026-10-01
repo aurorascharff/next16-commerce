@@ -4,10 +4,12 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   experimental: {
+    agentFeedback: true,
     inlineCss: true,
+    useOffline: true,
   },
   reactCompiler: true,
   typedRoutes: true,
 };
 
-module.exports = nextConfig;
+export default nextConfig;

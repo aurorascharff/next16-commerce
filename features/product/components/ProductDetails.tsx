@@ -1,5 +1,5 @@
 import { Bookmark } from 'lucide-react';
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
+import { cacheTag } from 'next/cache';
 import React from 'react';
 import Boundary from '@/components/internal/Boundary';
 import Button from '@/components/ui/Button';

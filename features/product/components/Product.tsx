@@ -1,4 +1,4 @@
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
+import { cacheTag } from 'next/cache';
 import React from 'react';
 import Boundary from '@/components/internal/Boundary';
 import ImagePlaceholder from '@/components/ui/ImagePlaceholder';
