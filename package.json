@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint .",
     "postinstall": "prisma generate",
-    "test:e2e": "playwright test",
+    "test:e2e": "NEXT_TESTING_API=1 next build && playwright test",
     "typegen": "next typegen .",
     "prisma.studio": "prisma studio",
     "prisma.seed": "tsx prisma/seed.ts",
