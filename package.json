@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint .",
     "postinstall": "prisma generate",
-    "test:e2e": "playwright test",
+    "test:e2e": "NEXT_TESTING_API=1 next build && playwright test",
     "typegen": "next typegen .",
     "prisma.studio": "prisma studio",
     "prisma.seed": "tsx prisma/seed.ts",
@@ -29,7 +29,7 @@
     "eslint": "9.38.0",
     "framer-motion": "^12.23.24",
     "lucide-react": "^0.546.0",
-    "next": "https://vercel-packages.vercel.app/next/prs/97393/next",
+    "next": "16.5.0-canary.2",
     "postcss": "^8.5.6",
     "react": "19.2.6",
     "react-dom": "19.2.6",
@@ -43,18 +43,20 @@
     "zustand": "^5.0.11"
   },
   "devDependencies": {
-    "@next/playwright": "16.4.0-canary.55",
+    "@next/playwright": "16.5.0-canary.2",
     "@playwright/test": "^1.60.0",
     "@tailwindcss/typography": "^0.5.19",
     "@types/eslint": "^9.6.1",
-    "eslint-config-next": "16.4.0-canary.55",
+    "eslint-config-next": "16.5.0-canary.2",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-autofix": "^2.2.0",
     "eslint-plugin-sort-keys-fix": "^1.1.2",
     "globals": "^16.4.0",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.7.1",
-    "prisma": "6.1.0"
+    "prisma": "6.1.0",
+    "zod": "4.6.5",
+    "zod-validation-error": "4.0.2"
   },
   "packageManager": "pnpm@10.29.2"
 }

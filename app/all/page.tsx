@@ -4,8 +4,9 @@ import SortButton, { SortButtonSkeleton } from '@/components/SortButton';
 import WelcomeBanner from '@/components/banner/WelcomeBanner';
 import CategoryFilters from '@/features/category/components/CategoryFilters';
 import ProductList, { ProductListSkeleton } from '@/features/product/components/ProductList';
+import type { SearchParams } from '@/features/product/components/ProductList';
 
-export default async function AllPage({ searchParams }: PageProps<'/'>) {
+export default function AllPage({ searchParams }: PageProps<'/all'>) {
   return (
     <>
       <WelcomeBanner />
@@ -34,10 +35,23 @@ export default async function AllPage({ searchParams }: PageProps<'/'>) {
             </Suspense>
           </div>
           <Suspense fallback={<ProductListSkeleton />}>
-            <ProductList searchParams={searchParams} />
+            {searchParams.then(params => (
+              <ProductList searchParams={parseSearchParams(params)} />
+            ))}
           </Suspense>
         </div>
       </div>
     </>
   );
+}
+
+function parseSearchParams(params: Awaited<PageProps<'/all'>['searchParams']>): SearchParams {
+  const { category, page, q, sort } = params;
+
+  return {
+    category: typeof category === 'string' ? category : undefined,
+    page: typeof page === 'string' ? page : undefined,
+    q: typeof q === 'string' ? q : undefined,
+    sort: sort === 'asc' || sort === 'desc' ? sort : undefined,
+  };
 }

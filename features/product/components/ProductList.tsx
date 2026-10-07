@@ -12,12 +12,11 @@ export type SearchParams = {
 };
 
 type Props = {
-  searchParams: Promise<SearchParams>;
+  searchParams: SearchParams;
 };
 
 export default async function ProductList({ searchParams }: Props) {
-  const resolvedSearchParams = (await searchParams) as SearchParams;
-  const { q, sort, page, category } = resolvedSearchParams;
+  const { q, sort, page, category } = searchParams;
   const pageNumber = page ? parseInt(page, 10) : 1;
   const { products, totalPages, currentPage } = await getProducts(q, sort, pageNumber, 9, category);
   const hasProducts = products.length > 0;
@@ -46,7 +45,7 @@ export default async function ProductList({ searchParams }: Props) {
         </div>
         {totalPages > 1 && (
           <div className="flex justify-center">
-            <Pagination searchParams={resolvedSearchParams} currentPage={currentPage} totalPages={totalPages} />
+            <Pagination searchParams={searchParams} currentPage={currentPage} totalPages={totalPages} />
           </div>
         )}
       </div>

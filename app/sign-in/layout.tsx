@@ -1,4 +1,4 @@
-export default async function SignInLayout({ children }: LayoutProps<'/sign-in'>) {
+export default function SignInLayout({ children }: LayoutProps<'/sign-in'>) {
   return (
     <div className="mx-auto max-w-4xl space-y-12">
       <div className="text-center">

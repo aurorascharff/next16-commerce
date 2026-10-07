@@ -1,3 +1,4 @@
+import { cacheLife } from 'next/cache';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { getCurrentAccount, getIsAuthenticated } from '@/features/auth/auth-queries';
@@ -18,6 +19,9 @@ export default function WelcomeBanner() {
 }
 
 export async function PersonalBanner() {
+  'use cache: private';
+  cacheLife('minutes');
+
   const loggedIn = await getIsAuthenticated();
   if (!loggedIn) return <GeneralBanner />;
 

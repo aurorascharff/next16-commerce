@@ -31,10 +31,10 @@ importers:
         version: 19.2.2(@types/react@19.2.2)
       '@vercel/analytics':
         specifier: ^1.5.0
-        version: 1.6.1(next@https://vercel-packages.vercel.app/next/prs/97393/next(@babel/core@7.29.0)(@playwright/test@1.63.0)(@types/node@24.9.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)
+        version: 1.6.1(next@16.5.0-canary.2(@babel/core@7.29.0)(@playwright/test@1.63.0)(@types/node@24.9.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)
       '@vercel/speed-insights':
         specifier: ^1.2.0
-        version: 1.3.1(next@https://vercel-packages.vercel.app/next/prs/97393/next(@babel/core@7.29.0)(@playwright/test@1.63.0)(@types/node@24.9.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)
+        version: 1.3.1(next@16.5.0-canary.2(@babel/core@7.29.0)(@playwright/test@1.63.0)(@types/node@24.9.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)
       babel-plugin-react-compiler:
         specifier: ^1.0.0
         version: 1.0.0
@@ -51,8 +51,8 @@ importers:
         specifier: ^0.546.0
         version: 0.546.0(react@19.2.6)
       next:
-        specifier: https://vercel-packages.vercel.app/next/prs/97393/next
-        version: https://vercel-packages.vercel.app/next/prs/97393/next(@babel/core@7.29.0)(@playwright/test@1.63.0)(@types/node@24.9.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+        specifier: 16.5.0-canary.2
+        version: 16.5.0-canary.2(@babel/core@7.29.0)(@playwright/test@1.63.0)(@types/node@24.9.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       postcss:
         specifier: 8.5.14
         version: 8.5.14
@@ -88,8 +88,8 @@ importers:
         version: 5.0.13(@types/react@19.2.2)(react@19.2.6)(use-sync-external-store@1.6.0(react@19.2.6))
     devDependencies:
       '@next/playwright':
-        specifier: 16.4.0-canary.55
-        version: 16.4.0-canary.55(@playwright/test@1.63.0)
+        specifier: 16.5.0-canary.2
+        version: 16.5.0-canary.2(@playwright/test@1.63.0)
       '@playwright/test':
         specifier: ^1.60.0
         version: 1.63.0
@@ -100,8 +100,8 @@ importers:
         specifier: ^9.6.1
         version: 9.6.1
       eslint-config-next:
-        specifier: 16.4.0-canary.55
-        version: 16.4.0-canary.55(@typescript-eslint/parser@8.71.0(eslint@9.38.0(jiti@2.7.0))(typescript@5.9.3))(eslint@9.38.0(jiti@2.7.0))(typescript@5.9.3)
+        specifier: 16.5.0-canary.2
+        version: 16.5.0-canary.2(@typescript-eslint/parser@8.71.0(eslint@9.38.0(jiti@2.7.0))(typescript@5.9.3))(eslint@9.38.0(jiti@2.7.0))(typescript@5.9.3)
       eslint-config-prettier:
         specifier: ^10.1.8
         version: 10.1.8(eslint@9.38.0(jiti@2.7.0))
@@ -123,6 +123,12 @@ importers:
       prisma:
         specifier: 6.1.0
         version: 6.1.0
+      zod:
+        specifier: 4.6.5
+        version: 4.6.5
+      zod-validation-error:
+        specifier: 4.0.2
+        version: 4.0.2(zod@4.6.5)
 
 packages:
 
@@ -635,27 +641,71 @@ packages:
       '@emnapi/core': ^1.7.1
       '@emnapi/runtime': ^1.7.1
 
-  '@next/env@https://vercel-packages.vercel.app/next/commits/93500b8c40f2acc13d7d517d1db6acecc2828749/@next/env':
-    resolution: {tarball: https://vercel-packages.vercel.app/next/commits/93500b8c40f2acc13d7d517d1db6acecc2828749/@next/env}
-    version: 16.4.0-preview-03ec7242-20260930
+  '@next/env@16.5.0-canary.2':
+    resolution: {integrity: sha512-Guc5ijyj28u8fr6+0QAgnMDAYJYcvb9hKosHAls3u0ytFO/hv5gXy0pZ64G+OsiQwCRYzUICGUqGZZmsTlrU4Q==}
 
-  '@next/eslint-plugin-next@16.4.0-canary.55':
-    resolution: {integrity: sha512-YCLlfGlngp1csKi78mkzQCR6N0abQ7wtURFwj8DgPtoNUFTrGqNiWQDGNhENaCvT/FAafAM7PZmyAq8aegQSMQ==}
+  '@next/eslint-plugin-next@16.5.0-canary.2':
+    resolution: {integrity: sha512-FUrcAVjvkINYUwu2NEbBB2f62iyoDRBJRIhjddaNra0XqZWaJUR1WHRzBaAydIrXuav1EAcQf7wEKqhjWsanJQ==}
 
-  '@next/playwright@16.4.0-canary.55':
-    resolution: {integrity: sha512-rqIL1nrTmzs22beK6Kba97j+x4owEux5i8TqYvoyTZ0uBrAg53r568P5LBh7jYsGrgLr65EGH1YslCROROvXAQ==}
+  '@next/playwright@16.5.0-canary.2':
+    resolution: {integrity: sha512-EhcWV3LAv5gg6O6+QuPSeiNYgLD/4Ebsg4K2PAaoX77xttXscYVUepn3sIeKr2A3PQFcLApE273tMUJDv2vchA==}
     peerDependencies:
       '@playwright/test': '>=1.0.0'
     peerDependenciesMeta:
       '@playwright/test':
         optional: true
 
-  '@next/swc-linux-x64-gnu@https://vercel-packages.vercel.app/next/commits/93500b8c40f2acc13d7d517d1db6acecc2828749/@next/swc-linux-x64-gnu':
-    resolution: {integrity: sha512-Sr99nio6PKI8LruG1mGBLmMtMxiQU98sv0oNCzpOz5EPqJpZriIyshla8SW2vnLrDa1+uduSZkFzYD8CRm9J0w==, tarball: https://vercel-packages.vercel.app/next/commits/93500b8c40f2acc13d7d517d1db6acecc2828749/@next/swc-linux-x64-gnu}
-    version: 16.4.0-preview-03ec7242-20260930
+  '@next/swc-darwin-arm64@16.5.0-canary.2':
+    resolution: {integrity: sha512-CELVJ1C8tTACmRlGGo4V4FG5qW3yeZnc1ltPaQ25RFSVYIbFCAYj8gIKhlwEw4GgpWHf0DJsVIpxxeC+PkrQgA==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@next/swc-darwin-x64@16.5.0-canary.2':
+    resolution: {integrity: sha512-6Bq0fbO8H4PLT6DoAYpyIN3BnqQSFSmcE2gVp5JMsqD0kGdQctWWplx8l2NlB5tkrcRP2Z4MxSR95Eis56HSXw==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [darwin]
+
+  '@next/swc-linux-arm64-gnu@16.5.0-canary.2':
+    resolution: {integrity: sha512-saCafmDOHxqNn9VxG5/CQ+yBnmf1hl0sUAE8fr7873Cks0Il1pfxzdeZW1eCobzNDBpaNwzjD574NX0Deafitg==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    libc: [glibc]
+
+  '@next/swc-linux-arm64-musl@16.5.0-canary.2':
+    resolution: {integrity: sha512-v6xY93ycE7ahvC624Cd9YXh36nwTBEdCKlBY6MxOJlP5cTtrivaTW96OoSlqIUrE2xYCDJeXUNCLVYLp/J9CNg==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    libc: [musl]
+
+  '@next/swc-linux-x64-gnu@16.5.0-canary.2':
+    resolution: {integrity: sha512-bBxq3JIDPdoFxqoaLI+yc0cNTxMCXkHzdskFVPbdYlLhwNc/iwADvY8ZFChfOZHq2FN8OmhZSI64tRsEj3kung==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
+
+  '@next/swc-linux-x64-musl@16.5.0-canary.2':
+    resolution: {integrity: sha512-ybZSQpdrxoK0PdECgIcTgn6qe/LatMkKvqaf4K5AsymK2asAv2wDK/9wOK9MrpPDcSJz/46iIZUQDG4eqVQ4qw==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    libc: [musl]
+
+  '@next/swc-win32-arm64-msvc@16.5.0-canary.2':
+    resolution: {integrity: sha512-htG/Bup9sDAMOeFEi8gOqDMbPLF3araMfgdmH6XIGVn6Y8e9oqrtDRvnxO+YnqFmOilXtKyCiHpjgxxQkho4Jw==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [win32]
+
+  '@next/swc-win32-x64-msvc@16.5.0-canary.2':
+    resolution: {integrity: sha512-N6J/tJqYperzcBAVj6DPvhlqdumj1Q/wTdAgmT2T8a0zCIybUmItiXl23wLrzwSkTzVO9Ws8sgaaVL0qTDOJJA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [win32]
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -1000,7 +1050,6 @@ packages:
 
   '@vercel/analytics@1.6.1':
     resolution: {integrity: sha512-oH9He/bEM+6oKlv3chWuOOcp8Y6fo6/PSro8hEkgCW3pu9/OiCXiUpRUogDh3Fs3LH2sosDrx8CxeOLBEE+afg==}
-    version: 1.6.1
     peerDependencies:
       '@remix-run/react': ^2
       '@sveltejs/kit': ^1 || ^2
@@ -1027,7 +1076,6 @@ packages:
 
   '@vercel/speed-insights@1.3.1':
     resolution: {integrity: sha512-PbEr7FrMkUrGYvlcLHGkXdCkxnylCWePx7lPxxq36DNdfo9mcUjLOmqOyPDHAOgnfqgGGdmE3XI9L/4+5fr+vQ==}
-    version: 1.3.1
     peerDependencies:
       '@sveltejs/kit': ^1 || ^2
       next: '>= 13'
@@ -1329,8 +1377,8 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
 
-  eslint-config-next@16.4.0-canary.55:
-    resolution: {integrity: sha512-qh4cxJ/+q2l47EDZ0HPjMWhfKh6461tFk+RueRFTgmvmtc1jhJY0HlNVnY2t6XeHnmgguNmLIjiLtgT2wTS98Q==}
+  eslint-config-next@16.5.0-canary.2:
+    resolution: {integrity: sha512-IIjyQ76/xMqUj17MD5qqCF0iaC71sSHxRj1qhjCSuzOVldOp1+gNqHn0mCs8z2RpyM7z+lHX9wYG0PFUeIUOZA==}
     peerDependencies:
       eslint: '>=9.0.0'
       typescript: '>=3.3.1'
@@ -1970,9 +2018,8 @@ packages:
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
 
-  next@https://vercel-packages.vercel.app/next/prs/97393/next:
-    resolution: {tarball: https://vercel-packages.vercel.app/next/prs/97393/next}
-    version: 16.4.0-preview-03ec7242-20260930
+  next@16.5.0-canary.2:
+    resolution: {integrity: sha512-Qn7eeLCi9rqa4yCFEHeQn2Rpw6KU1mGS/Rb7D6Ah4apMOJGEwrEhwBTUsJVcoIeGNuCK6PfX/yMjcFT17gqBeA==}
     engines: {node: '>=20.9.0'}
     hasBin: true
     peerDependencies:
@@ -2492,14 +2539,14 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
-  zod-validation-error@3.5.4:
-    resolution: {integrity: sha512-+hEiRIiPobgyuFlEojnqjJnhFvg4r/i3cqgcm67eehZf/WBaK3g6cD02YU9mtdVxZjv8CzCA9n/Rhrs3yAAvAw==}
+  zod-validation-error@4.0.2:
+    resolution: {integrity: sha512-Q6/nZLe6jxuU80qb/4uJ4t5v2VEZ44lzQjPDhYJNztRQ4wyWc6VF3D3Kb/fAuPetZQnhS3hnajCf9CsWesghLQ==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
-      zod: ^3.24.4
+      zod: ^3.25.0 || ^4.0.0
 
-  zod@3.25.76:
-    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
+  zod@4.6.5:
+    resolution: {integrity: sha512-v5l/aFXZQeai4awLbOpSoHecE9UiMrnfx75tEXLjNonXVARxQ5mOeipTjROUchszUNCqnE+hqAMujRsRHsut2Q==}
 
   zustand@5.0.13:
     resolution: {integrity: sha512-efI2tVaVQPqtOh114loML/Z80Y4NP3yc+Ff0fYiZJPauNeWZeIp/bRFD7I9bfmCOYBh/PHxlglQ9+wvlwnPikQ==}
@@ -2948,20 +2995,41 @@ snapshots:
       '@tybys/wasm-util': 0.10.2
     optional: true
 
-  '@next/env@https://vercel-packages.vercel.app/next/commits/93500b8c40f2acc13d7d517d1db6acecc2828749/@next/env': {}
+  '@next/env@16.5.0-canary.2': {}
 
-  '@next/eslint-plugin-next@16.4.0-canary.55(eslint@9.38.0(jiti@2.7.0))':
+  '@next/eslint-plugin-next@16.5.0-canary.2(eslint@9.38.0(jiti@2.7.0))':
     dependencies:
       '@eslint-community/eslint-utils': 4.9.1(eslint@9.38.0(jiti@2.7.0))
       fast-glob: 3.3.1
     transitivePeerDependencies:
       - eslint
 
-  '@next/playwright@16.4.0-canary.55(@playwright/test@1.63.0)':
+  '@next/playwright@16.5.0-canary.2(@playwright/test@1.63.0)':
     optionalDependencies:
       '@playwright/test': 1.63.0
 
-  '@next/swc-linux-x64-gnu@https://vercel-packages.vercel.app/next/commits/93500b8c40f2acc13d7d517d1db6acecc2828749/@next/swc-linux-x64-gnu':
+  '@next/swc-darwin-arm64@16.5.0-canary.2':
+    optional: true
+
+  '@next/swc-darwin-x64@16.5.0-canary.2':
+    optional: true
+
+  '@next/swc-linux-arm64-gnu@16.5.0-canary.2':
+    optional: true
+
+  '@next/swc-linux-arm64-musl@16.5.0-canary.2':
+    optional: true
+
+  '@next/swc-linux-x64-gnu@16.5.0-canary.2':
+    optional: true
+
+  '@next/swc-linux-x64-musl@16.5.0-canary.2':
+    optional: true
+
+  '@next/swc-win32-arm64-msvc@16.5.0-canary.2':
+    optional: true
+
+  '@next/swc-win32-x64-msvc@16.5.0-canary.2':
     optional: true
 
   '@nodelib/fs.scandir@2.1.5':
@@ -3270,14 +3338,14 @@ snapshots:
   '@unrs/resolver-binding-win32-x64-msvc@1.12.0':
     optional: true
 
-  '@vercel/analytics@1.6.1(next@https://vercel-packages.vercel.app/next/prs/97393/next(@babel/core@7.29.0)(@playwright/test@1.63.0)(@types/node@24.9.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)':
+  '@vercel/analytics@1.6.1(next@16.5.0-canary.2(@babel/core@7.29.0)(@playwright/test@1.63.0)(@types/node@24.9.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)':
     optionalDependencies:
-      next: https://vercel-packages.vercel.app/next/prs/97393/next(@babel/core@7.29.0)(@playwright/test@1.63.0)(@types/node@24.9.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      next: 16.5.0-canary.2(@babel/core@7.29.0)(@playwright/test@1.63.0)(@types/node@24.9.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       react: 19.2.6
 
-  '@vercel/speed-insights@1.3.1(next@https://vercel-packages.vercel.app/next/prs/97393/next(@babel/core@7.29.0)(@playwright/test@1.63.0)(@types/node@24.9.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)':
+  '@vercel/speed-insights@1.3.1(next@16.5.0-canary.2(@babel/core@7.29.0)(@playwright/test@1.63.0)(@types/node@24.9.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)':
     optionalDependencies:
-      next: https://vercel-packages.vercel.app/next/prs/97393/next(@babel/core@7.29.0)(@playwright/test@1.63.0)(@types/node@24.9.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      next: 16.5.0-canary.2(@babel/core@7.29.0)(@playwright/test@1.63.0)(@types/node@24.9.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       react: 19.2.6
 
   acorn-jsx@5.3.2(acorn@7.4.1):
@@ -3666,9 +3734,9 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-config-next@16.4.0-canary.55(@typescript-eslint/parser@8.71.0(eslint@9.38.0(jiti@2.7.0))(typescript@5.9.3))(eslint@9.38.0(jiti@2.7.0))(typescript@5.9.3):
+  eslint-config-next@16.5.0-canary.2(@typescript-eslint/parser@8.71.0(eslint@9.38.0(jiti@2.7.0))(typescript@5.9.3))(eslint@9.38.0(jiti@2.7.0))(typescript@5.9.3):
     dependencies:
-      '@next/eslint-plugin-next': 16.4.0-canary.55(eslint@9.38.0(jiti@2.7.0))
+      '@next/eslint-plugin-next': 16.5.0-canary.2(eslint@9.38.0(jiti@2.7.0))
       eslint: 9.38.0(jiti@2.7.0)
       eslint-import-resolver-node: 0.3.10
       eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0)(eslint@9.38.0(jiti@2.7.0))
@@ -3786,8 +3854,8 @@ snapshots:
       '@babel/parser': 7.29.3
       eslint: 9.38.0(jiti@2.7.0)
       hermes-parser: 0.25.1
-      zod: 3.25.76
-      zod-validation-error: 3.5.4(zod@3.25.76)
+      zod: 4.6.5
+      zod-validation-error: 4.0.2(zod@4.6.5)
     transitivePeerDependencies:
       - supports-color
 
@@ -4350,9 +4418,9 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
-  next@https://vercel-packages.vercel.app/next/prs/97393/next(@babel/core@7.29.0)(@playwright/test@1.63.0)(@types/node@24.9.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6):
+  next@16.5.0-canary.2(@babel/core@7.29.0)(@playwright/test@1.63.0)(@types/node@24.9.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6):
     dependencies:
-      '@next/env': https://vercel-packages.vercel.app/next/commits/93500b8c40f2acc13d7d517d1db6acecc2828749/@next/env
+      '@next/env': 16.5.0-canary.2
       '@swc/helpers': 0.5.23
       baseline-browser-mapping: 2.10.31
       caniuse-lite: 1.0.30001793
@@ -4361,7 +4429,14 @@ snapshots:
       react-dom: 19.2.6(react@19.2.6)
       styled-jsx: 5.1.6(@babel/core@7.29.0)(react@19.2.6)
     optionalDependencies:
-      '@next/swc-linux-x64-gnu': https://vercel-packages.vercel.app/next/commits/93500b8c40f2acc13d7d517d1db6acecc2828749/@next/swc-linux-x64-gnu
+      '@next/swc-darwin-arm64': 16.5.0-canary.2
+      '@next/swc-darwin-x64': 16.5.0-canary.2
+      '@next/swc-linux-arm64-gnu': 16.5.0-canary.2
+      '@next/swc-linux-arm64-musl': 16.5.0-canary.2
+      '@next/swc-linux-x64-gnu': 16.5.0-canary.2
+      '@next/swc-linux-x64-musl': 16.5.0-canary.2
+      '@next/swc-win32-arm64-msvc': 16.5.0-canary.2
+      '@next/swc-win32-x64-msvc': 16.5.0-canary.2
       '@playwright/test': 1.63.0
       babel-plugin-react-compiler: 1.0.0
       sharp: 0.35.5(@types/node@24.9.1)
@@ -4943,11 +5018,11 @@ snapshots:
 
   yocto-queue@0.1.0: {}
 
-  zod-validation-error@3.5.4(zod@3.25.76):
+  zod-validation-error@4.0.2(zod@4.6.5):
     dependencies:
-      zod: 3.25.76
+      zod: 4.6.5
 
-  zod@3.25.76: {}
+  zod@4.6.5: {}
 
   zustand@5.0.13(@types/react@19.2.2)(react@19.2.6)(use-sync-external-store@1.6.0(react@19.2.6)):
     optionalDependencies:
