@@ -4,6 +4,19 @@ import { expect, test } from '@playwright/test';
 const visible = { visible: true };
 
 test.describe('Product list (/all)', () => {
+  test('the product list is ready from the home page', async ({ page }) => {
+    await page.goto('/');
+    const viewAll = page.getByRole('link', { exact: true, name: 'View All Products →' });
+    await viewAll.scrollIntoViewIfNeeded();
+
+    await instant(page, async () => {
+      await viewAll.click();
+      await page.waitForURL('/all');
+      await expect(page.getByRole('heading', { exact: true, name: 'Categories' })).toBeVisible();
+      await expect(page.getByRole('link', { name: /Wireless Mouse/ }).filter(visible)).toBeVisible();
+    });
+  });
+
   test('the Next link prefetches the second page', async ({ page }) => {
     await page.goto('/all');
     const next = page.getByRole('link', { exact: true, name: 'Next' });
