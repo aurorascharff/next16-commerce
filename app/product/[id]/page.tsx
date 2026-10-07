@@ -2,11 +2,12 @@ import { Bookmark, ShoppingCart } from 'lucide-react';
 import { Suspense } from 'react';
 import BackButton from '@/components/ui/BackButton';
 import Card from '@/components/ui/Card';
-import AddToCartButton from '@/features/cart/AddToCartButton';
-import { getProduct } from '@/features/product/product-queries';
+import AddToCart from '@/features/cart/AddToCart';
 import Product, { ProductSkeleton } from '@/features/product/components/Product';
 import ProductDetails, { SavedProduct } from '@/features/product/components/ProductDetails';
 import Reviews, { ReviewsSkeleton } from '@/features/product/components/Reviews';
+
+export const ensureStatic = 'prefetch';
 
 export async function generateStaticParams() {
   return [{ id: '1' }, { id: '2' }, { id: '3' }, { id: '4' }];
@@ -21,7 +22,6 @@ export default function ProductPage({ params }: PageProps<'/product/[id]'>) {
           <Suspense fallback={<ProductSkeleton isDetails />}>
             {params.then(({ id }) => {
               const productId = Number(id);
-              const productPromise = getProduct(productId);
               return (
                 <Product
                   productId={productId}
@@ -29,7 +29,7 @@ export default function ProductPage({ params }: PageProps<'/product/[id]'>) {
                     <ProductDetails key={productId} productId={productId}>
                       <div className="flex flex-wrap items-center gap-3">
                         <Suspense fallback={<ShoppingCart aria-hidden className="text-gray size-5" />}>
-                          <AddToCartButton productPromise={productPromise} />
+                          <AddToCart productId={productId} />
                         </Suspense>
                         <Suspense fallback={<Bookmark aria-hidden className="text-gray size-5" />}>
                           <SavedProduct productId={productId} />
@@ -45,7 +45,9 @@ export default function ProductPage({ params }: PageProps<'/product/[id]'>) {
         <div>
           <h2 className="mb-4 text-xl font-semibold">Customer Reviews</h2>
           <Suspense fallback={<ReviewsSkeleton />}>
-            {params.then(({ id }) => <Reviews productId={Number(id)} />)}
+            {params.then(({ id }) => (
+              <Reviews productId={Number(id)} />
+            ))}
           </Suspense>
         </div>
       </div>

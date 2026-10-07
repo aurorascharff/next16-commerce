@@ -2,26 +2,27 @@
 
 import { ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useSyncExternalStore } from 'react';
 import Boundary from '@/components/internal/Boundary';
 import { useCart } from './cart-store';
 
+const subscribeToHydration = () => () => {};
+
 export default function CartLink() {
   const { count } = useCart();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const displayCount = mounted ? count : 0;
+  const hydrated = useSyncExternalStore(
+    subscribeToHydration,
+    () => true,
+    () => false,
+  );
+  const displayCount = hydrated ? count : 0;
 
   return (
     <Boundary hydration="client">
       <Link
         href="/cart"
         className="text-primary hover:text-primary-dark relative flex items-center gap-1 p-2"
-        aria-label={mounted ? `Cart with ${count} item${count === 1 ? '' : 's'}` : 'Cart'}
+        aria-label={hydrated ? `Cart with ${count} item${count === 1 ? '' : 's'}` : 'Cart'}
       >
         <ShoppingCart className="size-6" aria-hidden />
         {displayCount > 0 && (

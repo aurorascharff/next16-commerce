@@ -62,7 +62,7 @@ export default function AboutPage() {
         <div className="space-y-6">
           <h2 className="text-3xl font-bold tracking-tight uppercase">Built for Excellence</h2>
           <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
-            Our platform leverages Next.js 15 with advanced caching for lightning-fast performance and seamless shopping
+            Our platform leverages Next.js 16 with advanced caching for lightning-fast performance and seamless shopping
             experiences.
           </p>
           <div className="grid grid-cols-2 gap-4 text-center">

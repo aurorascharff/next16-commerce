@@ -2,27 +2,20 @@
 
 import { motion } from 'framer-motion';
 import { Check, ShoppingCart } from 'lucide-react';
-import React, { use } from 'react';
+import React from 'react';
 import Boundary from '@/components/internal/Boundary';
 import { cn } from '@/utils/cn';
 import { useCart } from './cart-store';
 
 type Props = {
-  productPromise: Promise<{ id: number; name: string; price: number }>;
+  product: { id: number; name: string; price: number };
   quantity?: number;
   variant?: 'primary' | 'secondary';
   className?: string;
   children?: React.ReactNode;
 };
 
-export default function AddToCartButton({
-  productPromise,
-  quantity = 1,
-  variant = 'primary',
-  className,
-  children,
-}: Props) {
-  const product = use(productPromise);
+export default function AddToCartButton({ product, quantity = 1, variant = 'primary', className, children }: Props) {
   const { addItem } = useCart();
   const [justAdded, setJustAdded] = React.useState(false);
 
@@ -40,7 +33,7 @@ export default function AddToCartButton({
         className={cn(
           'text-primary hover:text-primary-dark flex items-center gap-2 text-sm',
           variant === 'secondary' &&
-            'border border-divider dark:border-divider-dark rounded bg-card px-4 py-2 text-black hover:bg-gray-200 dark:bg-card-dark dark:text-white dark:hover:bg-neutral-800',
+            'border-divider dark:border-divider-dark bg-card dark:bg-card-dark rounded border px-4 py-2 text-black hover:bg-gray-200 dark:text-white dark:hover:bg-neutral-800',
           className,
         )}
         aria-label={justAdded ? 'Added to cart' : 'Add to cart'}
@@ -54,10 +47,7 @@ export default function AddToCartButton({
                   animate={{ scale: 1 }}
                   transition={{ type: 'spring', stiffness: 500, damping: 25 }}
                 >
-                  <Check
-                    className="size-5 text-green-600 dark:text-green-400"
-                    aria-hidden
-                  />
+                  <Check className="size-5 text-green-600 dark:text-green-400" aria-hidden />
                 </motion.span>
               ) : (
                 <ShoppingCart className="size-5" aria-hidden />

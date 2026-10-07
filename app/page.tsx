@@ -9,7 +9,7 @@ import FeaturedProducts from '@/features/product/components/FeaturedProducts';
 import Hero from '@/features/product/components/Hero';
 import Recommendations, { RecommendationsSkeleton } from '@/features/user/components/Recommendations';
 
-export default async function HomePage() {
+export default function HomePage() {
   return (
     <div className="flex flex-col gap-10">
       <Hero />

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useSyncExternalStore } from 'react';
 
 export type BoundaryMode = 'off' | 'hydration' | 'rendering';
 
@@ -13,32 +13,45 @@ type BoundaryContextType = {
 const BoundaryContext = createContext<BoundaryContextType | null>(null);
 
 const BOUNDARY_MODE_KEY = 'boundaryMode';
+const boundaryModeListeners = new Set<() => void>();
 
-export function BoundaryProvider({ children }: { children: React.ReactNode }) {
-  const [mode, setMode] = useState<BoundaryMode>('off');
+function getBoundaryMode(): BoundaryMode {
+  const savedMode = localStorage.getItem(BOUNDARY_MODE_KEY);
+  return savedMode && ['off', 'rendering', 'hydration'].includes(savedMode) ? (savedMode as BoundaryMode) : 'off';
+}
 
-  useEffect(() => {
-    const savedMode = localStorage.getItem(BOUNDARY_MODE_KEY) as BoundaryMode;
-    if (savedMode && ['off', 'rendering', 'hydration'].includes(savedMode)) {
-      setMode(savedMode);
+function subscribeToBoundaryMode(listener: () => void) {
+  const handleStorage = (event: StorageEvent) => {
+    if (event.key === BOUNDARY_MODE_KEY) {
+      listener();
     }
-  }, []);
-
-  const toggleMode = () => {
-    setMode(prev => {
-      const newMode = prev === 'off' ? 'hydration' : 'off';
-      localStorage.setItem(BOUNDARY_MODE_KEY, newMode);
-      return newMode;
-    });
   };
 
-  const updateMode = (newMode: BoundaryMode) => {
-    setMode(newMode);
-    localStorage.setItem(BOUNDARY_MODE_KEY, newMode);
+  boundaryModeListeners.add(listener);
+  window.addEventListener('storage', handleStorage);
+
+  return () => {
+    boundaryModeListeners.delete(listener);
+    window.removeEventListener('storage', handleStorage);
+  };
+}
+
+function setBoundaryMode(mode: BoundaryMode) {
+  localStorage.setItem(BOUNDARY_MODE_KEY, mode);
+  boundaryModeListeners.forEach(listener => listener());
+}
+
+export function BoundaryProvider({ children }: { children: React.ReactNode }) {
+  const mode = useSyncExternalStore(subscribeToBoundaryMode, getBoundaryMode, () => 'off' as const);
+
+  const toggleMode = () => {
+    setBoundaryMode(mode === 'off' ? 'hydration' : 'off');
   };
 
   return (
-    <BoundaryContext.Provider value={{ mode, setMode: updateMode, toggleMode }}>{children}</BoundaryContext.Provider>
+    <BoundaryContext.Provider value={{ mode, setMode: setBoundaryMode, toggleMode }}>
+      {children}
+    </BoundaryContext.Provider>
   );
 }
 

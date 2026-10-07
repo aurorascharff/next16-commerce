@@ -13,12 +13,14 @@ import type { Metadata } from 'next';
 
 const GeistSans = Geist({ subsets: ['latin'] });
 
+export const ensureStatic = 'shell';
+
 export const metadata: Metadata = {
   description: 'Next.js 16 App Router Commerce',
   title: 'Next 16 Commerce',
 };
 
-export default async function RootLayout({ children }: LayoutProps<'/'>) {
+export default function RootLayout({ children }: LayoutProps<'/'>) {
   const loggedIn = getIsAuthenticated();
 
   return (
