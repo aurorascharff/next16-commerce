@@ -35,6 +35,7 @@ export default function Pagination({
         {currentPage > 1 && (
           <Link
             scroll={false}
+            prefetch={true}
             href={createPageUrl(currentPage - 1)}
             className="inline-flex items-center px-3 py-2 text-sm font-medium"
           >
@@ -64,6 +65,7 @@ export default function Pagination({
         {currentPage < totalPages && (
           <Link
             scroll={false}
+            prefetch={true}
             href={createPageUrl(currentPage + 1)}
             className="inline-flex items-center px-3 py-2 text-sm font-medium"
           >
