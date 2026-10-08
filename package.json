@@ -38,8 +38,7 @@
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.15",
     "tsx": "^4.20.6",
-    "typescript": "5.9.3",
-    "zustand": "^5.0.11"
+    "typescript": "5.9.3"
   },
   "devDependencies": {
     "@next/playwright": "16.5.0-canary.3",

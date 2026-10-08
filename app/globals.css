@@ -43,15 +43,15 @@
   h3 {
     @apply font-sans text-xl md:text-2xl font-medium tracking-tight text-black dark:text-white;
   }
-  
+
   input {
     @apply w-full border border-divider bg-white px-3 py-2 text-sm text-black placeholder-gray focus:border-accent focus:ring-1 focus:ring-accent focus:outline-none dark:border-divider-dark dark:bg-black dark:text-white dark:placeholder-gray;
   }
-  
+
   label {
     @apply mb-2 block text-sm font-medium text-gray dark:text-gray;
   }
-  
+
   a {
     @apply font-medium uppercase text-accent no-underline transition-colors hover:text-accent-hover;
   }
@@ -75,27 +75,6 @@
   );
   background-size: 800px 100px;
   animation: wave-lines 2s infinite ease-out;
-}
-
-.suspense-reveal {
-  animation: suspense-reveal 250ms ease-out both;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .suspense-reveal {
-    animation: none;
-  }
-}
-
-@keyframes suspense-reveal {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 @keyframes wave-lines {

@@ -1,10 +1,9 @@
 import Link from 'next/link';
 import React, { Suspense } from 'react';
-import CartLink from '@/features/cart/CartLink';
 import UserProfile, { UserProfileSkeleton } from '@/features/user/components/UserProfile';
 import BoundaryToggle from './internal/BoundaryToggle';
 
-export default function Header({ showUserProfile = true }: { showUserProfile?: boolean }) {
+export default function Header({ cart, showUserProfile = true }: { cart: React.ReactNode; showUserProfile?: boolean }) {
   return (
     <>
       <header className="border-divider dark:border-divider-dark 3xl:px-60 flex min-h-20 items-center justify-between gap-4 border-b bg-white px-4 py-4 sm:px-10 2xl:px-40 dark:bg-black">
@@ -23,7 +22,7 @@ export default function Header({ showUserProfile = true }: { showUserProfile?: b
               <div aria-hidden className="h-8 w-full" />
             )}
           </div>
-          <CartLink />
+          {cart}
         </div>
       </header>
       <BoundaryToggle />

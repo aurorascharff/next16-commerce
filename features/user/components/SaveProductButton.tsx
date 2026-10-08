@@ -28,8 +28,6 @@ export default function SaveProductButton({ className, productId, initialSaved }
       <form action={handleToggleSave}>
         <button
           type="submit"
-          aria-label="Save product"
-          aria-pressed={optimisticSaved}
           className={cn(
             'text-primary hover:text-primary-dark flex w-full cursor-pointer items-center gap-2 px-1 py-1.5 text-left text-sm whitespace-nowrap transition-colors',
             optimisticSaved && 'font-semibold',

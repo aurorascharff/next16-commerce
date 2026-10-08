@@ -6,6 +6,7 @@ import { cache } from 'react';
 import { prisma } from '@/db';
 import { slow } from '@/utils/slow';
 import { verifyAuth } from '../auth/auth-actions';
+import { productTags } from './product-cache';
 
 export const getProduct = cache(async (productId: number) => {
   await slow();
@@ -98,6 +99,16 @@ export const getProducts = cache(
   },
 );
 
+export async function getProductsByIds(productIds: number[]) {
+  'use cache';
+  cacheLife('minutes');
+  cacheTag('products');
+
+  return prisma.product.findMany({
+    where: { id: { in: productIds } },
+  });
+}
+
 export const getReviews = cache(async (productId: number) => {
   await slow();
 
@@ -107,8 +118,15 @@ export const getReviews = cache(async (productId: number) => {
   });
 });
 
-export const isSavedProduct = cache(async (productId: number) => {
+export async function isSavedProduct(productId: number) {
   const accountId = await verifyAuth();
+  return getSavedProductByAccount(accountId, productId);
+}
+
+async function getSavedProductByAccount(accountId: string, productId: number) {
+  'use cache';
+  cacheLife('minutes');
+  cacheTag(productTags.saved(accountId, productId));
 
   const savedProduct = await prisma.savedProduct.findUnique({
     where: {
@@ -120,12 +138,19 @@ export const isSavedProduct = cache(async (productId: number) => {
   });
 
   return !!savedProduct;
-});
+}
 
-export const getSavedProducts = cache(async () => {
-  await slow();
-
+export async function getSavedProducts() {
   const accountId = await verifyAuth();
+  return getSavedProductsByAccount(accountId);
+}
+
+async function getSavedProductsByAccount(accountId: string) {
+  'use cache';
+  cacheLife('minutes');
+  cacheTag(productTags.savedList(accountId));
+
+  await slow();
 
   const savedProducts = await prisma.savedProduct.findMany({
     include: {
@@ -138,7 +163,7 @@ export const getSavedProducts = cache(async () => {
   return savedProducts.map(saved => {
     return saved.product;
   });
-});
+}
 
 export const getFeaturedProducts = cache(async (limit = 4) => {
   await slow(2000);

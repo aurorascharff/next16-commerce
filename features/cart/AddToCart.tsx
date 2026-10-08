@@ -1,11 +1,12 @@
 import { ShoppingCart } from 'lucide-react';
 import { getProduct } from '@/features/product/product-queries';
 import AddToCartButton from './AddToCartButton';
+import { isProductInCart } from './cart-queries';
 
 export default async function AddToCart({ productId }: { productId: number }) {
-  const product = await getProduct(productId);
+  const [product, initialInCart] = await Promise.all([getProduct(productId), isProductInCart(productId)]);
 
-  return <AddToCartButton product={{ id: product.id, name: product.name, price: product.price }} />;
+  return <AddToCartButton productId={product.id} initialInCart={initialInCart} />;
 }
 
 export function AddToCartSkeleton() {

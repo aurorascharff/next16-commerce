@@ -1,8 +1,9 @@
 'use server';
 
-import { refresh, revalidateTag } from 'next/cache';
+import { revalidateTag, updateTag } from 'next/cache';
 import { prisma } from '@/db';
 import { verifyAuth } from '../auth/auth-actions';
+import { productTags } from './product-cache';
 import type { Route } from 'next';
 
 async function saveProduct(productId: number) {
@@ -15,7 +16,8 @@ async function saveProduct(productId: number) {
     },
   });
 
-  refresh();
+  updateTag(productTags.saved(accountId, productId));
+  updateTag(productTags.savedList(accountId));
 }
 
 async function unsaveProduct(productId: number) {
@@ -30,7 +32,8 @@ async function unsaveProduct(productId: number) {
     },
   });
 
-  refresh();
+  updateTag(productTags.saved(accountId, productId));
+  updateTag(productTags.savedList(accountId));
 }
 
 export async function toggleSaveProduct(productId: number, saved: boolean) {
