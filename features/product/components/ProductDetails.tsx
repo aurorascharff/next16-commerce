@@ -67,7 +67,7 @@ export async function SavedProduct({ productId }: { productId: number }) {
 
 export function SavedProductSkeleton() {
   return (
-    <div className="text-gray flex min-w-40 items-center justify-center gap-2 rounded border border-transparent px-3 py-2 text-sm whitespace-nowrap">
+    <div className="text-gray flex min-w-40 items-center justify-center gap-2 px-2 py-1.5 text-sm whitespace-nowrap">
       <Bookmark aria-hidden className="size-5" />
       <span className="uppercase">Save product</span>
     </div>
