@@ -31,14 +31,10 @@ export default async function Product({ productId, actions, details, imageClassN
               {product.description}
             </p>
           )}
-          <div className="mt-auto flex items-center justify-between">
+          <div className="mt-auto flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-accent text-lg font-bold tracking-wide">${product.price.toFixed(2)}</p>
+            {actions && <div className="flex flex-wrap items-center gap-x-6 gap-y-2">{actions}</div>}
           </div>
-          {actions && (
-            <div className="border-divider dark:border-divider-dark mt-5 flex flex-wrap items-center gap-x-8 gap-y-2 border-t pt-4">
-              {actions}
-            </div>
-          )}
         </div>
         {details}
       </div>

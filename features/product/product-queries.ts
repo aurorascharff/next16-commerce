@@ -120,15 +120,10 @@ export const getReviews = cache(async (productId: number) => {
 });
 
 export async function isSavedProduct(productId: number) {
-  'use cache: private';
-  cacheLife('minutes');
-
   const account = await getCurrentAccount();
   if (!account) {
     return false;
   }
-
-  cacheTag(productTags.saved(account.id, productId));
 
   const savedProduct = await prisma.savedProduct.findUnique({
     where: {

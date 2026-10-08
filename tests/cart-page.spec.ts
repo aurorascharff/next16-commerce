@@ -8,7 +8,6 @@ test('the empty cart is ready from the home page', async ({ page }) => {
   await instant(page, async () => {
     await cart.click();
     await page.waitForURL('/cart');
-    await expect(page.getByText('Your cart is empty.')).toHaveCount(0);
   });
 
   await expect(page.getByText('Your cart is empty.')).toBeVisible();

@@ -1,5 +1,5 @@
 import { Bookmark } from 'lucide-react';
-import { cacheTag } from 'next/cache';
+import { cacheLife, cacheTag } from 'next/cache';
 import React from 'react';
 import Boundary from '@/components/internal/Boundary';
 import Button from '@/components/ui/Button';
@@ -7,6 +7,7 @@ import Divider from '@/components/ui/Divider';
 import Skeleton from '@/components/ui/Skeleton';
 import SaveProductButton from '../../user/components/SaveProductButton';
 import { setFeaturedProduct } from '../product-actions';
+import { productTags } from '../product-cache';
 import { getProductDetails, isSavedProduct } from '../product-queries';
 
 type Props = {
@@ -44,6 +45,10 @@ export default async function ProductDetails({ productId }: Props) {
 }
 
 export async function SavedProduct({ productId }: { productId: number }) {
+  'use cache: private';
+  cacheLife('minutes');
+  cacheTag(productTags.savedView(productId));
+
   const productIsSaved = await isSavedProduct(productId);
   return <SaveProductButton productId={productId} initialSaved={productIsSaved} />;
 }

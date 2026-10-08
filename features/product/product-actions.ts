@@ -16,7 +16,7 @@ async function saveProduct(productId: number) {
     },
   });
 
-  updateTag(productTags.saved(accountId, productId));
+  updateTag(productTags.savedView(productId));
   updateTag(productTags.savedList(accountId));
 }
 
@@ -32,7 +32,7 @@ async function unsaveProduct(productId: number) {
     },
   });
 
-  updateTag(productTags.saved(accountId, productId));
+  updateTag(productTags.savedView(productId));
   updateTag(productTags.savedList(accountId));
 }
 
