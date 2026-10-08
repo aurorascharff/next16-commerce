@@ -24,6 +24,18 @@ test('a product page includes its cached product content', async ({ page }) => {
   await expect(removeFromCartButton).toBeVisible();
   await expect(page.getByRole('link', { name: 'Cart with 1 item' })).toBeVisible();
 
+  await page.getByRole('button', { exact: true, name: 'Back' }).click();
+  await page.waitForURL('/all');
+
+  const sameProduct = page.getByRole('link', { name: /Wireless Mouse/ }).filter(visible);
+  await sameProduct.scrollIntoViewIfNeeded();
+
+  await instant(page, async () => {
+    await sameProduct.click();
+    await page.waitForURL('/product/4');
+    await expect(page.getByRole('button', { exact: true, name: 'Remove from cart' })).toBeVisible();
+  });
+
   await page.reload();
   await expect(page.getByRole('button', { exact: true, name: 'Remove from cart' })).toBeVisible();
 

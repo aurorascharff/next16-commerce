@@ -5,7 +5,6 @@ import Boundary from '@/components/internal/Boundary';
 import Button from '@/components/ui/Button';
 import Divider from '@/components/ui/Divider';
 import Skeleton from '@/components/ui/Skeleton';
-import { getIsAuthenticated } from '@/features/auth/auth-queries';
 import SaveProductButton from '../../user/components/SaveProductButton';
 import { setFeaturedProduct } from '../product-actions';
 import { getProductDetails, isSavedProduct } from '../product-queries';
@@ -51,16 +50,6 @@ export default async function ProductDetails({ productId, children }: Props) {
 }
 
 export async function SavedProduct({ productId }: { productId: number }) {
-  const loggedIn = await getIsAuthenticated();
-
-  if (!loggedIn) {
-    return (
-      <Boundary rendering="dynamic">
-        <SaveProductButton productId={productId} initialSaved={false} />
-      </Boundary>
-    );
-  }
-
   const productIsSaved = await isSavedProduct(productId);
   return <SaveProductButton productId={productId} initialSaved={productIsSaved} />;
 }

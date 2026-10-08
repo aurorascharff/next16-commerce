@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { cacheLife } from 'next/cache';
+import { cacheLife, cacheTag } from 'next/cache';
 import { cookies } from 'next/headers';
 import { getProductsByIds } from '@/features/product/product-queries';
 import { CART_COOKIE_NAME, parseCartCookie } from './cart-cookie';
@@ -8,6 +8,7 @@ import { CART_COOKIE_NAME, parseCartCookie } from './cart-cookie';
 export async function getCartItems() {
   'use cache: private';
   cacheLife('minutes');
+  cacheTag('cart');
 
   const value = (await cookies()).get(CART_COOKIE_NAME)?.value;
   return parseCartCookie(value);

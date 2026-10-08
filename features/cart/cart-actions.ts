@@ -1,5 +1,6 @@
 'use server';
 
+import { updateTag } from 'next/cache';
 import { cookies } from 'next/headers';
 import { prisma } from '@/db';
 import { CART_COOKIE_NAME, parseCartCookie, serializeCartCookie, type CartCookieItem } from './cart-cookie';
@@ -25,6 +26,7 @@ export async function toggleCartProduct(productId: number) {
     : [...items, { productId, quantity: 1 }];
 
   setCartCookie(cookieStore, nextItems);
+  updateTag('cart');
   return { inCart: !inCart, ok: true as const };
 }
 
@@ -39,6 +41,7 @@ export async function updateCartProductQuantity(productId: number, quantity: num
   const nextItems = items.map(item => (item.productId === productId ? { ...item, quantity } : item));
 
   setCartCookie(cookieStore, nextItems);
+  updateTag('cart');
   return { ok: true as const };
 }
 
@@ -50,6 +53,7 @@ export async function removeCartProduct(productId: number) {
   const nextItems = items.filter(item => item.productId !== productId);
 
   setCartCookie(cookieStore, nextItems);
+  updateTag('cart');
   return { ok: true as const };
 }
 

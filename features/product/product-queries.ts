@@ -6,6 +6,7 @@ import { cache } from 'react';
 import { prisma } from '@/db';
 import { slow } from '@/utils/slow';
 import { verifyAuth } from '../auth/auth-actions';
+import { getCurrentAccount } from '../auth/auth-queries';
 import { productTags } from './product-cache';
 
 export const getProduct = cache(async (productId: number) => {
@@ -119,19 +120,20 @@ export const getReviews = cache(async (productId: number) => {
 });
 
 export async function isSavedProduct(productId: number) {
-  const accountId = await verifyAuth();
-  return getSavedProductByAccount(accountId, productId);
-}
-
-async function getSavedProductByAccount(accountId: string, productId: number) {
-  'use cache';
+  'use cache: private';
   cacheLife('minutes');
-  cacheTag(productTags.saved(accountId, productId));
+
+  const account = await getCurrentAccount();
+  if (!account) {
+    return false;
+  }
+
+  cacheTag(productTags.saved(account.id, productId));
 
   const savedProduct = await prisma.savedProduct.findUnique({
     where: {
       accountId_productId: {
-        accountId,
+        accountId: account.id,
         productId,
       },
     },
@@ -141,13 +143,10 @@ async function getSavedProductByAccount(accountId: string, productId: number) {
 }
 
 export async function getSavedProducts() {
-  const accountId = await verifyAuth();
-  return getSavedProductsByAccount(accountId);
-}
-
-async function getSavedProductsByAccount(accountId: string) {
-  'use cache';
+  'use cache: private';
   cacheLife('minutes');
+
+  const accountId = await verifyAuth();
   cacheTag(productTags.savedList(accountId));
 
   await slow();
