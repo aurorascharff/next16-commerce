@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { Check, ShoppingCart } from 'lucide-react';
 import React from 'react';
 import Boundary from '@/components/internal/Boundary';
@@ -16,13 +15,11 @@ type Props = {
 };
 
 export default function AddToCartButton({ product, quantity = 1, variant = 'primary', className, children }: Props) {
-  const { addItem } = useCart();
-  const [justAdded, setJustAdded] = React.useState(false);
+  const { addItem, items } = useCart();
+  const isInCart = items.some(item => item.productId === product.id);
 
   const handleAdd = () => {
-    addItem({ productId: product.id, name: product.name, price: product.price, quantity });
-    setJustAdded(true);
-    setTimeout(() => setJustAdded(false), 1500);
+    addItem({ name: product.name, price: product.price, productId: product.id, quantity });
   };
 
   return (
@@ -30,30 +27,24 @@ export default function AddToCartButton({ product, quantity = 1, variant = 'prim
       <button
         type="button"
         onClick={handleAdd}
+        aria-pressed={isInCart}
         className={cn(
-          'text-primary hover:text-primary-dark flex items-center gap-2 text-sm',
+          'flex items-center gap-2 rounded px-2 py-1.5 text-sm transition-colors',
+          isInCart
+            ? 'bg-accent hover:bg-accent-hover text-white'
+            : 'text-primary hover:text-primary-dark',
           variant === 'secondary' &&
             'border-divider dark:border-divider-dark bg-card dark:bg-card-dark rounded border px-4 py-2 text-black hover:bg-gray-200 dark:text-white dark:hover:bg-neutral-800',
           className,
         )}
-        aria-label={justAdded ? 'Added to cart' : 'Add to cart'}
+        aria-label={isInCart ? `Add another ${product.name} to cart` : `Add ${product.name} to cart`}
       >
         {children ?? (
           <>
             <span className="relative inline-flex size-5 items-center justify-center">
-              {justAdded ? (
-                <motion.span
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: 'spring', stiffness: 500, damping: 25 }}
-                >
-                  <Check className="size-5 text-green-600 dark:text-green-400" aria-hidden />
-                </motion.span>
-              ) : (
-                <ShoppingCart className="size-5" aria-hidden />
-              )}
+              {isInCart ? <Check className="size-5" aria-hidden /> : <ShoppingCart className="size-5" aria-hidden />}
             </span>
-            <span className="uppercase">{justAdded ? 'Added' : 'Add to cart'}</span>
+            <span className="uppercase">{isInCart ? 'In cart' : 'Add to cart'}</span>
           </>
         )}
       </button>

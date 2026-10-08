@@ -27,8 +27,12 @@ export default function SaveProductButton({ className, productId, initialSaved }
     <Boundary hydration="client" rendering="dynamic">
       <form action={handleToggleSave} className="mr-2 flex items-center gap-2">
         <button
+          aria-pressed={optimisticSaved}
           className={cn(
-            'text-primary hover:text-primary-dark flex cursor-pointer items-center gap-2 text-sm transition-colors',
+            'flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-sm transition-colors',
+            optimisticSaved
+              ? 'bg-accent hover:bg-accent-hover text-white'
+              : 'text-primary hover:text-primary-dark',
             isPending && 'opacity-70',
             className,
           )}
