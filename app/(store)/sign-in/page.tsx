@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import SignInForm, { SignInFormSkeleton } from '@/features/auth/components/SignInForm';
+import SignInForm, { SignInFormSkeleton } from '@/features/user/components/SignInForm';
 import type { Route } from 'next';
 
 export default function SignInPage({ searchParams }: PageProps<'/sign-in'>) {

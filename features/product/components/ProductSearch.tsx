@@ -3,8 +3,8 @@
 import Form from 'next/form';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useTransition } from 'react';
-import Boundary from './internal/Boundary';
-import SearchStatus from './ui/SearchStatus';
+import Boundary from '@/components/internal/Boundary';
+import SearchStatus from '@/components/ui/SearchStatus';
 import type { Route } from 'next';
 
 export default function Search() {

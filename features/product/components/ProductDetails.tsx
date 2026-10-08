@@ -1,13 +1,11 @@
-import { Bookmark } from 'lucide-react';
 import { cacheLife, cacheTag } from 'next/cache';
 import React from 'react';
 import Boundary from '@/components/internal/Boundary';
 import Button from '@/components/ui/Button';
 import Divider from '@/components/ui/Divider';
 import Skeleton from '@/components/ui/Skeleton';
-import SaveProductButton from '../../user/components/SaveProductButton';
 import { setFeaturedProduct } from '../product-actions';
-import { getProductDetails, isSavedProduct } from '../product-queries';
+import { getProductDetails } from '../product-queries';
 
 type Props = {
   productId: number;
@@ -16,6 +14,7 @@ type Props = {
 export default async function ProductDetails({ productId }: Props) {
   'use cache';
 
+  cacheLife('max');
   cacheTag('product-' + productId);
 
   const productDetails = await getProductDetails(productId);
@@ -43,24 +42,6 @@ export default async function ProductDetails({ productId }: Props) {
   );
 }
 
-export async function SavedProduct({ productId }: { productId: number }) {
-  'use cache: private';
-  cacheLife('minutes');
-  cacheTag(`saved-product-view:${productId}`);
-
-  const productIsSaved = await isSavedProduct(productId);
-  return <SaveProductButton productId={productId} initialSaved={productIsSaved} />;
-}
-
-export function SavedProductSkeleton() {
-  return (
-    <div className="text-gray flex w-full items-center gap-2 px-1 py-1.5 text-sm whitespace-nowrap">
-      <Bookmark aria-hidden className="size-5" />
-      <span className="uppercase">Save product</span>
-    </div>
-  );
-}
-
 export function ProductDetailsSkeleton() {
   return (
     <div className="border-divider dark:border-divider-dark w-full rounded-sm border bg-white p-5 dark:bg-black">
@@ -69,7 +50,7 @@ export function ProductDetailsSkeleton() {
       <div className="skeleton-animation mb-4 h-6 w-38" />
       <div className="mt-6">
         <Divider variant="dotted" className="mb-4" />
-        <Bookmark aria-hidden className="text-gray size-5" />
+        <div className="skeleton-animation h-8 w-36 rounded" />
       </div>
     </div>
   );

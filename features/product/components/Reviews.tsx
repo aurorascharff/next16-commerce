@@ -1,4 +1,5 @@
 import { Star } from 'lucide-react';
+import { cacheLife } from 'next/cache';
 import Boundary from '@/components/internal/Boundary';
 import { getReviews } from '../product-queries';
 
@@ -8,6 +9,7 @@ type Props = {
 
 export default async function Reviews({ productId }: Props) {
   'use cache';
+  cacheLife('max');
 
   const reviews = await getReviews(productId);
 

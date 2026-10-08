@@ -1,21 +1,24 @@
 import Link from 'next/link';
 import { Suspense } from 'react';
-import WelcomeBanner from '@/components/banner/WelcomeBanner';
-import Boundary from '@/components/internal/Boundary';
 import LinkButton from '@/components/ui/LinkButton';
-import { getIsAuthenticated } from '@/features/auth/auth-queries';
 import FeaturedCategories from '@/features/category/components/FeaturedCategories';
 import FeaturedProducts from '@/features/product/components/FeaturedProducts';
 import Hero from '@/features/product/components/Hero';
-import Recommendations, { RecommendationsSkeleton } from '@/features/user/components/Recommendations';
+import {
+  GeneralMembershipLink,
+  MembershipLink,
+  PersonalizedProducts,
+  PersonalizedProductsSkeleton,
+} from '@/features/user/components/HomePersonalization';
+import WelcomeBanner from '@/features/user/components/WelcomeBanner';
 
 export default function HomePage() {
   return (
     <div className="flex flex-col gap-10">
       <Hero />
       <WelcomeBanner />
-      <Suspense>
-        <PersonalizedSection />
+      <Suspense fallback={<PersonalizedProductsSkeleton />}>
+        <PersonalizedProducts />
       </Suspense>
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Featured Categories</h2>
@@ -39,7 +42,7 @@ export default function HomePage() {
             your dashboard and discover new offers!
           </p>
           <Suspense fallback={<GeneralMembershipLink />}>
-            <PersonalMembershipLink />
+            <MembershipLink />
           </Suspense>
         </div>
         <div className="border-divider dark:border-divider-dark border bg-black/5 p-6 dark:bg-white/10">
@@ -62,53 +65,5 @@ export default function HomePage() {
         </div>
       </section>
     </div>
-  );
-}
-
-async function PersonalizedSection() {
-  const loggedIn = await getIsAuthenticated();
-
-  if (!loggedIn) {
-    return null;
-  }
-
-  return (
-    <>
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Something for You?</h2>
-          <p className="text-xs text-gray-600 sm:text-sm dark:text-gray-400">
-            Personalized recommendations based on your interests
-          </p>
-        </div>
-        <Link href="/user" className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
-          View Saved →
-        </Link>
-      </div>
-      <Suspense fallback={<RecommendationsSkeleton />}>
-        <Recommendations />
-      </Suspense>
-    </>
-  );
-}
-
-async function PersonalMembershipLink() {
-  const loggedIn = await getIsAuthenticated();
-  if (!loggedIn) return <GeneralMembershipLink />;
-
-  return (
-    <Boundary rendering="dynamic" hydration="server">
-      <LinkButton href="/user" variant="primary">
-        Go to Dashboard
-      </LinkButton>
-    </Boundary>
-  );
-}
-
-function GeneralMembershipLink() {
-  return (
-    <LinkButton href="/sign-in" variant="primary">
-      Sign In to Join
-    </LinkButton>
   );
 }

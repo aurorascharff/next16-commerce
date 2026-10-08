@@ -1,10 +1,10 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React, { use, useTransition } from 'react';
+import { useTransition } from 'react';
 import Boundary from '@/components/internal/Boundary';
-import { useAuth, useLoggedIn } from '@/features/auth/components/AuthProvider';
-import { logOut } from '../auth-actions';
+import { logOut } from '../user-actions';
+import { useLoggedIn } from './UserProvider';
 
 export default function LoginButton() {
   const [isPending, startTransition] = useTransition();

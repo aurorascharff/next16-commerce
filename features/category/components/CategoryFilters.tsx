@@ -1,3 +1,4 @@
+import { cacheLife } from 'next/cache';
 import React, { Suspense } from 'react';
 import Boundary from '@/components/internal/Boundary';
 import { getCategories } from '../category-queries';
@@ -5,6 +6,7 @@ import CategoryFilterButton from './CategoryFilterButton';
 
 export default async function CategoryFilters() {
   'use cache';
+  cacheLife('max');
 
   const categories = await getCategories();
 

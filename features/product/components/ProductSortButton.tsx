@@ -4,8 +4,8 @@ import { ArrowUp, ArrowDown } from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import React from 'react';
-import Boundary from './internal/Boundary';
-import LinkStatus from './ui/LinkStatus';
+import Boundary from '@/components/internal/Boundary';
+import LinkStatus from '@/components/ui/LinkStatus';
 
 export default function SortButton() {
   const searchParams = useSearchParams();

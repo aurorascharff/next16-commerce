@@ -1,8 +1,26 @@
 # Next.js 16 Commerce
 
-A responsive and interactive e-commerce application built with Next.js 16 App Router, Prisma, and TailwindCSS, using Cache Components (`use cache`) and Partial Prefetching for instant navigation and performance.
+A commerce demo for exploring React Server Components, component architecture, caching, and navigation in the Next.js App Router.
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This repository was originally built for my Next.js Conf 2025 talk, [Composition, Caching, and Architecture in Modern Next.js](https://www.youtube.com/watch?v=iRGc8KQDyQ8). The talk uses the app to refactor a typical commerce codebase toward feature-owned data fetching, smaller client boundaries, streaming, and Cache Components.
+
+Since then, `main` has moved forward with the latest Next.js canary. It now follows the same feature-owned Server Component architecture while testing newer rendering and navigation APIs, including Cache Components, Partial Prefetching, `ensureStatic`, private caches for personalized state, and agent feedback.
+
+## Branches
+
+- [`legacy-talk-demo`](https://github.com/aurorascharff/next16-commerce/tree/legacy-talk-demo) preserves the original pre-cart talk demo.
+- [`starter`](https://github.com/aurorascharff/next16-commerce/tree/starter) is the intentionally unoptimized starting point used during the talk.
+- [`route-group`](https://github.com/aurorascharff/next16-commerce/tree/route-group) separates static and personalized routes with route groups.
+- [`request-context`](https://github.com/aurorascharff/next16-commerce/tree/request-context) explores encoding request context in the route instead.
+- `main` is the current version of the demo and continues to evolve with the framework.
+
+The original walkthrough is documented in [`STEPS.md`](./STEPS.md). The current app uses:
+
+- synchronous pages that compose feature-owned Server Components
+- Suspense boundaries at the route level
+- Cache Components for shared and private data
+- cache tags shared by reads and mutations
+- Partial Prefetching and static guarantees at different navigation stages
 
 ## Getting Started
 
@@ -20,13 +38,9 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
 ## Prisma Setup
 
-You need decide between prisma local development with `sqlite` or a real database with for example `postgresql` or `sqlserver`. Define it in the `schema.prisma` file.
+Choose between Prisma with local SQLite or a database such as PostgreSQL or SQL Server, then configure the provider in `prisma/schema.prisma`.
 
 Consider adding a `.env` file to the root of the project and use the environment variables inside `schema.prisma` with `env("DATABASE_URL")`, refer to `.env.sample`.
 
@@ -54,17 +68,9 @@ When using a real database with for example postgresql or sqlserver, you need to
 pnpm prisma.migrate
 ```
 
-## Learn More
+## Related documentation
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- [Cache Components](https://nextjs.org/docs/app/getting-started/cache-components)
+- [Keeping pages static](https://nextjs.org/docs/app/guides/keeping-pages-static)
+- [Optimizing prefetching](https://nextjs.org/docs/app/guides/optimizing-prefetching)
+- [Next.js 16.4](https://nextjs.org/blog/next-16-4)

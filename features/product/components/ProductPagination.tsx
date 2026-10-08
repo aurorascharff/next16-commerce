@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import Boundary from './internal/Boundary';
-import LinkStatus from './ui/LinkStatus';
+import Boundary from '@/components/internal/Boundary';
+import LinkStatus from '@/components/ui/LinkStatus';
 
 type SearchParams = Record<string, string | string[] | undefined>;
 

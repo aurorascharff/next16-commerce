@@ -1,8 +1,8 @@
 import React from 'react';
-import Pagination from '@/components/Pagination';
 import Boundary from '@/components/internal/Boundary';
-import ProductCard, { ProductCardSkeleton } from '@/components/ui/ProductCard';
 import { getProducts } from '../product-queries';
+import ProductCard, { ProductCardSkeleton } from './ProductCard';
+import ProductPagination from './ProductPagination';
 
 export type SearchParams = {
   page?: string;
@@ -45,7 +45,7 @@ export default async function ProductList({ searchParams }: Props) {
         </div>
         {totalPages > 1 && (
           <div className="flex justify-center">
-            <Pagination searchParams={searchParams} currentPage={currentPage} totalPages={totalPages} />
+            <ProductPagination searchParams={searchParams} currentPage={currentPage} totalPages={totalPages} />
           </div>
         )}
       </div>

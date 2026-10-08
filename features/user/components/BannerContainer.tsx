@@ -2,7 +2,7 @@
 
 import { X } from 'lucide-react';
 import { useState } from 'react';
-import Boundary from '../internal/Boundary';
+import Boundary from '@/components/internal/Boundary';
 import type { ReactNode } from 'react';
 
 export function BannerContainer({ children }: { children: ReactNode }) {

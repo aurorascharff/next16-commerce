@@ -1,11 +1,12 @@
-import { cacheTag } from 'next/cache';
+import { cacheLife, cacheTag } from 'next/cache';
 import Boundary from '@/components/internal/Boundary';
-import ProductCard from '@/components/ui/ProductCard';
 import { getFeaturedProducts } from '../product-queries';
+import ProductCard from './ProductCard';
 
 export default async function FeaturedProducts() {
   'use cache';
 
+  cacheLife('max');
   cacheTag('featured-product');
 
   const products = await getFeaturedProducts(4);

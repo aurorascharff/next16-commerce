@@ -1,10 +1,7 @@
-import { cacheLife } from 'next/cache';
 import Link from 'next/link';
+import Boundary from '@/components/internal/Boundary';
 import AnimatedSuspense from '@/components/ui/AnimatedSuspense';
-import { getCurrentAccount, getIsAuthenticated } from '@/features/auth/auth-queries';
-import { getSavedProducts } from '@/features/product/product-queries';
-import { getUserDiscounts } from '@/features/user/user-queries';
-import Boundary from '../internal/Boundary';
+import { getCurrentAccount, getIsAuthenticated, getSavedProducts, getUserDiscounts } from '../user-queries';
 import { BannerContainer } from './BannerContainer';
 
 export default function WelcomeBanner() {
@@ -18,9 +15,6 @@ export default function WelcomeBanner() {
 }
 
 export async function PersonalBanner() {
-  'use cache: private';
-  cacheLife('minutes');
-
   const loggedIn = await getIsAuthenticated();
   if (!loggedIn) return <GeneralBanner />;
 

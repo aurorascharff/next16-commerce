@@ -2,8 +2,8 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
-import { logIn } from '@/features/auth/auth-actions';
-import { getIsAuthenticated } from '@/features/auth/auth-queries';
+import { logIn } from '../user-actions';
+import { getIsAuthenticated } from '../user-queries';
 import type { Route } from 'next';
 
 export default async function SignInForm({ redirectUrl }: { redirectUrl?: Route }) {
