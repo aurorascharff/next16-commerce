@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import AnimatedSuspense from '@/components/ui/AnimatedSuspense';
 import BackButton from '@/components/ui/BackButton';
 import Card from '@/components/ui/Card';
 import AddToCart, { AddToCartSkeleton } from '@/features/cart/components/AddToCart';
@@ -14,43 +15,41 @@ export async function generateStaticParams() {
 }
 
 export default function ProductPage({ params }: PageProps<'/product/[id]'>) {
-  const productId = params.then(({ id }) => Number(id));
-
   return (
     <div className="flex flex-col gap-6">
       <BackButton />
       <div className="flex w-full flex-col gap-8 self-center md:w-[700px]">
         <Card>
-          <Suspense fallback={<ProductSkeleton isDetails />}>
-            {productId.then(id => (
-              <Product productId={id} />
-            ))}
-          </Suspense>
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 px-5 pb-5">
-            <Suspense fallback={<AddToCartSkeleton />}>
-              {productId.then(id => (
-                <AddToCart productId={id} />
-              ))}
-            </Suspense>
-            <Suspense fallback={<SavedProductSkeleton />}>
-              {productId.then(id => (
-                <SavedProduct productId={id} />
-              ))}
-            </Suspense>
-          </div>
-          <Suspense fallback={<ProductDetailsSkeleton />}>
-            {productId.then(id => (
-              <ProductDetails productId={id} />
-            ))}
-          </Suspense>
+          <AnimatedSuspense fallback={<ProductSkeleton isDetails />}>
+            {params.then(({ id }) => {
+              const productId = Number(id);
+
+              return (
+                <>
+                  <Product productId={productId} />
+                  <div className="flex flex-wrap items-center gap-x-6 gap-y-2 px-5 pb-5">
+                    <Suspense fallback={<AddToCartSkeleton />}>
+                      <AddToCart productId={productId} />
+                    </Suspense>
+                    <Suspense fallback={<SavedProductSkeleton />}>
+                      <SavedProduct productId={productId} />
+                    </Suspense>
+                  </div>
+                  <Suspense fallback={<ProductDetailsSkeleton />}>
+                    <ProductDetails productId={productId} />
+                  </Suspense>
+                </>
+              );
+            })}
+          </AnimatedSuspense>
         </Card>
         <div>
           <h2 className="mb-4 text-xl font-semibold">Customer Reviews</h2>
-          <Suspense fallback={<ReviewsSkeleton />}>
-            {productId.then(id => (
-              <Reviews productId={id} />
+          <AnimatedSuspense fallback={<ReviewsSkeleton />}>
+            {params.then(({ id }) => (
+              <Reviews productId={Number(id)} />
             ))}
-          </Suspense>
+          </AnimatedSuspense>
         </div>
       </div>
     </div>
