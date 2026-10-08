@@ -1,7 +1,7 @@
 'use client';
 
 import { Check, ShoppingCart } from 'lucide-react';
-import React from 'react';
+import React, { useSyncExternalStore } from 'react';
 import Boundary from '@/components/internal/Boundary';
 import { cn } from '@/utils/cn';
 import { useCart } from './cart-store';
@@ -14,9 +14,17 @@ type Props = {
   children?: React.ReactNode;
 };
 
+const subscribeToHydration = () => () => {};
+
 export default function AddToCartButton({ product, quantity = 1, variant = 'primary', className, children }: Props) {
   const { addItem, items } = useCart();
-  const isInCart = items.some(item => item.productId === product.id);
+  const hydrated = useSyncExternalStore(
+    subscribeToHydration,
+    () => true,
+    () => false,
+  );
+  const isInCart = hydrated && items.some(item => item.productId === product.id);
+  const statusId = `cart-status-${product.id}`;
 
   const handleAdd = () => {
     addItem({ name: product.name, price: product.price, productId: product.id, quantity });
@@ -27,17 +35,19 @@ export default function AddToCartButton({ product, quantity = 1, variant = 'prim
       <button
         type="button"
         onClick={handleAdd}
-        aria-pressed={isInCart}
+        aria-describedby={isInCart ? statusId : undefined}
+        aria-label="Add to cart"
         className={cn(
           'flex min-w-36 items-center justify-center gap-2 rounded border px-3 py-2 text-sm whitespace-nowrap transition-colors',
-          isInCart
-            ? 'border-divider bg-card dark:border-divider-dark dark:bg-card-dark text-black hover:bg-gray-200 dark:text-white dark:hover:bg-neutral-800'
-            : 'text-primary hover:bg-accent-fade hover:text-primary-dark border-transparent',
           variant === 'secondary' &&
             'border-divider dark:border-divider-dark bg-card dark:bg-card-dark rounded border px-4 py-2 text-black hover:bg-gray-200 dark:text-white dark:hover:bg-neutral-800',
+          variant === 'primary' &&
+            !isInCart &&
+            'text-primary hover:bg-accent-fade hover:text-primary-dark border-transparent',
+          isInCart &&
+            'border-divider bg-card dark:border-divider-dark dark:bg-card-dark text-black hover:bg-gray-200 dark:text-white dark:hover:bg-neutral-800',
           className,
         )}
-        aria-label={isInCart ? `Add another ${product.name} to cart` : `Add ${product.name} to cart`}
       >
         {children ?? (
           <>
@@ -45,6 +55,11 @@ export default function AddToCartButton({ product, quantity = 1, variant = 'prim
               {isInCart ? <Check className="size-5" aria-hidden /> : <ShoppingCart className="size-5" aria-hidden />}
             </span>
             <span className="uppercase">{isInCart ? 'In cart' : 'Add to cart'}</span>
+            {isInCart && (
+              <span id={statusId} className="sr-only">
+                Already in cart. Activating adds another.
+              </span>
+            )}
           </>
         )}
       </button>
