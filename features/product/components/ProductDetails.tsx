@@ -29,8 +29,8 @@ export default async function ProductDetails({ productId, children }: Props) {
         <div className="flex justify-between">
           <h2 className="mb-4 text-lg font-bold tracking-tight">Product Details</h2>
           <form className="hidden sm:flex" action={setFeaturedForProduct}>
-            <Button title="Mark as Featured" variant="secondary">
-              Feature This Product
+            <Button className="px-3 py-1.5 text-xs" title="Mark as Featured" variant="secondary">
+              Feature Product
             </Button>
           </form>
         </div>
@@ -56,13 +56,22 @@ export async function SavedProduct({ productId }: { productId: number }) {
   if (!loggedIn) {
     return (
       <Boundary rendering="dynamic">
-        <SaveProductButton productId={productId} initialSaved={false} />
+        <SaveProductButton className="w-40" productId={productId} initialSaved={false} />
       </Boundary>
     );
   }
 
   const productIsSaved = await isSavedProduct(productId);
-  return <SaveProductButton productId={productId} initialSaved={productIsSaved} />;
+  return <SaveProductButton className="w-40" productId={productId} initialSaved={productIsSaved} />;
+}
+
+export function SavedProductSkeleton() {
+  return (
+    <div className="text-gray mr-2 flex w-40 items-center gap-2 text-sm">
+      <Bookmark aria-hidden className="size-5" />
+      <span className="uppercase">Save product</span>
+    </div>
+  );
 }
 
 export function ProductDetailsSkeleton() {

@@ -10,9 +10,9 @@ export default async function UserProfile() {
 
   return (
     <Boundary rendering="dynamic" hydration="server">
-      <div className="flex items-center gap-2">
-        <div className="flex flex-col items-end gap-1">
-          {account && <span className="text-sm font-medium tracking-wide">{account.name}</span>}
+      <div className="flex w-40 items-center justify-end gap-2">
+        <div className="flex min-w-0 flex-col items-end gap-1">
+          {account && <span className="max-w-28 truncate text-sm font-medium tracking-wide">{account.name}</span>}
           <LoginButton />
         </div>
         {account ? (
@@ -33,9 +33,9 @@ export default async function UserProfile() {
 
 export function UserProfileSkeleton() {
   return (
-    <div className="flex items-center gap-2">
-      <div className="skeleton-animation h-6 w-6 rounded-full" />
-      <div className="skeleton-animation h-4 w-16 rounded" />
+    <div className="flex h-8 w-40 items-center justify-end gap-2">
+      <div className="skeleton-animation h-4 w-20 rounded" />
+      <div className="skeleton-animation size-8 rounded-full" />
     </div>
   );
 }

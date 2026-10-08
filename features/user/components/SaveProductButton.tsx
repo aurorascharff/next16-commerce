@@ -7,11 +7,12 @@ import { cn } from '@/utils/cn';
 import { toggleSaveProduct } from '../../product/product-actions';
 
 type Props = {
+  className?: string;
   productId: number;
   initialSaved: boolean;
 };
 
-export default function SaveProductButton({ productId, initialSaved }: Props) {
+export default function SaveProductButton({ className, productId, initialSaved }: Props) {
   const [isPending, startTransition] = useTransition();
   const [optimisticSaved, setOptimisticSaved] = useOptimistic(initialSaved);
 
@@ -29,6 +30,7 @@ export default function SaveProductButton({ productId, initialSaved }: Props) {
           className={cn(
             'text-primary hover:text-primary-dark flex cursor-pointer items-center gap-2 text-sm transition-colors',
             isPending && 'opacity-70',
+            className,
           )}
         >
           {optimisticSaved ? (
