@@ -70,7 +70,7 @@ export default async function UserDetails() {
         {account?.birthDate && (
           <div>
             <h2 className="mb-4 text-xl font-bold tracking-tight uppercase">Personal Information</h2>
-            <PreferenceItem label="Birth Date" value={new Date(account.birthDate).toLocaleDateString()} />
+            <PreferenceItem label="Birth Date" value={account.birthDate.toLocaleDateString()} />
           </div>
         )}
       </div>
