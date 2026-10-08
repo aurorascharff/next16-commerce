@@ -3,7 +3,7 @@
 import { updateTag } from 'next/cache';
 import { cookies } from 'next/headers';
 import { prisma } from '@/db';
-import { CART_COOKIE_NAME, parseCartCookie, serializeCartCookie, type CartCookieItem } from './cart-cookie';
+import { CART_COOKIE_NAME, parseCartCookie, type CartCookieItem } from './cart-queries';
 
 const CART_COOKIE_MAX_AGE = 60 * 60 * 24 * 30;
 
@@ -69,7 +69,7 @@ function setCartCookie(cookieStore: Awaited<ReturnType<typeof cookies>>, items: 
     return;
   }
 
-  cookieStore.set(CART_COOKIE_NAME, serializeCartCookie(items), {
+  cookieStore.set(CART_COOKIE_NAME, JSON.stringify(items), {
     httpOnly: true,
     maxAge: CART_COOKIE_MAX_AGE,
     path: '/',
