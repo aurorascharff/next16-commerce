@@ -1,4 +1,5 @@
 import { cacheLife, cacheTag, navigation } from 'next/cache';
+import { connection } from 'next/server';
 import React from 'react';
 import Boundary from '@/components/internal/Boundary';
 import Button from '@/components/ui/Button';
@@ -40,6 +41,7 @@ export default async function ProductDetails({ productId }: Props) {
 
 export async function ProductStock({ productId }: Props) {
   await navigation();
+  await connection();
   const stockCount = await getProductStock(productId);
 
   return (
