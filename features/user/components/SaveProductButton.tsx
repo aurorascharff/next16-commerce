@@ -1,6 +1,6 @@
 'use client';
 
-import { Bookmark, BookmarkCheck } from 'lucide-react';
+import { Bookmark } from 'lucide-react';
 import React, { useOptimistic, useTransition } from 'react';
 import Boundary from '@/components/internal/Boundary';
 import { cn } from '@/utils/cn';
@@ -30,16 +30,11 @@ export default function SaveProductButton({ className, productId, initialSaved }
           type="submit"
           className={cn(
             'text-primary hover:text-primary-dark flex w-full cursor-pointer items-center gap-2 px-1 py-1.5 text-left text-sm whitespace-nowrap transition-colors',
-            optimisticSaved && 'font-semibold',
             isPending && 'opacity-70',
             className,
           )}
         >
-          {optimisticSaved ? (
-            <BookmarkCheck aria-hidden className="size-5" />
-          ) : (
-            <Bookmark aria-hidden className="size-5" />
-          )}
+          <Bookmark aria-hidden className={cn('size-5', optimisticSaved && 'fill-current')} />
           <span className="uppercase">{optimisticSaved ? 'Unsave product' : 'Save product'}</span>
         </button>
       </form>
