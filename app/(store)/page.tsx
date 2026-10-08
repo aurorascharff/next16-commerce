@@ -8,7 +8,6 @@ import {
   GeneralMembershipLink,
   MembershipLink,
   PersonalizedProducts,
-  PersonalizedProductsSkeleton,
 } from '@/features/user/components/HomePersonalization';
 import WelcomeBanner from '@/features/user/components/WelcomeBanner';
 
@@ -17,7 +16,7 @@ export default function HomePage() {
     <div className="flex flex-col gap-10">
       <Hero />
       <WelcomeBanner />
-      <Suspense fallback={<PersonalizedProductsSkeleton />}>
+      <Suspense fallback={null}>
         <PersonalizedProducts />
       </Suspense>
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">

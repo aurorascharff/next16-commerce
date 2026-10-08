@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Suspense } from 'react';
 import Boundary from '@/components/internal/Boundary';
 import LinkButton from '@/components/ui/LinkButton';
 import { getIsAuthenticated } from '../user-queries';
@@ -24,21 +25,9 @@ export async function PersonalizedProducts() {
           View Saved →
         </Link>
       </div>
-      <Recommendations />
-    </>
-  );
-}
-
-export function PersonalizedProductsSkeleton() {
-  return (
-    <>
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <div className="skeleton-animation h-7 w-48 rounded" />
-          <div className="skeleton-animation mt-2 h-4 w-72 rounded" />
-        </div>
-      </div>
-      <RecommendationsSkeleton />
+      <Suspense fallback={<RecommendationsSkeleton />}>
+        <Recommendations />
+      </Suspense>
     </>
   );
 }
