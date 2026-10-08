@@ -1,4 +1,3 @@
-import { ShoppingCart } from 'lucide-react';
 import { cacheLife, cacheTag } from 'next/cache';
 import Boundary from '@/components/internal/Boundary';
 import { getProduct } from '@/features/product/product-queries';
@@ -20,10 +19,5 @@ export default async function AddToCart({ productId }: { productId: number }) {
 }
 
 export function AddToCartSkeleton() {
-  return (
-    <div className="text-gray flex w-full items-center gap-2 px-1 py-1.5 text-sm whitespace-nowrap">
-      <ShoppingCart aria-hidden className="size-5" />
-      <span className="uppercase">Add to cart</span>
-    </div>
-  );
+  return <div className="skeleton-animation h-8 w-40 rounded" aria-hidden />;
 }

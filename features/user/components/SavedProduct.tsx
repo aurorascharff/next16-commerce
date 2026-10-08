@@ -1,4 +1,3 @@
-import { Bookmark } from 'lucide-react';
 import { cacheLife, cacheTag } from 'next/cache';
 import Boundary from '@/components/internal/Boundary';
 import { isSavedProduct } from '../user-queries';
@@ -18,10 +17,5 @@ export default async function SavedProduct({ productId }: { productId: number })
 }
 
 export function SavedProductSkeleton() {
-  return (
-    <div className="text-gray flex w-full items-center gap-2 px-1 py-1.5 text-sm whitespace-nowrap">
-      <Bookmark aria-hidden className="size-5" />
-      <span className="uppercase">Save product</span>
-    </div>
-  );
+  return <div className="skeleton-animation h-8 w-40 rounded" aria-hidden />;
 }
