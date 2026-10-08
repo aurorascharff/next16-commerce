@@ -23,7 +23,7 @@ export default async function SavedProducts() {
   }
 
   return (
-    <Boundary rendering="dynamic" hydration="server">
+    <Boundary rendering="hybrid" hydration="hybrid" cached="private">
       <div className="space-y-3">
         {savedProducts.map(product => {
           return (

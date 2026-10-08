@@ -47,7 +47,7 @@ export default function Pagination({
             return i + 1;
           }).map(page => {
             return (
-              <Link scroll={false} key={page} href={createPageUrl(page)}>
+              <Link scroll={false} prefetch={true} key={page} href={createPageUrl(page)}>
                 <LinkStatus
                   className={`inline-flex items-center px-3 py-2 text-sm font-medium ${
                     page === currentPage
