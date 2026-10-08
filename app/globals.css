@@ -77,6 +77,27 @@
   animation: wave-lines 2s infinite ease-out;
 }
 
+.suspense-reveal {
+  animation: suspense-reveal 250ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .suspense-reveal {
+    animation: none;
+  }
+}
+
+@keyframes suspense-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes wave-lines {
   0% {
     background-position: -468px 0;

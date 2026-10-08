@@ -5,7 +5,6 @@ import { getCurrentAccount, getIsAuthenticated } from '@/features/auth/auth-quer
 import { getSavedProducts } from '@/features/product/product-queries';
 import { getUserDiscounts } from '@/features/user/user-queries';
 import Boundary from '../internal/Boundary';
-import { MotionDiv } from '../ui/MotionWrappers';
 import { BannerContainer } from './BannerContainer';
 
 export default function WelcomeBanner() {
@@ -36,16 +35,7 @@ export async function PersonalBanner() {
 
   return (
     <Boundary hydration="server" rendering="dynamic">
-      <MotionDiv
-        initial={{ opacity: 0 }}
-        animate={{ opacity: [0, 0.3, 1, 0.8, 1] }}
-        transition={{
-          duration: 0.8,
-          ease: 'easeInOut',
-          times: [0, 0.2, 0.4, 0.7, 1],
-        }}
-        className="flex flex-col justify-between"
-      >
+      <div className="suspense-reveal flex flex-col justify-between">
         <span className="mb-3 inline-block w-fit bg-black px-2.5 py-1 text-xs font-bold tracking-[0.2em] text-white uppercase dark:bg-white dark:text-black">
           {featuredDiscount ? 'Exclusive Discount' : 'Welcome Back'}
         </span>
@@ -90,7 +80,7 @@ export async function PersonalBanner() {
             </Link>
           )}
         </div>
-      </MotionDiv>
+      </div>
     </Boundary>
   );
 }
