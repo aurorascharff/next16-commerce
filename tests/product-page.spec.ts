@@ -16,5 +16,27 @@ test('a product page includes its cached product content', async ({ page }) => {
     await expect(page.getByRole('button', { exact: true, name: 'Add to cart' })).toHaveCount(0);
   });
 
+  const cartButton = page.getByRole('button', { exact: true, name: 'Add to cart' });
+  await expect(cartButton).toBeVisible();
+
+  await page.getByRole('button', { exact: true, name: 'Back' }).click();
+  await page.waitForURL('/all');
+
+  await instant(page, async () => {
+    await page.goForward();
+    await page.waitForURL('/product/4');
+    await expect(page.getByRole('button', { exact: true, name: 'Add to cart' })).toBeVisible();
+  });
+
+  await page.getByRole('button', { exact: true, name: 'Add to cart' }).click();
+  const removeFromCartButton = page.getByRole('button', { exact: true, name: 'Remove from cart' });
+  await expect(removeFromCartButton).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Cart with 1 item' })).toBeVisible();
+
+  await page.reload();
+  await expect(page.getByRole('button', { exact: true, name: 'Remove from cart' })).toBeVisible();
+
+  await page.getByRole('button', { exact: true, name: 'Remove from cart' }).click();
   await expect(page.getByRole('button', { exact: true, name: 'Add to cart' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Cart with 0 items' })).toBeVisible();
 });

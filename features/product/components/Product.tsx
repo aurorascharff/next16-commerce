@@ -9,10 +9,11 @@ import { getProduct } from '../product-queries';
 type Props = {
   productId: number;
   imageClassName?: string;
+  actions?: React.ReactNode;
   details?: React.ReactNode;
 };
 
-export default async function Product({ productId, details, imageClassName }: Props) {
+export default async function Product({ productId, actions, details, imageClassName }: Props) {
   'use cache';
 
   cacheTag('product-' + productId);
@@ -30,8 +31,9 @@ export default async function Product({ productId, details, imageClassName }: Pr
               {product.description}
             </p>
           )}
-          <div className="mt-auto flex items-center justify-between">
+          <div className="mt-auto">
             <p className="text-accent text-lg font-bold tracking-wide">${product.price.toFixed(2)}</p>
+            {actions && <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2">{actions}</div>}
           </div>
         </div>
         {details}

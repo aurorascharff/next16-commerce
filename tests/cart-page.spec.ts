@@ -8,7 +8,17 @@ test('the empty cart is ready from the home page', async ({ page }) => {
   await instant(page, async () => {
     await cart.click();
     await page.waitForURL('/cart');
+  });
+
+  await expect(page.getByText('Your cart is empty.')).toBeVisible();
+  await expect(page.getByRole('link', { exact: true, name: 'Browse products' })).toBeVisible();
+
+  await page.goBack();
+  await page.waitForURL('/');
+
+  await instant(page, async () => {
+    await page.goForward();
+    await page.waitForURL('/cart');
     await expect(page.getByText('Your cart is empty.')).toBeVisible();
-    await expect(page.getByRole('link', { exact: true, name: 'Browse products' })).toBeVisible();
   });
 });

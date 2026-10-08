@@ -1,21 +1,19 @@
 import { Bookmark } from 'lucide-react';
-import { cacheTag } from 'next/cache';
+import { cacheLife, cacheTag } from 'next/cache';
 import React from 'react';
 import Boundary from '@/components/internal/Boundary';
 import Button from '@/components/ui/Button';
 import Divider from '@/components/ui/Divider';
 import Skeleton from '@/components/ui/Skeleton';
-import { getIsAuthenticated } from '@/features/auth/auth-queries';
 import SaveProductButton from '../../user/components/SaveProductButton';
 import { setFeaturedProduct } from '../product-actions';
 import { getProductDetails, isSavedProduct } from '../product-queries';
 
 type Props = {
   productId: number;
-  children?: React.ReactNode;
 };
 
-export default async function ProductDetails({ productId, children }: Props) {
+export default async function ProductDetails({ productId }: Props) {
   'use cache';
 
   cacheTag('product-' + productId);
@@ -26,14 +24,7 @@ export default async function ProductDetails({ productId, children }: Props) {
   return (
     <Boundary rendering="hybrid" hydration="server" cached>
       <div className="border-divider dark:border-divider-dark w-full border bg-white p-5 dark:bg-black">
-        <div className="flex justify-between">
-          <h2 className="mb-4 text-lg font-bold tracking-tight">Product Details</h2>
-          <form className="hidden sm:flex" action={setFeaturedForProduct}>
-            <Button className="px-3 py-1.5 text-xs" title="Mark as Featured" variant="secondary">
-              Feature Product
-            </Button>
-          </form>
-        </div>
+        <h2 className="mb-4 text-lg font-bold tracking-tight">Product Details</h2>
         <ProductDetailFields
           brand={productDetails?.brand}
           sku={productDetails?.sku}
@@ -41,33 +32,29 @@ export default async function ProductDetails({ productId, children }: Props) {
           warrantyInfo={productDetails?.warrantyInfo}
           weight={productDetails?.weight}
         />
-        <div className="mt-6">
-          <Divider variant="dotted" className="mb-4" />
-          <div className="flex flex-wrap gap-4">{children}</div>
-        </div>
+        <Divider variant="dotted" className="mt-6 mb-4" />
+        <form className="flex justify-end" action={setFeaturedForProduct}>
+          <Button className="px-3 py-1.5 text-xs" title="Mark as Featured" variant="secondary">
+            Feature Product
+          </Button>
+        </form>
       </div>
     </Boundary>
   );
 }
 
 export async function SavedProduct({ productId }: { productId: number }) {
-  const loggedIn = await getIsAuthenticated();
-
-  if (!loggedIn) {
-    return (
-      <Boundary rendering="dynamic">
-        <SaveProductButton className="w-40" productId={productId} initialSaved={false} />
-      </Boundary>
-    );
-  }
+  'use cache: private';
+  cacheLife('minutes');
+  cacheTag(`saved-product-view:${productId}`);
 
   const productIsSaved = await isSavedProduct(productId);
-  return <SaveProductButton className="w-40" productId={productId} initialSaved={productIsSaved} />;
+  return <SaveProductButton productId={productId} initialSaved={productIsSaved} />;
 }
 
 export function SavedProductSkeleton() {
   return (
-    <div className="text-gray mr-2 flex w-40 items-center gap-2 text-sm">
+    <div className="text-gray flex w-full items-center gap-2 px-1 py-1.5 text-sm whitespace-nowrap">
       <Bookmark aria-hidden className="size-5" />
       <span className="uppercase">Save product</span>
     </div>
