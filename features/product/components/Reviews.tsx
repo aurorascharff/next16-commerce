@@ -26,7 +26,7 @@ export default async function Reviews({ productId }: Props) {
                   key={review.id}
                   className="border-divider dark:border-divider-dark border bg-white p-5 dark:bg-black"
                 >
-                  <div className="mb-4 flex items-center justify-between">
+                  <div className="mb-4 flex items-center">
                     <div className="flex items-center gap-2">
                       {[...Array(5)].map((_, i) => {
                         return (
@@ -39,14 +39,6 @@ export default async function Reviews({ productId }: Props) {
                       })}
                       <span className="ml-1 text-sm font-medium tracking-wide uppercase">{review.rating}/5</span>
                     </div>
-                    <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
-                      {review.createdAt.toLocaleDateString('en-US', {
-                        day: 'numeric',
-                        month: 'short',
-                        timeZone: 'UTC',
-                        year: 'numeric',
-                      })}
-                    </span>
                   </div>
                   {review.comment && (
                     <p className="leading-relaxed text-gray-700 dark:text-gray-300">{review.comment}</p>
