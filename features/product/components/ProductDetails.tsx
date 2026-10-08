@@ -56,18 +56,18 @@ export async function SavedProduct({ productId }: { productId: number }) {
   if (!loggedIn) {
     return (
       <Boundary rendering="dynamic">
-        <SaveProductButton className="w-40" productId={productId} initialSaved={false} />
+        <SaveProductButton productId={productId} initialSaved={false} />
       </Boundary>
     );
   }
 
   const productIsSaved = await isSavedProduct(productId);
-  return <SaveProductButton className="w-40" productId={productId} initialSaved={productIsSaved} />;
+  return <SaveProductButton productId={productId} initialSaved={productIsSaved} />;
 }
 
 export function SavedProductSkeleton() {
   return (
-    <div className="text-gray mr-2 flex w-40 items-center gap-2 rounded px-2 py-1.5 text-sm">
+    <div className="text-gray flex min-w-40 items-center justify-center gap-2 rounded border border-transparent px-3 py-2 text-sm whitespace-nowrap">
       <Bookmark aria-hidden className="size-5" />
       <span className="uppercase">Save product</span>
     </div>

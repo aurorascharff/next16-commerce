@@ -29,10 +29,10 @@ export default function AddToCartButton({ product, quantity = 1, variant = 'prim
         onClick={handleAdd}
         aria-pressed={isInCart}
         className={cn(
-          'flex items-center gap-2 rounded px-2 py-1.5 text-sm transition-colors',
+          'flex min-w-36 items-center justify-center gap-2 rounded border px-3 py-2 text-sm whitespace-nowrap transition-colors',
           isInCart
-            ? 'bg-accent hover:bg-accent-hover text-white'
-            : 'text-primary hover:text-primary-dark',
+            ? 'border-divider bg-card dark:border-divider-dark dark:bg-card-dark text-black hover:bg-gray-200 dark:text-white dark:hover:bg-neutral-800'
+            : 'text-primary hover:bg-accent-fade hover:text-primary-dark border-transparent',
           variant === 'secondary' &&
             'border-divider dark:border-divider-dark bg-card dark:bg-card-dark rounded border px-4 py-2 text-black hover:bg-gray-200 dark:text-white dark:hover:bg-neutral-800',
           className,

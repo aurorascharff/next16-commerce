@@ -25,14 +25,15 @@ export default function SaveProductButton({ className, productId, initialSaved }
 
   return (
     <Boundary hydration="client" rendering="dynamic">
-      <form action={handleToggleSave} className="mr-2 flex items-center gap-2">
+      <form action={handleToggleSave}>
         <button
+          type="submit"
           aria-pressed={optimisticSaved}
           className={cn(
-            'flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-sm transition-colors',
+            'flex min-w-40 cursor-pointer items-center justify-center gap-2 rounded border px-3 py-2 text-sm whitespace-nowrap transition-colors',
             optimisticSaved
-              ? 'bg-accent hover:bg-accent-hover text-white'
-              : 'text-primary hover:text-primary-dark',
+              ? 'border-divider bg-card dark:border-divider-dark dark:bg-card-dark text-black hover:bg-gray-200 dark:text-white dark:hover:bg-neutral-800'
+              : 'text-primary hover:bg-accent-fade hover:text-primary-dark border-transparent',
             isPending && 'opacity-70',
             className,
           )}
@@ -42,7 +43,7 @@ export default function SaveProductButton({ className, productId, initialSaved }
           ) : (
             <Bookmark aria-hidden className="size-5" />
           )}
-          <span className="uppercase">{optimisticSaved ? 'Unsave product' : 'Save product'}</span>
+          <span className="uppercase">{optimisticSaved ? 'Saved' : 'Save product'}</span>
         </button>
       </form>
     </Boundary>
