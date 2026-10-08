@@ -1,18 +1,15 @@
-import { Bookmark, ShoppingCart } from 'lucide-react';
 import { Suspense } from 'react';
 import BackButton from '@/components/ui/BackButton';
 import Card from '@/components/ui/Card';
-import AddToCart from '@/features/cart/AddToCart';
+import AddToCart, { AddToCartSkeleton } from '@/features/cart/AddToCart';
 import Product, { ProductSkeleton } from '@/features/product/components/Product';
-import ProductDetails, { SavedProduct } from '@/features/product/components/ProductDetails';
+import ProductDetails, {
+  SavedProduct,
+  SavedProductSkeleton,
+} from '@/features/product/components/ProductDetails';
 import Reviews, { ReviewsSkeleton } from '@/features/product/components/Reviews';
-import type { ParamMatching } from 'next';
 
 export const ensureStatic = 'prefetch';
-
-export const unstable_paramMatching = {
-  id: 'fallback',
-} satisfies ParamMatching<'id'>;
 
 export async function generateStaticParams() {
   return [{ id: '1' }, { id: '2' }, { id: '3' }, { id: '4' }];
@@ -33,10 +30,10 @@ export default function ProductPage({ params }: PageProps<'/product/[id]'>) {
                   details={
                     <ProductDetails key={productId} productId={productId}>
                       <div className="flex flex-wrap items-center gap-3">
-                        <Suspense fallback={<ShoppingCart aria-hidden className="text-gray size-5" />}>
+                        <Suspense fallback={<AddToCartSkeleton />}>
                           <AddToCart productId={productId} />
                         </Suspense>
-                        <Suspense fallback={<Bookmark aria-hidden className="text-gray size-5" />}>
+                        <Suspense fallback={<SavedProductSkeleton />}>
                           <SavedProduct productId={productId} />
                         </Suspense>
                       </div>

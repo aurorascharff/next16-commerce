@@ -15,7 +15,15 @@ export default function Header({ showUserProfile = true }: { showUserProfile?: b
         </h1>
         <div className="flex items-center gap-4">
           <CartLink />
-          {showUserProfile && <Suspense fallback={<UserProfileSkeleton />}>{<UserProfile />}</Suspense>}
+          <div className="flex w-40 justify-end">
+            {showUserProfile ? (
+              <Suspense fallback={<UserProfileSkeleton />}>
+                <UserProfile />
+              </Suspense>
+            ) : (
+              <div aria-hidden className="h-8 w-full" />
+            )}
+          </div>
         </div>
       </header>
       <BoundaryToggle />
