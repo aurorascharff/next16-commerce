@@ -33,7 +33,7 @@ export default function ProductPage({ params }: PageProps<'/product/[id]'>) {
                     productId={productId}
                     details={
                       <ProductDetails key={productId} productId={productId}>
-                        <div className="flex flex-wrap items-center gap-3">
+                        <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2">
                           <Suspense fallback={<AddToCartSkeleton />}>
                             <AddToCart productId={productId} />
                           </Suspense>

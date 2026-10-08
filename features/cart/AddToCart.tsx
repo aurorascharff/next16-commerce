@@ -10,7 +10,7 @@ export default async function AddToCart({ productId }: { productId: number }) {
 
 export function AddToCartSkeleton() {
   return (
-    <div className="text-gray grid w-48 shrink-0 grid-cols-[1.25rem_1fr] items-center gap-2 px-3 py-1.5 text-left text-sm whitespace-nowrap">
+    <div className="text-gray flex w-full items-center gap-2 px-1 py-1.5 text-sm whitespace-nowrap">
       <ShoppingCart aria-hidden className="size-5" />
       <span className="uppercase">Add to cart</span>
     </div>

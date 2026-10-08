@@ -43,7 +43,7 @@ export default async function ProductDetails({ productId, children }: Props) {
         />
         <div className="mt-6">
           <Divider variant="dotted" className="mb-4" />
-          <div className="flex flex-wrap gap-4">{children}</div>
+          {children}
         </div>
       </div>
     </Boundary>
@@ -67,7 +67,7 @@ export async function SavedProduct({ productId }: { productId: number }) {
 
 export function SavedProductSkeleton() {
   return (
-    <div className="text-gray grid w-44 shrink-0 grid-cols-[1.25rem_1fr] items-center gap-2 px-3 py-1.5 text-left text-sm whitespace-nowrap">
+    <div className="text-gray flex w-full items-center gap-2 px-1 py-1.5 text-sm whitespace-nowrap">
       <Bookmark aria-hidden className="size-5" />
       <span className="uppercase">Save product</span>
     </div>
