@@ -16,5 +16,15 @@ test('a product page includes its cached product content', async ({ page }) => {
     await expect(page.getByRole('button', { exact: true, name: 'Add to cart' })).toHaveCount(0);
   });
 
-  await expect(page.getByRole('button', { exact: true, name: 'Add to cart' })).toBeVisible();
+  const cartButton = page.getByRole('button', { exact: true, name: 'Add to cart' });
+  await expect(cartButton).toBeVisible();
+  await expect(cartButton).toHaveAttribute('aria-pressed', 'false');
+
+  await cartButton.click();
+  await expect(cartButton).toHaveAttribute('aria-pressed', 'true');
+  await expect(cartButton).toContainText('Remove from cart');
+
+  await cartButton.click();
+  await expect(cartButton).toHaveAttribute('aria-pressed', 'false');
+  await expect(cartButton).toContainText('Add to cart');
 });
