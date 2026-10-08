@@ -1,3 +1,4 @@
+import { cacheLife } from 'next/cache';
 import Link from 'next/link';
 import Boundary from '@/components/internal/Boundary';
 import { getCategoriesWithCount } from '../category-queries';
@@ -5,6 +6,7 @@ import type { Route } from 'next';
 
 export default async function FeaturedCategories() {
   'use cache';
+  cacheLife('max');
 
   const categoriesWithCount = await getCategoriesWithCount();
   const categoryList = categoriesWithCount.slice(0, 4);

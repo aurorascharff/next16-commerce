@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import Cart, { CartSkeleton } from '@/features/cart/Cart';
+import Cart, { CartSkeleton } from '@/features/cart/components/Cart';
 
 export default function CartPage() {
   return (

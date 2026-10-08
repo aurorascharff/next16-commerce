@@ -1,70 +1,94 @@
+<div align="center">
+
 # Next.js 16 Commerce
 
-A responsive and interactive e-commerce application built with Next.js 16 App Router, Prisma, and TailwindCSS, using Cache Components (`use cache`) and Partial Prefetching for instant navigation and performance.
+A commerce demo for exploring Cache Components, Partial Prefetching, and static guarantees in Next.js.
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+[**Live demo →**](https://next16-commerce.vercel.app/)
 
-## Getting Started
+</div>
 
-First, install the dependencies:
+---
+
+This repository started as the demo for my talk, [Composition, Caching, and Architecture in Modern Next.js](https://www.youtube.com/watch?v=iRGc8KQDyQ8). Since then, the current app has moved to the latest Next.js canary and follows the architecture from the [Next.js App Architecture](https://github.com/aurorascharff/nextjs-app-architecture-skill) skill and [Component Architecture for React Server Components](https://aurorascharff.no/posts/component-architecture-for-react-server-components/).
+
+## Features
+
+- **[Cache Components](https://nextjs.org/docs/app/api-reference/config/next-config-js/cacheComponents)** mix static, cached, and request-time content in the same route. Shared product data uses `'use cache'`, while cookie-backed cart and saved state use [`'use cache: private'`](https://nextjs.org/docs/app/api-reference/directives/use-cache-private).
+- **[Partial Prefetching](https://nextjs.org/docs/app/guides/adopting-partial-prefetching)** prefetches the shared route shell. Product links use `prefetch={true}` so cached product details are available before navigation, while personalized state waits for the visit.
+- **[`ensureStatic`](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config/ensureStatic)** guarantees static output at the stage a route needs it. The store layout guarantees its shell, product routes guarantee each prefetch, and the About page guarantees a full navigation.
+- **[Server Functions](https://nextjs.org/docs/app/getting-started/mutating-data)** update the cart, saved products, account details, and featured products on the server, then invalidate only the cache tags they change with [`updateTag`](https://nextjs.org/docs/app/api-reference/functions/updateTag).
+- **[React Compiler](https://react.dev/learn/react-compiler)** memoizes components and hooks automatically, so the code needs no manual `useMemo` or `useCallback`.
+- **[View Transitions](https://nextjs.org/docs/app/guides/view-transitions)** animate personalized content as it streams in from Suspense.
+- **[Async React](https://github.com/rickhanlonii/async-react)** keeps the interface responsive during server work with `Suspense`, `useOptimistic`, `useTransition`, and `use`.
+
+## Original talk branches
+
+- [`starter`](https://github.com/aurorascharff/next16-commerce/tree/starter) is the intentionally unoptimized starting point used during the talk.
+- [`route-group`](https://github.com/aurorascharff/next16-commerce/tree/route-group) separates static and personalized routes with route groups.
+- [`request-context`](https://github.com/aurorascharff/next16-commerce/tree/request-context) encodes request context in the route instead.
+- [`legacy-talk-demo`](https://github.com/aurorascharff/next16-commerce/tree/legacy-talk-demo) preserves the demo before the later cart and Next.js 16.4 work.
+
+The `main` branch is the current version and continues to evolve with Next.js.
+
+## Getting started
+
+The app runs on Postgres. Copy `.env.sample` to `.env.local`, set `DATABASE_URL`, then:
 
 ```bash
 pnpm install
+pnpm run prisma.push
+pnpm run prisma.seed
+pnpm run dev
 ```
 
-Then, run the development server:
+Open [http://localhost:3000](http://localhost:3000) in your browser. You can inspect the database with `pnpm run prisma.studio`.
+
+<details>
+<summary>Run `main` locally with SQLite</summary>
+
+Change the datasource provider in `prisma/schema.prisma` from `postgresql` to `sqlite`, then add this to `.env.local`:
 
 ```bash
-pnpm dev
+DATABASE_URL="file:./dev.db"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Prisma Setup
-
-You need decide between prisma local development with `sqlite` or a real database with for example `postgresql` or `sqlserver`. Define it in the `schema.prisma` file.
-
-Consider adding a `.env` file to the root of the project and use the environment variables inside `schema.prisma` with `env("DATABASE_URL")`, refer to `.env.sample`.
-
-When using sqlite, initialize the database with:
+Generate the SQLite client and create the local database:
 
 ```bash
-pnpm prisma.push
+pnpm exec prisma generate
+pnpm run prisma.push
+pnpm run prisma.seed
 ```
 
-Seed prisma/seed.ts for initial data:
+The schema and application code otherwise stay the same.
 
-```sh
-pnpm prisma.seed
-```
+</details>
 
-To view your data in the database, you can run:
+## Testing
+
+The end-to-end tests use [`@next/playwright`](https://nextjs.org/docs/app/guides/testing/playwright) with the [`instant()`](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config/instant) API to verify the static shell, product prefetches, and personalized state across navigations.
 
 ```bash
-pnpm prisma.studio
+pnpm test:e2e
 ```
 
-When using a real database with for example postgresql or sqlserver, you need to migrate the database schema with:
+Static checks:
 
 ```bash
-pnpm prisma.migrate
+pnpm lint
+pnpm exec tsc --noEmit
 ```
 
-## Learn More
+## Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **[Next.js](https://nextjs.org/)** canary: App Router, Cache Components, Partial Prefetching, `ensureStatic`, and Server Functions
+- **[React](https://react.dev/)** with React Compiler: Suspense, View Transitions, `useOptimistic`, and `use`
+- **[TypeScript](https://www.typescriptlang.org/)** and **[Tailwind CSS v4](https://tailwindcss.com/)**
+- **[Prisma](https://www.prisma.io/)** on PostgreSQL
+- **[Ariakit](https://ariakit.org/)** for accessible dialogs and popovers
+- **[Playwright](https://playwright.dev/)** with `@next/playwright` for end-to-end tests
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+[MIT](LICENSE)

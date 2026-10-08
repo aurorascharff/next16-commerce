@@ -1,7 +1,7 @@
 import Boundary from '@/components/internal/Boundary';
-import ProductCard, { ProductCardSkeleton } from '@/components/ui/ProductCard';
-import { getCurrentAccount } from '@/features/auth/auth-queries';
+import ProductCard, { ProductCardSkeleton } from '../../product/components/ProductCard';
 import { getRecommendedProducts } from '../../product/product-queries';
+import { getCurrentAccount } from '../user-queries';
 
 export default async function Recommendations() {
   const currentAccount = await getCurrentAccount();
@@ -9,7 +9,7 @@ export default async function Recommendations() {
     return null;
   }
 
-  const recommendedProducts = await getRecommendedProducts(4);
+  const recommendedProducts = await getRecommendedProducts(currentAccount.id, 4);
   if (recommendedProducts.length === 0) {
     return null;
   }

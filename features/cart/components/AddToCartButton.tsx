@@ -4,7 +4,7 @@ import { CircleCheck, ShoppingCart } from 'lucide-react';
 import React, { useOptimistic, useTransition } from 'react';
 import Boundary from '@/components/internal/Boundary';
 import { cn } from '@/utils/cn';
-import { toggleCartProduct } from './cart-actions';
+import { toggleCartProduct } from '../cart-actions';
 
 type Props = {
   productId: number;

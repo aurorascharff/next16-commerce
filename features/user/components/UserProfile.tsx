@@ -2,8 +2,8 @@ import { User } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 import Boundary from '@/components/internal/Boundary';
-import { getCurrentAccount } from '@/features/auth/auth-queries';
-import LoginButton from '@/features/auth/components/LoginButton';
+import { getCurrentAccount } from '../user-queries';
+import LoginButton from './LoginButton';
 
 export default async function UserProfile() {
   const account = await getCurrentAccount();

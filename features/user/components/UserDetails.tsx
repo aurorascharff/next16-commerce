@@ -1,7 +1,7 @@
 import { Mail, MapPin, Phone, User } from 'lucide-react';
 import React from 'react';
 import Boundary from '@/components/internal/Boundary';
-import { getCurrentAccountWithDetails } from '@/features/auth/auth-queries';
+import { getCurrentAccountWithDetails } from '../user-queries';
 
 export default async function UserDetails() {
   const account = await getCurrentAccountWithDetails();

@@ -1,12 +1,12 @@
 import { cacheLife, cacheTag } from 'next/cache';
 import Link from 'next/link';
 import ImagePlaceholder from '@/components/ui/ImagePlaceholder';
+import { getCart } from '../cart-queries';
 import CartItemActions from './CartItemActions';
-import { getCart } from './cart-queries';
 
 export default async function Cart() {
   'use cache: private';
-  cacheLife('minutes');
+  cacheLife('max');
   cacheTag('cart');
 
   const items = await getCart();

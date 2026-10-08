@@ -2,7 +2,7 @@
 
 import { Minus, Plus, Trash2 } from 'lucide-react';
 import { useTransition } from 'react';
-import { removeCartProduct, updateCartProductQuantity } from './cart-actions';
+import { removeCartProduct, updateCartProductQuantity } from '../cart-actions';
 
 type Props = {
   name: string;

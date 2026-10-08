@@ -5,8 +5,6 @@ import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { prisma } from '@/db';
 import { slow } from '@/utils/slow';
-import { verifyAuth } from '../auth/auth-actions';
-import { getCurrentAccount } from '../auth/auth-queries';
 
 export const getProduct = cache(async (productId: number) => {
   await slow();
@@ -118,48 +116,8 @@ export const getReviews = cache(async (productId: number) => {
   });
 });
 
-export async function isSavedProduct(productId: number) {
-  const account = await getCurrentAccount();
-  if (!account) {
-    return false;
-  }
-
-  const savedProduct = await prisma.savedProduct.findUnique({
-    where: {
-      accountId_productId: {
-        accountId: account.id,
-        productId,
-      },
-    },
-  });
-
-  return !!savedProduct;
-}
-
-export async function getSavedProducts() {
-  'use cache: private';
-  cacheLife('minutes');
-
-  const accountId = await verifyAuth();
-  cacheTag(`saved-products:${accountId}`);
-
-  await slow();
-
-  const savedProducts = await prisma.savedProduct.findMany({
-    include: {
-      product: true,
-    },
-    orderBy: { createdAt: 'desc' },
-    where: { accountId },
-  });
-
-  return savedProducts.map(saved => {
-    return saved.product;
-  });
-}
-
 export const getFeaturedProducts = cache(async (limit = 4) => {
-  await slow(2000);
+  await slow(500);
 
   const featuredProducts = await prisma.product.findMany({
     orderBy: { updatedAt: 'desc' },
@@ -187,10 +145,8 @@ export const getFeaturedProducts = cache(async (limit = 4) => {
   return featuredProducts;
 });
 
-export const getRecommendedProducts = cache(async (limit = 4) => {
-  await slow(500);
-
-  const accountId = await verifyAuth();
+export const getRecommendedProducts = cache(async (accountId: string, limit = 4) => {
+  await slow(250);
 
   // Get user's saved products to understand their preferences
   const savedProducts = await prisma.savedProduct.findMany({

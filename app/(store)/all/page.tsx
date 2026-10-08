@@ -1,9 +1,9 @@
 import React, { Suspense } from 'react';
-import Search, { SearchSkeleton } from '@/components/Search';
-import SortButton, { SortButtonSkeleton } from '@/components/SortButton';
-import WelcomeBanner from '@/components/banner/WelcomeBanner';
 import CategoryFilters from '@/features/category/components/CategoryFilters';
 import ProductList, { ProductListSkeleton } from '@/features/product/components/ProductList';
+import ProductSearch, { SearchSkeleton } from '@/features/product/components/ProductSearch';
+import ProductSortButton, { SortButtonSkeleton } from '@/features/product/components/ProductSortButton';
+import WelcomeBanner from '@/features/user/components/WelcomeBanner';
 import type { SearchParams } from '@/features/product/components/ProductList';
 
 export default function AllPage({ searchParams }: PageProps<'/all'>) {
@@ -11,7 +11,7 @@ export default function AllPage({ searchParams }: PageProps<'/all'>) {
     <>
       <WelcomeBanner />
       <Suspense fallback={<SearchSkeleton />}>
-        <Search />
+        <ProductSearch />
       </Suspense>
       <div className="flex h-full grow gap-12">
         <div className="hidden w-64 shrink-0 lg:block">
@@ -25,13 +25,13 @@ export default function AllPage({ searchParams }: PageProps<'/all'>) {
             <CategoryFilters />
             <div className="flex justify-end">
               <Suspense fallback={<SortButtonSkeleton />}>
-                <SortButton />
+                <ProductSortButton />
               </Suspense>
             </div>
           </div>
           <div className="hidden justify-end lg:flex">
             <Suspense fallback={<SortButtonSkeleton />}>
-              <SortButton />
+              <ProductSortButton />
             </Suspense>
           </div>
           <Suspense fallback={<ProductListSkeleton />}>

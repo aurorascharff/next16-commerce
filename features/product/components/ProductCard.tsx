@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import React, { Suspense } from 'react';
-import Product, { ProductSkeleton } from '@/features/product/components/Product';
-import ProductModal from '@/features/product/components/ProductModal';
-import ImagePlaceholder from './ImagePlaceholder';
+import ImagePlaceholder from '@/components/ui/ImagePlaceholder';
+import Product, { ProductSkeleton } from './Product';
+import ProductModal from './ProductModal';
 
 type ProductCardProps = {
   id: number;

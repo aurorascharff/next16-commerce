@@ -1,4 +1,4 @@
-import { cacheTag } from 'next/cache';
+import { cacheLife, cacheTag } from 'next/cache';
 import Boundary from '@/components/internal/Boundary';
 import ImagePlaceholder from '@/components/ui/ImagePlaceholder';
 import LinkButton from '@/components/ui/LinkButton';
@@ -8,6 +8,7 @@ import type { Route } from 'next';
 export default async function Hero() {
   'use cache';
 
+  cacheLife('max');
   cacheTag('featured-product');
 
   const featuredProducts = await getFeaturedProducts(1);

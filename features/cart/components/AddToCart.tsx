@@ -1,12 +1,12 @@
 import { ShoppingCart } from 'lucide-react';
 import { cacheLife, cacheTag } from 'next/cache';
 import { getProduct } from '@/features/product/product-queries';
+import { isProductInCart } from '../cart-queries';
 import AddToCartButton from './AddToCartButton';
-import { isProductInCart } from './cart-queries';
 
 export default async function AddToCart({ productId }: { productId: number }) {
   'use cache: private';
-  cacheLife('minutes');
+  cacheLife('max');
   cacheTag('cart');
 
   const [product, initialInCart] = await Promise.all([getProduct(productId), isProductInCart(productId)]);

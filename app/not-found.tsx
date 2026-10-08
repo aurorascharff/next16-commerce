@@ -2,7 +2,7 @@ import React from 'react';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import Boundary from '@/components/internal/Boundary';
-import CartIconLink from '@/features/cart/CartIconLink';
+import CartIconLink from '@/features/cart/components/CartIconLink';
 
 export default function NotFound() {
   return (

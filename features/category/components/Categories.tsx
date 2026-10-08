@@ -1,3 +1,4 @@
+import { cacheLife } from 'next/cache';
 import Link from 'next/link';
 import Boundary from '@/components/internal/Boundary';
 import LinkStatus from '@/components/ui/LinkStatus';
@@ -5,6 +6,7 @@ import { getCategories } from '../category-queries';
 
 export default async function Categories() {
   'use cache';
+  cacheLife('max');
 
   const categories = await getCategories();
 
