@@ -22,11 +22,8 @@ test('a product page includes its cached product content', async ({ page }) => {
   await page.getByRole('button', { exact: true, name: 'Back' }).click();
   await page.waitForURL('/all');
 
-  const sameProduct = page.getByRole('link', { name: /Wireless Mouse/ }).filter(visible);
-  await sameProduct.scrollIntoViewIfNeeded();
-
   await instant(page, async () => {
-    await sameProduct.click();
+    await page.goForward();
     await page.waitForURL('/product/4');
     await expect(page.getByRole('button', { exact: true, name: 'Add to cart' })).toBeVisible();
   });

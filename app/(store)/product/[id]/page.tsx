@@ -31,18 +31,17 @@ export default function ProductPage({ params }: PageProps<'/product/[id]'>) {
                 <Card>
                   <Product
                     productId={productId}
-                    details={
-                      <ProductDetails key={productId} productId={productId}>
-                        <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2">
-                          <Suspense fallback={<AddToCartSkeleton />}>
-                            <AddToCart productId={productId} />
-                          </Suspense>
-                          <Suspense fallback={<SavedProductSkeleton />}>
-                            <SavedProduct productId={productId} />
-                          </Suspense>
-                        </div>
-                      </ProductDetails>
+                    actions={
+                      <>
+                        <Suspense fallback={<AddToCartSkeleton />}>
+                          <AddToCart productId={productId} />
+                        </Suspense>
+                        <Suspense fallback={<SavedProductSkeleton />}>
+                          <SavedProduct productId={productId} />
+                        </Suspense>
+                      </>
                     }
+                    details={<ProductDetails key={productId} productId={productId} />}
                   />
                 </Card>
                 <div>

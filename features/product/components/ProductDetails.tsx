@@ -11,10 +11,9 @@ import { getProductDetails, isSavedProduct } from '../product-queries';
 
 type Props = {
   productId: number;
-  children?: React.ReactNode;
 };
 
-export default async function ProductDetails({ productId, children }: Props) {
+export default async function ProductDetails({ productId }: Props) {
   'use cache';
 
   cacheTag('product-' + productId);
@@ -25,14 +24,7 @@ export default async function ProductDetails({ productId, children }: Props) {
   return (
     <Boundary rendering="hybrid" hydration="server" cached>
       <div className="border-divider dark:border-divider-dark w-full border bg-white p-5 dark:bg-black">
-        <div className="flex justify-between">
-          <h2 className="mb-4 text-lg font-bold tracking-tight">Product Details</h2>
-          <form className="hidden sm:flex" action={setFeaturedForProduct}>
-            <Button className="px-3 py-1.5 text-xs" title="Mark as Featured" variant="secondary">
-              Feature Product
-            </Button>
-          </form>
-        </div>
+        <h2 className="mb-4 text-lg font-bold tracking-tight">Product Details</h2>
         <ProductDetailFields
           brand={productDetails?.brand}
           sku={productDetails?.sku}
@@ -40,10 +32,12 @@ export default async function ProductDetails({ productId, children }: Props) {
           warrantyInfo={productDetails?.warrantyInfo}
           weight={productDetails?.weight}
         />
-        <div className="mt-6">
-          <Divider variant="dotted" className="mb-4" />
-          {children}
-        </div>
+        <Divider variant="dotted" className="mt-6 mb-4" />
+        <form className="flex justify-end" action={setFeaturedForProduct}>
+          <Button className="px-3 py-1.5 text-xs" title="Mark as Featured" variant="secondary">
+            Feature Product
+          </Button>
+        </form>
       </div>
     </Boundary>
   );
