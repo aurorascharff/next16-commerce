@@ -67,8 +67,8 @@ export async function SavedProduct({ productId }: { productId: number }) {
 
 export function SavedProductSkeleton() {
   return (
-    <div className="text-gray relative flex w-44 shrink-0 items-center justify-center px-2 py-1.5 text-sm whitespace-nowrap">
-      <Bookmark aria-hidden className="absolute left-3 size-5" />
+    <div className="text-gray grid w-44 shrink-0 grid-cols-[1.25rem_1fr] items-center gap-2 px-3 py-1.5 text-left text-sm whitespace-nowrap">
+      <Bookmark aria-hidden className="size-5" />
       <span className="uppercase">Save product</span>
     </div>
   );

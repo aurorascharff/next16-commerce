@@ -31,16 +31,16 @@ export default function SaveProductButton({ className, productId, initialSaved }
           aria-label="Save product"
           aria-pressed={optimisticSaved}
           className={cn(
-            'text-primary hover:text-primary-dark relative flex w-44 shrink-0 cursor-pointer items-center justify-center px-2 py-1.5 text-sm whitespace-nowrap transition-colors',
+            'text-primary hover:text-primary-dark grid w-44 shrink-0 cursor-pointer grid-cols-[1.25rem_1fr] items-center gap-2 px-3 py-1.5 text-left text-sm whitespace-nowrap transition-colors',
             optimisticSaved && 'font-semibold',
             isPending && 'opacity-70',
             className,
           )}
         >
           {optimisticSaved ? (
-            <BookmarkCheck aria-hidden className="absolute left-3 size-5" />
+            <BookmarkCheck aria-hidden className="size-5" />
           ) : (
-            <Bookmark aria-hidden className="absolute left-3 size-5" />
+            <Bookmark aria-hidden className="size-5" />
           )}
           <span className="uppercase">{optimisticSaved ? 'Unsave product' : 'Save product'}</span>
         </button>

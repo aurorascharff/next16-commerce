@@ -40,7 +40,7 @@ export default function AddToCartButton({ product, quantity = 1, variant = 'prim
         aria-label="Add to cart"
         aria-pressed={isInCart}
         className={cn(
-          'relative flex w-48 shrink-0 items-center justify-center px-2 py-1.5 text-sm whitespace-nowrap transition-colors',
+          'grid w-48 shrink-0 grid-cols-[1.25rem_1fr] items-center gap-2 px-3 py-1.5 text-left text-sm whitespace-nowrap transition-colors',
           variant === 'secondary' &&
             'border-divider dark:border-divider-dark bg-card dark:bg-card-dark rounded border px-4 py-2 text-black hover:bg-gray-200 dark:text-white dark:hover:bg-neutral-800',
           variant === 'primary' && 'text-primary hover:text-primary-dark',
@@ -50,7 +50,7 @@ export default function AddToCartButton({ product, quantity = 1, variant = 'prim
       >
         {children ?? (
           <>
-            <span className="absolute left-3 inline-flex size-5 items-center justify-center">
+            <span className="inline-flex size-5 items-center justify-center">
               {isInCart ? <Check className="size-5" aria-hidden /> : <ShoppingCart className="size-5" aria-hidden />}
             </span>
             <span className="uppercase">{isInCart ? 'Remove from cart' : 'Add to cart'}</span>
