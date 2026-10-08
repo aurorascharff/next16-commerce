@@ -3,7 +3,6 @@
 import { revalidateTag, updateTag } from 'next/cache';
 import { prisma } from '@/db';
 import { verifyAuth } from '../auth/auth-actions';
-import { productTags } from './product-cache';
 import type { Route } from 'next';
 
 async function saveProduct(productId: number) {
@@ -16,8 +15,8 @@ async function saveProduct(productId: number) {
     },
   });
 
-  updateTag(productTags.savedView(productId));
-  updateTag(productTags.savedList(accountId));
+  updateTag(`saved-product-view:${productId}`);
+  updateTag(`saved-products:${accountId}`);
 }
 
 async function unsaveProduct(productId: number) {
@@ -32,8 +31,8 @@ async function unsaveProduct(productId: number) {
     },
   });
 
-  updateTag(productTags.savedView(productId));
-  updateTag(productTags.savedList(accountId));
+  updateTag(`saved-product-view:${productId}`);
+  updateTag(`saved-products:${accountId}`);
 }
 
 export async function toggleSaveProduct(productId: number, saved: boolean) {

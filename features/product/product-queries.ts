@@ -7,7 +7,6 @@ import { prisma } from '@/db';
 import { slow } from '@/utils/slow';
 import { verifyAuth } from '../auth/auth-actions';
 import { getCurrentAccount } from '../auth/auth-queries';
-import { productTags } from './product-cache';
 
 export const getProduct = cache(async (productId: number) => {
   await slow();
@@ -142,7 +141,7 @@ export async function getSavedProducts() {
   cacheLife('minutes');
 
   const accountId = await verifyAuth();
-  cacheTag(productTags.savedList(accountId));
+  cacheTag(`saved-products:${accountId}`);
 
   await slow();
 

@@ -10,10 +10,6 @@ export type CartCookieItem = {
   quantity: number;
 };
 
-export async function getCartItems() {
-  return readCartItems();
-}
-
 export async function getCartCount() {
   const items = await readCartItems();
   return items.reduce((count, item) => count + item.quantity, 0);
