@@ -49,8 +49,7 @@ export default async function Cart() {
               </Link>
               <p className="text-accent mt-0.5 font-bold">${product.price.toFixed(2)}</p>
             </div>
-            <CartItemActions name={product.name} productId={product.id} quantity={quantity} />
-            <p className="text-accent w-20 text-right font-bold">${(product.price * quantity).toFixed(2)}</p>
+            <CartItemActions name={product.name} price={product.price} productId={product.id} quantity={quantity} />
           </div>
         ))}
       </div>

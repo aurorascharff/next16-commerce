@@ -4,7 +4,11 @@ import BackButton from '@/components/ui/BackButton';
 import Card from '@/components/ui/Card';
 import AddToCart, { AddToCartSkeleton } from '@/features/cart/components/AddToCart';
 import Product, { ProductSkeleton } from '@/features/product/components/Product';
-import ProductDetails, { ProductDetailsSkeleton } from '@/features/product/components/ProductDetails';
+import ProductDetails, {
+  ProductDetailsSkeleton,
+  ProductStock,
+  ProductStockSkeleton,
+} from '@/features/product/components/ProductDetails';
 import Reviews, { ReviewsSkeleton } from '@/features/product/components/Reviews';
 import SavedProduct, { SavedProductSkeleton } from '@/features/user/components/SavedProduct';
 
@@ -27,6 +31,11 @@ export default function ProductPage({ params }: PageProps<'/product/[id]'>) {
               return (
                 <>
                   <Product productId={productId} />
+                  <div className="px-5 pb-3">
+                    <Suspense fallback={<ProductStockSkeleton />}>
+                      <ProductStock productId={productId} />
+                    </Suspense>
+                  </div>
                   <div className="flex flex-wrap items-center gap-x-6 gap-y-2 px-5 pb-5">
                     <div className="w-40">
                       <Suspense fallback={<AddToCartSkeleton />}>

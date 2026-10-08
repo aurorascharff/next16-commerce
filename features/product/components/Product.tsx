@@ -39,9 +39,28 @@ export default async function Product({ productId, imageClassName }: Props) {
 }
 
 export function ProductSkeleton({ className, isDetails = false }: { className?: string; isDetails?: boolean }) {
+  if (isDetails) {
+    return (
+      <div className={cn('flex flex-col bg-white dark:bg-black', className)}>
+        <div className="bg-card dark:bg-card-dark h-96 w-full" />
+        <div className="p-5">
+          <div className="mb-3 flex h-7 items-center">
+            <div className="skeleton-animation h-5 w-36 rounded" />
+          </div>
+          <div className="mb-4 flex h-5 items-center">
+            <div className="skeleton-animation h-3 w-72 rounded" />
+          </div>
+          <div className="flex h-7 items-center">
+            <div className="skeleton-animation h-5 w-20 rounded" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={cn('flex flex-col bg-white dark:bg-black', className)}>
-      <div className={cn('bg-card dark:bg-card-dark w-full', isDetails ? 'h-96' : 'h-60')} />
+      <div className="bg-card dark:bg-card-dark h-60 w-full" />
       <Skeleton className="p-[22px]" />
     </div>
   );

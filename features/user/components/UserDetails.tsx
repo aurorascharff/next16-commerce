@@ -89,8 +89,61 @@ function PreferenceItem({ label, value }: { label: string; value: string }) {
 
 export function UserDetailsSkeleton() {
   return (
-    <div className="border-divider dark:border-divider-dark min-h-96 border bg-white p-8 dark:bg-black">
-      <div className="skeleton-animation h-80 w-full rounded" />
+    <div className="border-divider dark:border-divider-dark flex flex-col gap-6 border bg-white p-8 dark:bg-black">
+      <div className="flex h-16 items-center gap-4">
+        <div className="skeleton-animation size-16 shrink-0 rounded-full" />
+        <div className="flex h-16 flex-col">
+          <div className="flex h-9 items-center">
+            <div className="skeleton-animation h-6 w-44 rounded" />
+          </div>
+          <div className="flex h-7 items-center">
+            <div className="skeleton-animation h-4 w-28 rounded" />
+          </div>
+        </div>
+      </div>
+      <div className="grid gap-6 md:grid-cols-2">
+        <div>
+          <SkeletonHeading />
+          <div className="space-y-4">
+            <SkeletonRow />
+            <SkeletonRow />
+            <div className="skeleton-animation h-10 w-44 rounded" />
+          </div>
+        </div>
+        <div>
+          <SkeletonHeading />
+          <div className="space-y-4">
+            {Array.from({ length: 5 }).map((_, index) => (
+              <SkeletonPreference key={index} />
+            ))}
+          </div>
+        </div>
+      </div>
+      <div>
+        <SkeletonHeading />
+        <SkeletonPreference />
+      </div>
+    </div>
+  );
+}
+
+function SkeletonHeading() {
+  return (
+    <div className="mb-4 flex h-7 items-center">
+      <div className="skeleton-animation h-5 w-48 rounded" />
+    </div>
+  );
+}
+
+function SkeletonRow() {
+  return <div className="skeleton-animation h-5 w-52 rounded" />;
+}
+
+function SkeletonPreference() {
+  return (
+    <div className="flex h-5 justify-between">
+      <div className="skeleton-animation h-4 w-24 rounded" />
+      <div className="skeleton-animation h-4 w-20 rounded" />
     </div>
   );
 }

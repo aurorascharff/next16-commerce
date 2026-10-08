@@ -39,6 +39,22 @@ export const getProductDetails = cache(async (productId: number) => {
   return productDetails;
 });
 
+export async function getProductStock(productId: number) {
+  if (!productId || isNaN(productId) || productId <= 0) {
+    notFound();
+  }
+
+  const productDetails = await prisma.productDetail.findUnique({
+    select: { stockCount: true },
+    where: { productId },
+  });
+  if (!productDetails) {
+    notFound();
+  }
+
+  return productDetails.stockCount;
+}
+
 export const getProducts = cache(
   async (searchQuery?: string, sort?: 'asc' | 'desc', page = 1, limit = 9, category?: string) => {
     'use cache';

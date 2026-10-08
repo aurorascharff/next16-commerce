@@ -36,13 +36,24 @@ export async function updateCartProductQuantity(productId: number, quantity: num
     return { error: 'Quantity must be between 1 and 10.', ok: false as const };
   }
 
+  const productDetails = await prisma.productDetail.findUnique({
+    select: { stockCount: true },
+    where: { productId },
+  });
+  if (!productDetails) {
+    return { error: 'Product not found.', ok: false as const };
+  }
+  if (quantity > productDetails.stockCount) {
+    return { error: `Only ${productDetails.stockCount} available.`, ok: false as const };
+  }
+
   const cookieStore = await cookies();
   const items = parseCartCookie(cookieStore.get(CART_COOKIE_NAME)?.value);
   const nextItems = items.map(item => (item.productId === productId ? { ...item, quantity } : item));
 
   setCartCookie(cookieStore, nextItems);
   updateTag('cart');
-  return { ok: true as const };
+  return { ok: true as const, quantity };
 }
 
 export async function removeCartProduct(productId: number) {
