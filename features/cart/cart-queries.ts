@@ -10,22 +10,33 @@ export async function getCartItems() {
   cacheLife('minutes');
   cacheTag('cart');
 
-  const value = (await cookies()).get(CART_COOKIE_NAME)?.value;
-  return parseCartCookie(value);
+  return readCartItems();
 }
 
 export async function getCartCount() {
-  const items = await getCartItems();
+  'use cache: private';
+  cacheLife('minutes');
+  cacheTag('cart');
+
+  const items = await readCartItems();
   return items.reduce((count, item) => count + item.quantity, 0);
 }
 
 export async function isProductInCart(productId: number) {
-  const items = await getCartItems();
+  'use cache: private';
+  cacheLife('minutes');
+  cacheTag('cart');
+
+  const items = await readCartItems();
   return items.some(item => item.productId === productId);
 }
 
 export async function getCart() {
-  const items = await getCartItems();
+  'use cache: private';
+  cacheLife('minutes');
+  cacheTag('cart');
+
+  const items = await readCartItems();
   const products = await getProductsByIds(items.map(item => item.productId));
   const productsById = new Map(products.map(product => [product.id, product]));
 
@@ -33,4 +44,9 @@ export async function getCart() {
     const product = productsById.get(item.productId);
     return product ? [{ ...item, product }] : [];
   });
+}
+
+async function readCartItems() {
+  const value = (await cookies()).get(CART_COOKIE_NAME)?.value;
+  return parseCartCookie(value);
 }
