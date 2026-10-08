@@ -17,7 +17,7 @@ export async function generateStaticParams() {
 export default function ProductPage({ params }: PageProps<'/product/[id]'>) {
   return (
     <div className="flex flex-col gap-6">
-      <BackButton />
+      <BackButton fallbackHref="/all" />
       <div className="flex w-full flex-col gap-8 self-center md:w-[700px]">
         <Card>
           <AnimatedSuspense fallback={<ProductSkeleton isDetails />}>

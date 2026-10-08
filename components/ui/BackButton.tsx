@@ -7,20 +7,33 @@ import React from 'react';
 import Boundary from '../internal/Boundary';
 
 type Props = {
-  href?: Parameters<typeof Link>[0]['href'];
+  fallbackHref?: Parameters<typeof Link>[0]['href'];
   children?: React.ReactNode;
 };
 
-export default function BackButton({ href, children = 'Back' }: Props) {
+export default function BackButton({ fallbackHref, children = 'Back' }: Props) {
   const router = useRouter();
 
   const handleClick = () => {
     router.back();
   };
 
-  if (href) {
+  if (fallbackHref) {
     return (
-      <Link href={href} className="text-primary hover:text-primary-dark inline-flex items-center text-sm font-medium">
+      <Link
+        href={fallbackHref}
+        prefetch={true}
+        onClick={event => {
+          const isModifiedClick =
+            event.metaKey || event.ctrlKey || event.shiftKey || event.altKey;
+
+          if (!isModifiedClick && window.history.length > 1) {
+            event.preventDefault();
+            router.back();
+          }
+        }}
+        className="text-primary hover:text-primary-dark inline-flex items-center text-sm font-medium"
+      >
         <ArrowLeft aria-hidden className="mr-1 size-4" />
         {children}
       </Link>
