@@ -18,9 +18,10 @@ test('the account page shows its static sections before account details', async 
     await profile.click();
     await page.waitForURL('/user');
     await expect(page.getByRole('heading', { exact: true, name: 'Your Discounts' })).toBeVisible();
-    await expect(page.getByRole('heading', { exact: true, name: 'Saved Products' })).toBeVisible();
+    await expect(page.getByRole('heading', { exact: true, name: 'Saved Products' })).toHaveCount(0);
     await expect(page.getByRole('heading', { exact: true, name: 'Contact Information' })).toHaveCount(0);
   });
 
   await expect(page.getByRole('heading', { exact: true, name: 'Contact Information' })).toBeVisible();
+  await expect(page.getByRole('heading', { exact: true, name: 'Saved Products' })).toBeVisible();
 });
