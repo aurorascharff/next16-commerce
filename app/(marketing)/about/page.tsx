@@ -4,6 +4,8 @@ import Card from '@/components/ui/Card';
 import Divider from '@/components/ui/Divider';
 import LinkButton from '@/components/ui/LinkButton';
 
+export const ensureStatic = 'navigation';
+
 export default function AboutPage() {
   return (
     <div className="mx-auto max-w-6xl space-y-16">
