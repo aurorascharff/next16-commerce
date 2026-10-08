@@ -31,7 +31,7 @@ export default function SaveProductButton({ className, productId, initialSaved }
           aria-label="Save product"
           aria-pressed={optimisticSaved}
           className={cn(
-            'text-primary hover:text-primary-dark flex min-w-40 cursor-pointer items-center justify-center gap-2 px-2 py-1.5 text-sm whitespace-nowrap transition-colors',
+            'text-primary hover:text-primary-dark flex w-44 shrink-0 cursor-pointer items-center justify-center gap-2 px-2 py-1.5 text-sm whitespace-nowrap transition-colors',
             optimisticSaved && 'font-semibold',
             isPending && 'opacity-70',
             className,
