@@ -40,7 +40,12 @@ export default async function Reviews({ productId }: Props) {
                       <span className="ml-1 text-sm font-medium tracking-wide uppercase">{review.rating}/5</span>
                     </div>
                     <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
-                      {new Date().toLocaleDateString()}
+                      {review.createdAt.toLocaleDateString('en-US', {
+                        day: 'numeric',
+                        month: 'short',
+                        timeZone: 'UTC',
+                        year: 'numeric',
+                      })}
                     </span>
                   </div>
                   {review.comment && (

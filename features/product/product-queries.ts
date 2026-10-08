@@ -124,7 +124,7 @@ export async function getProductsByIds(productIds: number[]) {
 }
 
 export const getReviews = cache(async (productId: number) => {
-  await slow();
+  await slow(800);
 
   return prisma.review.findMany({
     orderBy: { createdAt: 'desc' },
@@ -162,7 +162,7 @@ export const getFeaturedProducts = cache(async (limit = 4) => {
 });
 
 export const getRecommendedProducts = cache(async (accountId: string, limit = 4) => {
-  await slow(250);
+  await slow(1000);
 
   // Get user's saved products to understand their preferences
   const savedProducts = await prisma.savedProduct.findMany({
