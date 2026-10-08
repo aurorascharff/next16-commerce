@@ -1,15 +1,16 @@
 import Link from 'next/link';
+import { Suspense } from 'react';
 import Boundary from '@/components/internal/Boundary';
-import AnimatedSuspense from '@/components/ui/AnimatedSuspense';
+import MotionDiv from '@/components/ui/MotionDiv';
 import { getCurrentAccount, getIsAuthenticated, getSavedProducts, getUserDiscounts } from '../user-queries';
 import { BannerContainer } from './BannerContainer';
 
 export default function WelcomeBanner() {
   return (
     <BannerContainer>
-      <AnimatedSuspense fallback={<GeneralBanner />}>
+      <Suspense fallback={<GeneralBanner />}>
         <PersonalBanner />
-      </AnimatedSuspense>
+      </Suspense>
     </BannerContainer>
   );
 }
@@ -29,7 +30,12 @@ export async function PersonalBanner() {
 
   return (
     <Boundary hydration="server" rendering="dynamic">
-      <div className="flex flex-col justify-between">
+      <MotionDiv
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-col justify-between"
+        initial={{ opacity: 0, y: 4 }}
+        transition={{ duration: 0.25, ease: 'easeOut' }}
+      >
         <span className="mb-3 inline-block w-fit bg-black px-2.5 py-1 text-xs font-bold tracking-[0.2em] text-white uppercase dark:bg-white dark:text-black">
           {featuredDiscount ? 'Exclusive Discount' : 'Welcome Back'}
         </span>
@@ -74,7 +80,7 @@ export async function PersonalBanner() {
             </Link>
           )}
         </div>
-      </div>
+      </MotionDiv>
     </Boundary>
   );
 }
