@@ -11,7 +11,7 @@ export default async function CartLink() {
   const count = await getCartCount();
 
   return (
-    <Boundary hydration="server" rendering="dynamic">
+    <Boundary hydration="server" rendering="hybrid" cached="private">
       <CartIconLink count={count} />
     </Boundary>
   );

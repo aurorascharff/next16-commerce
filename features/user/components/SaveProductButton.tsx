@@ -24,7 +24,7 @@ export default function SaveProductButton({ className, productId, initialSaved }
   };
 
   return (
-    <Boundary hydration="client" rendering="dynamic">
+    <Boundary hydration="client">
       <form action={handleToggleSave}>
         <button
           type="submit"

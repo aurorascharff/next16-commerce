@@ -26,7 +26,7 @@ export default async function ProductList({ searchParams }: Props) {
   }
 
   return (
-    <Boundary rendering="hybrid" hydration="server">
+    <Boundary rendering="hybrid" hydration="server" cached>
       <div className="flex h-full grow flex-col justify-between gap-4 sm:gap-8">
         <div className="grid-cols-auto 3xl:grid-cols-3 grid gap-8 md:grid-cols-2">
           {products.map(product => {
