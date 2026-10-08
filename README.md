@@ -44,6 +44,27 @@ pnpm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser. You can inspect the database with `pnpm run prisma.studio`.
 
+<details>
+<summary>Run `main` locally with SQLite</summary>
+
+Change the datasource provider in `prisma/schema.prisma` from `postgresql` to `sqlite`, then add this to `.env.local`:
+
+```bash
+DATABASE_URL="file:./dev.db"
+```
+
+Generate the SQLite client and create the local database:
+
+```bash
+pnpm exec prisma generate
+pnpm run prisma.push
+pnpm run prisma.seed
+```
+
+The schema and application code otherwise stay the same.
+
+</details>
+
 ## Testing
 
 The end-to-end tests use [`@next/playwright`](https://nextjs.org/docs/app/guides/testing/playwright) with the [`instant()`](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config/instant) API to verify the static shell, product prefetches, and personalized state across navigations.
