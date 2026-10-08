@@ -17,5 +17,5 @@ export default async function SavedProduct({ productId }: { productId: number })
 }
 
 export function SavedProductSkeleton() {
-  return <div className="skeleton-animation h-8 w-40 rounded" aria-hidden />;
+  return <div className="skeleton-animation h-8 w-full rounded" aria-hidden />;
 }

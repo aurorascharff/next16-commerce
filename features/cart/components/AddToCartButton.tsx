@@ -32,7 +32,7 @@ export default function AddToCartButton({ productId, initialInCart, variant = 'p
         onClick={handleToggle}
         disabled={isPending}
         className={cn(
-          'flex w-full items-center gap-2 px-1 py-1.5 text-left text-sm whitespace-nowrap transition-colors',
+          'flex items-center gap-2 px-1 py-1.5 text-left text-sm whitespace-nowrap transition-colors',
           variant === 'secondary' &&
             'border-divider dark:border-divider-dark bg-card dark:bg-card-dark rounded border px-4 py-2 text-black hover:bg-gray-200 dark:text-white dark:hover:bg-neutral-800',
           variant === 'primary' && 'text-primary hover:text-primary-dark',

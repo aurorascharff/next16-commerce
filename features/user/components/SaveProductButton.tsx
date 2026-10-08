@@ -31,7 +31,7 @@ export default function SaveProductButton({ className, productId, initialSaved }
           disabled={isPending}
           aria-busy={isPending}
           className={cn(
-            'text-primary hover:text-primary-dark flex w-full cursor-pointer items-center gap-2 px-1 py-1.5 text-left text-sm whitespace-nowrap transition-colors',
+            'text-primary hover:text-primary-dark flex cursor-pointer items-center gap-2 px-1 py-1.5 text-left text-sm whitespace-nowrap transition-colors',
             isPending && 'opacity-70',
             className,
           )}

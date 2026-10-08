@@ -19,5 +19,5 @@ export default async function AddToCart({ productId }: { productId: number }) {
 }
 
 export function AddToCartSkeleton() {
-  return <div className="skeleton-animation h-8 w-40 rounded" aria-hidden />;
+  return <div className="skeleton-animation h-8 w-full rounded" aria-hidden />;
 }

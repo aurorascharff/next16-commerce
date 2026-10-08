@@ -2,7 +2,6 @@ import { cacheLife, cacheTag } from 'next/cache';
 import React from 'react';
 import Boundary from '@/components/internal/Boundary';
 import Button from '@/components/ui/Button';
-import Divider from '@/components/ui/Divider';
 import Skeleton from '@/components/ui/Skeleton';
 import { setFeaturedProduct } from '../product-actions';
 import { getProductDetails } from '../product-queries';
@@ -23,6 +22,11 @@ export default async function ProductDetails({ productId }: Props) {
   return (
     <Boundary rendering="hybrid" hydration="server" cached>
       <div className="border-divider dark:border-divider-dark w-full border bg-white p-5 dark:bg-black">
+        <form className="mb-6 flex justify-end" action={setFeaturedForProduct}>
+          <Button className="px-5 py-2 text-sm" title="Mark as Featured" variant="secondary">
+            Feature Product
+          </Button>
+        </form>
         <h2 className="mb-4 text-lg font-bold tracking-tight">Product Details</h2>
         <ProductDetailFields
           brand={productDetails?.brand}
@@ -31,12 +35,6 @@ export default async function ProductDetails({ productId }: Props) {
           warrantyInfo={productDetails?.warrantyInfo}
           weight={productDetails?.weight}
         />
-        <Divider variant="dotted" className="mt-6 mb-4" />
-        <form className="flex justify-end" action={setFeaturedForProduct}>
-          <Button className="px-3 py-1.5 text-xs" title="Mark as Featured" variant="secondary">
-            Feature Product
-          </Button>
-        </form>
       </div>
     </Boundary>
   );
@@ -45,13 +43,12 @@ export default async function ProductDetails({ productId }: Props) {
 export function ProductDetailsSkeleton() {
   return (
     <div className="border-divider dark:border-divider-dark w-full rounded-sm border bg-white p-5 dark:bg-black">
-      <div className="skeleton-animation mt-2 mb-4 h-[46px] w-40 rounded-sm" />
-      <Skeleton />
-      <div className="skeleton-animation mb-4 h-6 w-38" />
-      <div className="mt-6">
-        <Divider variant="dotted" className="mb-4" />
-        <div className="skeleton-animation h-8 w-36 rounded" />
+      <div className="mb-6 flex justify-end">
+        <div className="skeleton-animation h-10 w-40 rounded" />
       </div>
+      <div className="skeleton-animation mb-4 h-7 w-40 rounded-sm" />
+      <Skeleton />
+      <div className="skeleton-animation h-6 w-38" />
     </div>
   );
 }

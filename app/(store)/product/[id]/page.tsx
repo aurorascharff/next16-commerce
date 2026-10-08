@@ -28,12 +28,16 @@ export default function ProductPage({ params }: PageProps<'/product/[id]'>) {
                 <>
                   <Product productId={productId} />
                   <div className="flex flex-wrap items-center gap-x-6 gap-y-2 px-5 pb-5">
-                    <Suspense fallback={<AddToCartSkeleton />}>
-                      <AddToCart productId={productId} />
-                    </Suspense>
-                    <Suspense fallback={<SavedProductSkeleton />}>
-                      <SavedProduct productId={productId} />
-                    </Suspense>
+                    <div className="w-40">
+                      <Suspense fallback={<AddToCartSkeleton />}>
+                        <AddToCart productId={productId} />
+                      </Suspense>
+                    </div>
+                    <div className="w-40">
+                      <Suspense fallback={<SavedProductSkeleton />}>
+                        <SavedProduct productId={productId} />
+                      </Suspense>
+                    </div>
                   </div>
                   <Suspense fallback={<ProductDetailsSkeleton />}>
                     <ProductDetails productId={productId} />
