@@ -1,9 +1,8 @@
-import { cacheLife } from 'next/cache';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import Boundary from '@/components/internal/Boundary';
 import MotionDiv from '@/components/ui/MotionDiv';
-import { getCurrentAccount, getIsAuthenticated, getSavedProducts, getUserDiscounts } from '../user-queries';
+import { getCurrentAccount, getSavedProducts, getUserDiscounts } from '../user-queries';
 import { BannerContainer } from './BannerContainer';
 
 export default function WelcomeBanner() {
@@ -17,16 +16,12 @@ export default function WelcomeBanner() {
 }
 
 export async function PersonalBanner() {
-  'use cache: private';
-  cacheLife('minutes');
+  const account = await getCurrentAccount();
+  if (!account) return <GeneralBanner />;
 
-  const loggedIn = await getIsAuthenticated();
-  if (!loggedIn) return <GeneralBanner />;
-
-  const [account, discounts, savedProducts] = await Promise.all([
-    getCurrentAccount(),
-    getUserDiscounts(),
-    getSavedProducts(),
+  const [discounts, savedProducts] = await Promise.all([
+    getUserDiscounts(account.id),
+    getSavedProducts(account.id),
   ]);
 
   const featuredDiscount = discounts[0];

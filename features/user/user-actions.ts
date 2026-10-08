@@ -46,4 +46,5 @@ export async function toggleSaveProduct(productId: number, saved: boolean) {
 
   updateTag(`saved-product-view:${productId}`);
   updateTag(`saved-products:${accountId}`);
+  updateTag(`recommendations:${accountId}`);
 }

@@ -2,11 +2,12 @@ import Link from 'next/link';
 import React from 'react';
 import Boundary from '@/components/internal/Boundary';
 import ImagePlaceholder from '@/components/ui/ImagePlaceholder';
-import { getSavedProducts } from '../user-queries';
+import { getSavedProducts, verifyAuth } from '../user-queries';
 import SaveProductButton from './SaveProductButton';
 
 export default async function SavedProducts() {
-  const savedProducts = await getSavedProducts();
+  const accountId = await verifyAuth();
+  const savedProducts = await getSavedProducts(accountId);
 
   if (savedProducts.length === 0) {
     return (

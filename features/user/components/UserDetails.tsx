@@ -89,7 +89,7 @@ function PreferenceItem({ label, value }: { label: string; value: string }) {
 
 export function UserDetailsSkeleton() {
   return (
-    <div className="border-divider dark:border-divider-dark flex flex-col gap-6 border bg-white p-8 dark:bg-black">
+    <div className="border-divider dark:border-divider-dark flex min-h-[468px] flex-col gap-6 border bg-white p-8 dark:bg-black">
       <div className="flex h-16 items-center gap-4">
         <div className="skeleton-animation size-16 shrink-0 rounded-full" />
         <div className="flex h-16 flex-col">

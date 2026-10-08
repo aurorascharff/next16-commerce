@@ -1,5 +1,6 @@
 import 'server-only';
 
+import { cacheLife, cacheTag } from 'next/cache';
 import { cookies } from 'next/headers';
 import { getProductsByIds } from '@/features/product/product-queries';
 
@@ -32,6 +33,10 @@ export async function getCart() {
 }
 
 async function readCartItems() {
+  'use cache: private';
+  cacheLife('max');
+  cacheTag('cart');
+
   const value = (await cookies()).get(CART_COOKIE_NAME)?.value;
   return parseCartCookie(value);
 }

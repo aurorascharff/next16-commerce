@@ -2,10 +2,11 @@ import { Percent } from 'lucide-react';
 import React from 'react';
 
 import Boundary from '@/components/internal/Boundary';
-import { getUserDiscounts } from '../user-queries';
+import { getUserDiscounts, verifyAuth } from '../user-queries';
 
 export default async function Discounts() {
-  const discounts = await getUserDiscounts();
+  const accountId = await verifyAuth();
+  const discounts = await getUserDiscounts(accountId);
 
   if (discounts.length === 0) {
     return (

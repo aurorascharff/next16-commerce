@@ -162,6 +162,10 @@ export const getFeaturedProducts = cache(async (limit = 4) => {
 });
 
 export const getRecommendedProducts = cache(async (accountId: string, limit = 4) => {
+  'use cache';
+  cacheLife('minutes');
+  cacheTag(`recommendations:${accountId}`);
+
   await slow(1000);
 
   // Get user's saved products to understand their preferences

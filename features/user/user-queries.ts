@@ -3,34 +3,43 @@ import 'server-only';
 import { cacheLife, cacheTag } from 'next/cache';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { cache } from 'react';
 import { prisma } from '@/db';
 import { slow } from '@/utils/slow';
 import type { Route } from 'next';
 
-export const getIsAuthenticated = cache(async () => {
-  const selectedAccountId = (await cookies()).get('selectedAccountId')?.value;
-  return Boolean(selectedAccountId);
-});
+export async function getIsAuthenticated() {
+  return Boolean(await getCurrentAccount());
+}
 
-export const getAccount = cache(async (accountId: string) => {
+export async function getAccount(accountId: string) {
+  'use cache';
+  cacheLife('max');
+  cacheTag(`account:${accountId}`);
+
   await slow();
 
   return prisma.account.findUnique({
     where: { id: accountId },
   });
-});
+}
 
-export const getAccountWithDetails = cache(async (accountId: string) => {
+export async function getAccountWithDetails(accountId: string) {
+  'use cache';
+  cacheLife('max');
+  cacheTag(`account:${accountId}`);
+
   await slow();
 
   return prisma.account.findUnique({
     include: { accountDetail: true },
     where: { id: accountId },
   });
-});
+}
 
-export const getCurrentAccount = cache(async () => {
+export async function getCurrentAccount() {
+  'use cache: private';
+  cacheLife('max');
+
   const selectedAccountId = (await cookies()).get('selectedAccountId')?.value;
 
   if (!selectedAccountId) {
@@ -38,19 +47,18 @@ export const getCurrentAccount = cache(async () => {
   }
 
   return getAccount(selectedAccountId);
-});
+}
 
-export const getCurrentAccountWithDetails = cache(async () => {
-  const selectedAccountId = (await cookies()).get('selectedAccountId')?.value;
-
-  if (!selectedAccountId) {
+export async function getCurrentAccountWithDetails() {
+  const account = await getCurrentAccount();
+  if (!account) {
     redirect('/sign-in');
   }
 
-  return getAccountWithDetails(selectedAccountId);
-});
+  return getAccountWithDetails(account.id);
+}
 
-export const verifyAuth = cache(async (redirectUrl?: Route) => {
+export async function verifyAuth(redirectUrl?: Route) {
   const account = await getCurrentAccount();
 
   if (!account) {
@@ -62,41 +70,37 @@ export const verifyAuth = cache(async (redirectUrl?: Route) => {
   }
 
   return account.id;
-});
+}
 
-export const getUserDiscounts = cache(async () => {
+export async function getUserDiscounts(accountId: string) {
+  'use cache';
+  cacheLife('max');
+  cacheTag(`discounts:${accountId}`);
+
   await slow();
-
-  const account = await getCurrentAccount();
-
-  if (!account) {
-    return [];
-  }
 
   const userDiscounts = await prisma.userDiscount.findMany({
     include: {
       discount: true,
     },
     orderBy: { discount: { expiry: 'asc' } },
-    where: { accountId: account.id },
+    where: { accountId },
   });
 
   return userDiscounts.map(ud => {
     return ud.discount;
   });
-});
+}
 
-export async function isSavedProduct(productId: number) {
-  const account = await getCurrentAccount();
-
-  if (!account) {
-    return false;
-  }
+export async function isSavedProduct(accountId: string, productId: number) {
+  'use cache';
+  cacheLife('max');
+  cacheTag(`saved-product-view:${productId}`);
 
   const savedProduct = await prisma.savedProduct.findUnique({
     where: {
       accountId_productId: {
-        accountId: account.id,
+        accountId,
         productId,
       },
     },
@@ -105,11 +109,9 @@ export async function isSavedProduct(productId: number) {
   return Boolean(savedProduct);
 }
 
-export async function getSavedProducts() {
-  'use cache: private';
+export async function getSavedProducts(accountId: string) {
+  'use cache';
   cacheLife('max');
-
-  const accountId = await verifyAuth();
   cacheTag(`saved-products:${accountId}`);
 
   const savedProducts = await prisma.savedProduct.findMany({
